@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.iyiming.mobile.view.widget.NavBar
+        android:id="@+id/navBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </com.iyiming.mobile.view.widget.NavBar>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/navBar1" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp" >
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_topbg" />
+
+            <TextView
+                android:id="@+id/item_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/relativeLayout1"
+                android:background="#ffffff"
+                android:padding="7dp"
+                android:text="天津航空包机直飞，人侍洞宜比思酒店入住，赠送接机服务和一日游服务" />
+
+            <RelativeLayout
+                android:background="#ffffff"
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/item_image" >
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="2dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="#ed4135"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/linearLayout1"
+                    android:text="曼谷游，北京出发"
+                    android:textColor="#222222"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/item_money"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/item_info"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="5888￥"
+                android:textColor="#ee9e35"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_alignBaseline="@+id/item_money"
+                android:layout_alignBottom="@+id/item_money"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="已经有90人关注"
+                android:textColor="#ee9e35"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
+            android:background="@drawable/follow"
+            android:textColor="#ee4035"
+            android:text="+ 关注" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="#c1c0c5"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentLeft="true" >
+    </LinearLayout>
+
+</RelativeLayout>

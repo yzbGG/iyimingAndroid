@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--
+         Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html
+    -->
+    <dimen name="navigation_drawer_width">240dp</dimen>
+    
+     <dimen name="jiaobiao_text_size_5">6dp</dimen>
+
+    <!-- 通用字体尺寸BEGIN -->
+    <dimen name="text_size_5">5dp</dimen>
+    <dimen name="text_size_10">10dp</dimen>
+    <dimen name="text_size_12">12dp</dimen>
+    <dimen name="text_size_15">15dp</dimen>
+    <dimen name="text_size_20">20dp</dimen>
+    <!-- 通用字体尺寸END -->
+    
+    <!-- 通用字体尺寸sp BEGIN -->
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_11">11sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_15">15sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_17">17sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_19">19sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+    <dimen name="sp_25">25sp</dimen>
+    <dimen name="sp_30">30sp</dimen>
+    <!-- 通用字体尺寸sp END -->
+
+    <!-- 通用空隙间隔标尺BEGIN -->
+    <dimen name="view_interval_space_2">2dp</dimen>
+    <dimen name="view_interval_space_5">5dp</dimen>
+    <dimen name="view_interval_space_8">8dp</dimen>
+    <dimen name="view_interval_space_10">10dp</dimen>
+    <dimen name="view_interval_space_15">15dp</dimen>
+    <dimen name="view_interval_space_20">20dp</dimen>
+    <dimen name="view_interval_space_25">25dp</dimen>
+    <dimen name="view_interval_space_30">30dp</dimen>
+    
+    <!-- 通用空隙间隔标尺END -->
+        <dimen name="delete_action_len">90dip</dimen>
+</resources>
