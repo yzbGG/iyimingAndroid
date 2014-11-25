@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private BaseFragment currentFragment;
 
 	private int tabIndex = 0;
+	
+	private final String gp="gp";
 
 	/**
 	 * 存放不需要重新创建的fragment
@@ -85,6 +87,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initData() {
 		setTabIndex(0);
+		getUserProfile();
 	}
 
 	private void initLinstener() {
@@ -93,6 +96,26 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		tabMine.setOnClickListener(this);
 		tabMore.setOnClickListener(this);
 
+	}
+	
+	
+	private void getUserProfile(){
+		post(gp, addParam(gp),true);//获取个人资料
+	}
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public boolean onResponseOK(Object response, String tag) {
+		if(super.onResponseOK(response, tag))
+		{
+			
+		}
+		return true;
 	}
 
 	/**

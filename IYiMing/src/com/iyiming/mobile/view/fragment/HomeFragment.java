@@ -56,6 +56,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private LinearLayout homeTouzi;
 	private LinearLayout homeJiangzuo;
 	private LinearLayout homeYouji;
+	
+	private final String gpl="gpl";
 
 	@Override
 	public int getFragmentTitleResourceId() {
@@ -144,7 +146,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	}
 
 	private void initData() {
-
+		
+		post(gpl, addParam(gpl,"20","1",null,null,null,null,null,null,null), false);
+		
 	}
 
 	private void initListener() {

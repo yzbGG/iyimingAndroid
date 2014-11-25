@@ -43,7 +43,6 @@ public class SignUtil {
 		for (int i = 0; i < keys.length; i++) {
 			builder.append(keys[i].toString() + params.get(keys[i].toString()));
 		}
-		Log.e("weewr",builder.toString());
 		String sign = MD5Util.SharedMD5Util().Md5(builder.toString());
 		params.remove("app_secret");
 		Map<String, String> requestParams = new HashMap<String, String>();

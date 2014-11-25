@@ -186,7 +186,10 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 		} else// 参数个数正确
 		{
 			for (int i = 0; i < args.length; i++) {// 插入参数和参数值
-				map.put(params[i], (String) args[i]);
+				if(args[i]!=null)//空值不参拼接
+				{
+					map.put(params[i], (String) args[i]);
+				}
 			}
 			return map;
 		}

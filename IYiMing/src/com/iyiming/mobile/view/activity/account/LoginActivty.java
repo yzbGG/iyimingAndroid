@@ -156,7 +156,6 @@ public class LoginActivty extends BaseActivity {
 				user.setSessionId(IYiMingApplication.SESSION_ID);
 				application.user=user;
 				saveUser(user);//保存用户到持久化数据
-				
 				Intent intent=new Intent();
 				intent.setClass(LoginActivty.this, MainActivity.class);
 				startActivity(intent);
