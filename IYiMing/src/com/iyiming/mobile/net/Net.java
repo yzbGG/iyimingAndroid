@@ -47,12 +47,14 @@ public class Net {
 	private RequestQueue fileRequestQueue;
 
 	public Net(BaseActivity context) {
+		FakeX509TrustManager.allowAllSSL();  
 		requestQueue = Volley.newRequestQueue(context);
 		fileRequestQueue=Volley.newRequestQueue(context,new MultiPartStack());
 		this.listener = context;
 	}
 	
 	public Net(BaseFragment context) {
+		FakeX509TrustManager.allowAllSSL();  
 		requestQueue = Volley.newRequestQueue(context.getActivity());
 		fileRequestQueue=Volley.newRequestQueue(context.getActivity(),new MultiPartStack());
 		this.listener = context;

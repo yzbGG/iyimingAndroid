@@ -52,14 +52,14 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 
 		Map<String, String> map = getParamMap(key, params);
 		Map<String, String> headers=new HashMap<String, String>();
-		if(isLoged)
+		if(IYiMingApplication.SESSION_ID.length()!=0)
 		{
 			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
 		}
 			// 安全性加密过的参数
 		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, key);
 		
-
+		
 	}
 	
 	

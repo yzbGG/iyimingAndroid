@@ -139,7 +139,7 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 
 		Map<String, String> map = getParamMap(key, params);
 		Map<String, String> headers=new HashMap<String, String>();
-		if(isLoged)
+		if(IYiMingApplication.SESSION_ID.length()!=0)
 		{
 			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
 		}

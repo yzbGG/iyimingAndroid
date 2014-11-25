@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,8 +40,7 @@ public class LoginActivty extends BaseActivity {
 	private static final String EP_TAG = "ep";
 	/**验证吗*/
 	private static final String Cvc="cvc";
-	/**注册*/
-	private static final String register ="register";
+
 	
 	private Button btnLogin;
 	private Button btnRegister;
@@ -64,7 +64,7 @@ public class LoginActivty extends BaseActivity {
 //		cvc("13966761823");
 		//762225
 //		register("13966761823","slbw2012","123456","901897");
-		
+		Log.e("ayiming","进入程序");
 		initView();
 		initData();
 		initListener();
@@ -93,11 +93,8 @@ public class LoginActivty extends BaseActivity {
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent();
-				intent.setClass(LoginActivty.this, MainActivity.class);
-				startActivity(intent);
-				
-//				login(username.getText().toString(),password.getText().toString());
+
+				login(username.getText().toString(),password.getText().toString());
 			}
 		});
 		
@@ -153,11 +150,16 @@ public class LoginActivty extends BaseActivity {
 			String s=(String) response;
 			if(tag.equalsIgnoreCase(LOGIN_TAG))//登录成功
 			{
+				showToast("登录成功");
 				AppHelper.LOGIN_FAIL_TIMES=1;//重置次数
 				User user=new User();
 				user.setSessionId(IYiMingApplication.SESSION_ID);
 				application.user=user;
 				saveUser(user);//保存用户到持久化数据
+				
+				Intent intent=new Intent();
+				intent.setClass(LoginActivty.this, MainActivity.class);
+				startActivity(intent);
 			}
 			else if(tag.equalsIgnoreCase("cci"))
 			{
@@ -200,15 +202,11 @@ public class LoginActivty extends BaseActivity {
 				addParam(EP_TAG, MD5Util.SharedMD5Util().Md5(oldPwd), MD5Util.SharedMD5Util().Md5(newPwd), MD5Util.SharedMD5Util().Md5(newPwd2)),true);// 用户登录
 	}
 	
-	private void cvc(String phone) {
-		post(Cvc,
-				addParam(Cvc,phone),true);// 用户登录
-	}
-	private void register(String mobile,String name, String password,String validateCode) {
+//	private void cvc(String phone) {
+//		post(Cvc,
+//				addParam(Cvc,phone),true);// 用户登录
+//	}
 
-		post(register,
-				addParam(register, mobile, name, MD5Util.SharedMD5Util().Md5(password),validateCode),false);// 用户登录
-	}
 	
 	/**获取图片验证码*/
 	private void cci() {
