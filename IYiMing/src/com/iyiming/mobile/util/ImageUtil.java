@@ -1,16 +1,16 @@
 package com.iyiming.mobile.util;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-import com.android.volley.toolbox.ImageLoader.ImageCache;
-import com.android.volley.toolbox.ImageLoader.ImageListener;
-import com.iyiming.mobile.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.iyiming.mobile.R;
+import com.iyiming.mobile.net.HeaderImageLoader;
+import com.iyiming.mobile.net.HeaderImageLoader.ImageCache;
+import com.iyiming.mobile.net.HeaderImageLoader.ImageListener;
 
 /**
  * 图片显示帮助类(网络，本地 L1 L2 缓存)
@@ -25,13 +25,13 @@ public class ImageUtil {
 	
 	private RequestQueue mQueue;
 	
-	ImageLoader imageLoader;
+	HeaderImageLoader imageLoader;
 	
 	private ImageUtil(Context context)
 	{
 		this.context=context;
 		mQueue = Volley.newRequestQueue(this.context);
-		imageLoader = new ImageLoader(mQueue,new BitmapCache());
+		imageLoader = new HeaderImageLoader(mQueue,new BitmapCache());
 	}
 	
 	public static ImageUtil getInstance(Context context)
@@ -49,7 +49,7 @@ public class ImageUtil {
 	 */
 	public void getImage(ImageView imageView,String url)
 	{
-		ImageListener listener=ImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
+		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
 		imageLoader.get(url,listener);
 	}
 	

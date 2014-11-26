@@ -7,6 +7,8 @@
  */
 package com.iyiming.mobile.view.activity.account;
 
+import java.lang.reflect.Type;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.User;
 import com.iyiming.mobile.util.AppHelper;
@@ -40,6 +44,8 @@ public class LoginActivty extends BaseActivity {
 	private static final String EP_TAG = "ep";
 	/**验证吗*/
 	private static final String Cvc="cvc";
+	
+	private final String gp="gp";
 
 	
 	private Button btnLogin;
@@ -53,17 +59,16 @@ public class LoginActivty extends BaseActivity {
 	
 	private boolean isSignImageOn=false;
 	private String signImageCode="";
+	
+	private String rightUserName="";
+	private String rightPassword="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_login);
 
-//		login("slbw2012", "123456");
-//		resetPassword("123456","1234567","1234567");
-//		cvc("13966761823");
-		//762225
-//		register("13966761823","slbw2012","123456","901897");
 		Log.e("ayiming","进入程序");
 		initView();
 		initData();
@@ -139,7 +144,8 @@ public class LoginActivty extends BaseActivity {
 				return;
 			}
 		}
-		post(LOGIN_TAG, addParam(LOGIN_TAG, username, MD5Util.SharedMD5Util().Md5(password)),false);// 用户登录
+		post(LOGIN_TAG, addParam(LOGIN_TAG, username, MD5Util.SharedMD5Util().Md5(password)),false,LOGIN_TAG);// 用户登录
+		rightUserName=username;
 	}
 	
 
@@ -152,13 +158,15 @@ public class LoginActivty extends BaseActivity {
 			{
 				showToast("登录成功");
 				AppHelper.LOGIN_FAIL_TIMES=1;//重置次数
-				User user=new User();
-				user.setSessionId(IYiMingApplication.SESSION_ID);
-				application.user=user;
-				saveUser(user);//保存用户到持久化数据
-				Intent intent=new Intent();
-				intent.setClass(LoginActivty.this, MainActivity.class);
-				startActivity(intent);
+//				User user=new User();
+//				user.setSessionId(IYiMingApplication.SESSION_ID);
+//				user.setUsername(rightUserName);
+//				application.user=user;
+				//saveUser(user);//保存用户到持久化数据
+//				Intent intent=new Intent();
+//				intent.setClass(LoginActivty.this, MainActivity.class);
+//				startActivity(intent);
+				getUserProfile();
 			}
 			else if(tag.equalsIgnoreCase("cci"))
 			{
@@ -167,6 +175,30 @@ public class LoginActivty extends BaseActivity {
 					signImageCode=json.getString("memo");//获取验证码文字
 					Bitmap bitmap = Bitmap2Base64Util.base64ToBitmap(json.getString("image"));
 					signImage.setImageBitmap(bitmap);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(tag.equalsIgnoreCase(gp))
+			{
+				try {
+				JSONObject json=new JSONObject((String)response);
+				json.remove("memo");
+				json.remove("status");
+				String data=json.toString();
+				Type type = new TypeToken<User>(){}.getType();
+				User user = new Gson().fromJson(data, type);
+				user.setSessionId(IYiMingApplication.SESSION_ID);
+				application.user=user;
+				application.isLoged=true;
+				saveUser(user);//保存用户到持久化数据
+//				Intent intent=new Intent();
+//				intent.setClass(LoginActivty.this, MainActivity.class);
+//				startActivity(intent);
+				
+				setResult(RESULT_OK);
+				finish();
+				
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -194,23 +226,25 @@ public class LoginActivty extends BaseActivity {
 			return true;
 	}
 	
-
-	private void resetPassword(String oldPwd, String newPwd, String newPwd2) {
-
-		post(EP_TAG,
-				addParam(EP_TAG, MD5Util.SharedMD5Util().Md5(oldPwd), MD5Util.SharedMD5Util().Md5(newPwd), MD5Util.SharedMD5Util().Md5(newPwd2)),true);// 用户登录
+	
+	private void getUserProfile(){
+		post(gp, addParam(gp),true,gp);//获取个人资料
 	}
 	
-//	private void cvc(String phone) {
-//		post(Cvc,
-//				addParam(Cvc,phone),true);// 用户登录
+
+//	private void resetPassword(String oldPwd, String newPwd, String newPwd2) {
+//
+//		post(EP_TAG,
+//				addParam(EP_TAG, MD5Util.SharedMD5Util().Md5(oldPwd), MD5Util.SharedMD5Util().Md5(newPwd), MD5Util.SharedMD5Util().Md5(newPwd2)),true,EP_TAG);// 用户登录
 //	}
+	
+
 
 	
 	/**获取图片验证码*/
 	private void cci() {
 		post("cci",
-				addParam("cci"),false);// 用户登录
+				addParam("cci"),false,"cci");// 用户登录
 	}
 	
 	
@@ -222,5 +256,11 @@ public class LoginActivty extends BaseActivity {
 	{
 		SerializationUtil.sharedSerializationUtil().serialize(this,user);
 	}
+	
+
+
+	
+
+
 
 }

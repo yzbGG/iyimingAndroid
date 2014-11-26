@@ -92,7 +92,7 @@ public class RegisterActivity extends BaseActivity {
 			return;
 		}
 		if (AppHelper.isPhoneNumber(mobile)) {
-			post(cvc, addParam(cvc, mobile), false);// 获取手机验证码
+			post(cvc, addParam(cvc, mobile), false,cvc);// 获取手机验证码
 			signedPhoneNumber=mobile;
 		} else {
 			showToast("请输入正确的手机号");
@@ -106,7 +106,7 @@ public class RegisterActivity extends BaseActivity {
 		}
 		if(password.length()>=6)
 		{
-			post(register, addParam(register, mobile, username, MD5Util.SharedMD5Util().Md5(password),validateCode,"南京"), false);// 用户登录
+			post(register, addParam(register, mobile, username, MD5Util.SharedMD5Util().Md5(password),validateCode,"南京"), false,register);// 用户登录
 		}
 		else
 		{

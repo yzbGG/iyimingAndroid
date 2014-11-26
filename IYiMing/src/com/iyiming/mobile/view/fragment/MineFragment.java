@@ -8,19 +8,27 @@
 */
 package com.iyiming.mobile.view.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.AppInfoUtil;
+import com.iyiming.mobile.util.ILog;
+import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
+import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.activity.my.EditPasswordActivity;
 import com.iyiming.mobile.view.activity.my.UserInfoActivity;
-import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
+import com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView;
 
 /** 
  * @ClassName: MineFragment 
@@ -33,6 +41,17 @@ public class MineFragment extends BaseFragment{
 	
 	private RelativeLayout tabInfo;
 	private RelativeLayout tabPwd;
+	private Button logout;
+	
+	private LinearLayout avatarContainer;
+	private RoundedImageView avatar;
+	private TextView name;
+	
+	private LinearLayout loginContainer;
+	private Button login;
+	
+	private final int LOGIN=10001;
+	
 	
 	
 	@Override
@@ -57,11 +76,28 @@ public class MineFragment extends BaseFragment{
 	{
 		tabInfo=(RelativeLayout)view.findViewById(R.id.tab_info);
 		tabPwd=(RelativeLayout)view.findViewById(R.id.tab_pwd);
+		logout=(Button)view.findViewById(R.id.logout);
+		avatarContainer=(LinearLayout)view.findViewById(R.id.avatarContainer);
+		
+		
+		loginContainer=(LinearLayout)view.findViewById(R.id.loginContainer);
+		login=(Button)view.findViewById(R.id.login);
+		
+		avatarContainer=(LinearLayout)view.findViewById(R.id.avatarContainer);
+		avatar=(RoundedImageView)view.findViewById(R.id.avatar);
+		name=(TextView)view.findViewById(R.id.name);
 	}
 	
 	private void initData()
 	{
-		
+		if(application.isLoged)
+		{
+			showLogedView();
+		}
+		else
+		{
+			showLogoutView();
+		}
 	}
 	
 	private void initListener()
@@ -85,6 +121,37 @@ public class MineFragment extends BaseFragment{
 				startActivity(intent);
 			}
 		});
+		login.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent();
+				intent.setClass(getActivity(), LoginActivty.class);
+				startActivityForResult(intent, LOGIN);
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 */
+	private void showLogedView()
+	{
+
+			avatarContainer.setVisibility(View.VISIBLE);
+			loginContainer.setVisibility(View.GONE);
+			logout.setVisibility(View.VISIBLE);
+			ImageUtil.getInstance(getActivity()).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+application.user.getImageUrl());
+			name.setText(application.user.getUsername());
+			ILog.e(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+application.user.getImageUrl());
+
+	}
+	
+	private void showLogoutView()
+	{
+		avatarContainer.setVisibility(View.GONE);
+		loginContainer.setVisibility(View.VISIBLE);
+		logout.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -136,5 +203,24 @@ public class MineFragment extends BaseFragment{
 	public boolean isNavBarHide() {
 		return false;
 	}
+
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		switch (resultCode) { //
+		case Activity.RESULT_OK:
+			if (requestCode == LOGIN) {
+
+				initData();
+
+			}
+
+		}
+		
+	}
+	
+	
 
 }

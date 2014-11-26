@@ -8,6 +8,7 @@
 package com.iyiming.mobile.view.activity;
 
 import com.iyiming.mobile.model.User;
+import com.iyiming.mobile.util.ILog;
 
 import android.app.Application;
 
@@ -22,7 +23,19 @@ public class IYiMingApplication extends Application{
 	/**
 	 * 存储session中的id
 	 */
-	public static User user=null;
+	public User user=null;
 	public static String SESSION_ID="";
+	public boolean isLoged=false;
+	public String toString()
+	{
+		if(user!=null)
+		{
+			return "用户名："+user.getUsername()+"\n"+"session："+user.getSessionId()+"\n"+"avatar："+user.getImageUrl();
+		}
+		else
+		{
+			return "获取用户失败";
+		}
+	}
 
 }

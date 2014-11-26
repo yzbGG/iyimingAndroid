@@ -174,6 +174,8 @@ public class Net {
 					String cookies=response.headers.get("Set-Cookie");
 					String temp=cookies.split("=")[1];
 					temp=temp.split("; ")[0];
+					//如果当前没有sessionid 则请求服务器的id
+					if(IYiMingApplication.SESSION_ID==null)
 					IYiMingApplication.SESSION_ID=temp;
 				}
 				

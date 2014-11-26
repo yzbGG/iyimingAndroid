@@ -1,8 +1,12 @@
 package com.iyiming.mobile.view.fragment;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +26,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.model.project.Project;
+import com.iyiming.mobile.util.AppInfoUtil;
+import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
@@ -38,11 +48,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private CirclePageIndicator indicator;
 	private HomeAdapter mAdapter;
 
-	private List<HashMap<String, Object>> list = null;
+	private List<Project> list = null;
 
-	private List<HashMap<String, Object>> listBottom = null;
+	private List<Project> listBottom = null;
 
-	private List<HashMap<String, Object>> listTop = null;
+	private List<Project> listTop = null;
 
 	private LinearLayout homeYiming;
 	private LinearLayout homeLiuxue;
@@ -56,8 +66,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private LinearLayout homeTouzi;
 	private LinearLayout homeJiangzuo;
 	private LinearLayout homeYouji;
-	
-	private final String gpl="gpl";
+
+	private final String gpl = "gpl";
+	private final String GPL_REFRESH = "gpl_refresh";
+	private final String GPL_LOADMORE = "gpl_loadmore";
+
+	private int page = 1;
+	private String pageSize = "20";
 
 	@Override
 	public int getFragmentTitleResourceId() {
@@ -125,7 +140,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		listView.setOnItemClickListener(this);
 		this.initHeadView(inflater);
 		listView.addHeaderView(this.headView);
-
+		listBottom=new ArrayList<Project>();
 		mAdapter = new HomeAdapter(getActivity(), listBottom);
 		listView.setAdapter(mAdapter);
 		listView.setPullLoadEnable(true);
@@ -146,9 +161,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	}
 
 	private void initData() {
+
+		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
 		
-		post(gpl, addParam(gpl,"20","1",null,null,null,null,null,null,null), false);
-		
+		ILog.e(application.toString());
+
 	}
 
 	private void initListener() {
@@ -164,6 +181,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		homeTouzi.setOnClickListener(this);
 		homeJiangzuo.setOnClickListener(this);
 		homeYouji.setOnClickListener(this);
+
+		listView.setXListViewListener(new XListView.IXListViewListener() {
+			@Override
+			public void onRefresh() {
+				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+			}
+
+			@Override
+			public void onLoadMore() {
+				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE);
+			}
+		});
 	}
 
 	private void initHeadView(LayoutInflater inflater) {
@@ -184,38 +213,87 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		indicator.setViewPager(viewpager);
 	}
 
+	@Override
+	public boolean onResponseOK(Object response, String tag) {
+		listView.stopRefresh();
+		listView.stopLoadMore();
+		if (super.onResponseOK(response, tag)) {
+			try {
+				JSONObject json = new JSONObject((String) response);
+				if (tag.equalsIgnoreCase(GPL_REFRESH)) {
+					List<Project> projectDetails;
+					String items = json.getString("projectDetails");
+					if (null != items) {
+						Type type = new TypeToken<List<Project>>() {
+						}.getType();
+						projectDetails = new Gson().fromJson(items, type);
+						listBottom.clear();
+						listBottom.addAll(projectDetails);
+						mAdapter.notifyDataSetChanged();
+						page = 1;
+					}
+				} else if (tag.equalsIgnoreCase(GPL_LOADMORE)) {
+					List<Project> projectDetails1;
+					String items1 = json.getString("projectDetails");
+					if (null != items1) {
+						Type type = new TypeToken<List<Project>>() {
+						}.getType();
+						projectDetails1 = new Gson().fromJson(items1, type);
+						
+						if (projectDetails1 != null && projectDetails1.size() > 0) {
+							page++;
+							listBottom.addAll(projectDetails1);
+							mAdapter.notifyDataSetChanged();
+						}
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return true;
+	}
+
+	@Override
+	public void onResponseError(VolleyError arg0, String tag) {
+		super.onResponseError(arg0, tag);
+		listView.stopRefresh();
+		listView.stopLoadMore();
+	}
+
 	private class HomeAdapter extends BaseAdapter {
 
 		private Context con;
-		private List<HashMap<String, Object>> datas;
+		private List<Project> datas;
 
-		public HomeAdapter(Context con, List<HashMap<String, Object>> datas) {
+		public HomeAdapter(Context con, List<Project> datas) {
 			this.con = con;
 			this.datas = datas;
 		}
 
-		/**
-		 * 刷新数据
-		 * 
-		 * @param news
-		 */
-		public void refreshData(List<HashMap<String, Object>> datas) {
-			if (null == datas) {
-				this.datas = new ArrayList<HashMap<String, Object>>();
-			} else {
-				this.datas = datas;
-			}
-			notifyDataSetChanged();
-		}
+		// /**
+		// * 刷新数据
+		// *
+		// * @param news
+		// */
+		// public void refreshData(List<HashMap<String, Object>> datas) {
+		// if (null == datas) {
+		// this.datas = new ArrayList<HashMap<String, Object>>();
+		// } else {
+		// this.datas = datas;
+		// }
+		// notifyDataSetChanged();
+		// }
 
 		@Override
 		public int getCount() {
-			return 5;
+			return datas.size();
 		}
 
 		@Override
 		public Object getItem(int arg0) {
-			return null;
+			return datas.get(arg0);
 		}
 
 		@Override
@@ -225,7 +303,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
+			ViewHolder holder = null;  
 			if (convertView == null) {
 				holder = new ViewHolder();
 				convertView = LayoutInflater.from(con).inflate(R.layout.list_item_project, parent, false);
@@ -240,10 +318,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			}
 
 			ImageUtil.getInstance(getActivity()).getImage(holder.itemImage,
-					"http://image.tianjimedia.com/uploadImages/2014/317/17/7XKU0PL1X93S_1000x500.jpg");
-			holder.itemMoney.setText("5888￥");
-			holder.itemTitle.setText("曼谷游，北京出发");
-			holder.itemInfo.setText("天津航空包机直飞，人侍洞宜比思酒店入住，赠送接机服务和一日游服务");
+					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+datas.get(position).getImageUrl());
+			holder.itemMoney.setText(datas.get(position).getAmt()+"￥");
+			holder.itemTitle.setText(datas.get(position).getName());
+			holder.itemInfo.setText(datas.get(position).getIntro());
 
 			return convertView;
 		}
@@ -253,22 +331,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			TextView itemMoney;
 			TextView itemTitle;
 			TextView itemInfo;
-
 		}
-
 	}
 
 	private class ViewAdapterTop extends PagerAdapter {
 
-		private List<HashMap<String, Object>> datas;
+		private List<Project> datas;
 
 		private HashMap<Integer, View> views = new HashMap<Integer, View>();
 
 		private LayoutInflater inflater;
 
-		public ViewAdapterTop(List<HashMap<String, Object>> infos, Context con) {
+		public ViewAdapterTop(List<Project> infos, Context con) {
 			if (null == infos) {
-				this.datas = new ArrayList<HashMap<String, Object>>();
+				this.datas = new ArrayList<Project>();
 			} else {
 				this.datas = infos;
 			}
@@ -290,7 +366,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		public void finishUpdate(ViewGroup container) {
 			super.finishUpdate(container);
 		}
-
+ 
 		@Override
 		public int getItemPosition(Object object) {
 			return super.getItemPosition(object);

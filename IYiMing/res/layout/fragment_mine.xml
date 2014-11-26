@@ -24,16 +24,17 @@
             android:orientation="vertical" >
 
             <com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView
-                android:id="@+id/roundedImageView1"
+                android:id="@+id/avatar"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:src="@drawable/avatar_default"
                 iyiming:border_color="#ffffff"
                 iyiming:border_width="1dp"
+                android:scaleType="centerCrop"
                 iyiming:oval="true" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -61,7 +62,7 @@
                 android:textColor="#ffffff" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:background="@drawable/btn_user_login"

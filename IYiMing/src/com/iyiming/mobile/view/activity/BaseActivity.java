@@ -48,18 +48,39 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 		application = (IYiMingApplication) getApplication();
 	}
 
-	public void post(String key, Object[] params,boolean isLoged) {
+//	public void post(String key, Object[] params,boolean isLoged) {
+//
+//		Map<String, String> map = getParamMap(key, params);
+//		Map<String, String> headers=new HashMap<String, String>();
+//		if(IYiMingApplication.SESSION_ID.length()!=0)
+//		{
+//			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
+//		}
+//			// 安全性加密过的参数
+//		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, key);
+//		
+//		
+//	}
+	
+	/**
+	 * 
+	 * @param key
+	 * @param params
+	 * @param isLoged
+	 * @param Tag 唯一标识
+	 */
+	public void post(String key, Object[] params,boolean isLoged,String Tag) {
 
 		Map<String, String> map = getParamMap(key, params);
 		Map<String, String> headers=new HashMap<String, String>();
-		if(IYiMingApplication.SESSION_ID.length()!=0)
+		if(IYiMingApplication.SESSION_ID!=null&&IYiMingApplication.SESSION_ID.length()!=0)
 		{
 			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
 		}
 			// 安全性加密过的参数
-		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, key);
+		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, Tag);
 		
-		
+
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.iyiming.mobile.view.activity;
 import java.util.HashMap;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.model.User;
 import com.iyiming.mobile.util.AppHelper;
+import com.iyiming.mobile.util.ILog;
+import com.iyiming.mobile.util.SerializationUtil;
+import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.fragment.BaseFragment;
 import com.iyiming.mobile.view.fragment.FollowFragment;
 import com.iyiming.mobile.view.fragment.HomeFragment;
@@ -48,7 +53,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private int tabIndex = 0;
 	
-	private final String gp="gp";
+	
 
 	/**
 	 * 存放不需要重新创建的fragment
@@ -67,6 +72,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
+		autoLogin();
+		
 		navBar = (NavBar) findViewById(R.id.navBar);
 		tabHome = (LinearLayout) findViewById(R.id.tab_home);
 		tabFollow = (LinearLayout) findViewById(R.id.tab_follow);
@@ -87,7 +94,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initData() {
 		setTabIndex(0);
-		getUserProfile();
+		
 	}
 
 	private void initLinstener() {
@@ -99,24 +106,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	
-	private void getUserProfile(){
-		post(gp, addParam(gp),true);//获取个人资料
-	}
-	
-	
-	
-	
-	
-	
 
-	@Override
-	public boolean onResponseOK(Object response, String tag) {
-		if(super.onResponseOK(response, tag))
-		{
-			
-		}
-		return true;
-	}
 
 	/**
 	 * 显示fragment
@@ -299,5 +289,35 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		tabIndex = index;
 		showFragment(tabIndex);
 	}
+	
+	/**
+	 * 过滤登录操作
+	 */
+	private void autoLogin()
+	{
+		User user=getUser();
+		if(user!=null&&user.getSessionId()!=null&&user.getUsername()!=null)
+		{
+			application.user=user;
+			application.isLoged=true;
+			IYiMingApplication.SESSION_ID=user.getSessionId();
+		}
+		else
+		{
+			application.user=null;
+			application.isLoged=false;
+			IYiMingApplication.SESSION_ID=null;
+		}
+	}
+	
+	/**
+	 * 保存user
+	 * @param user
+	 */
+	private User getUser()
+	{
+		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
+	}
+	
 
 }

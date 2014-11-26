@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         <activity
-            android:name="com.iyiming.mobile.view.activity.account.LoginActivty"
+            android:name="com.iyiming.mobile.view.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         
-        <activity  android:name="com.iyiming.mobile.view.activity.MainActivity"/>
+        <activity  android:name="com.iyiming.mobile.view.activity.account.LoginActivty"/>
         <activity  android:name="com.iyiming.mobile.view.activity.account.RegisterActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.project.ProjectDetailActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.project.ProjectListActivity"/>
