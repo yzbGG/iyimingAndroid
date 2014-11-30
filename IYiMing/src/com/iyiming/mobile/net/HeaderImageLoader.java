@@ -31,21 +31,23 @@ package com.iyiming.mobile.net;
  * limitations under the License.
  */
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
-
-import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * Helper that handles loading and caching images from remote URLs.
@@ -183,8 +185,13 @@ public class HeaderImageLoader {
      * @param requestUrl The URL of the image to be loaded.
      * @param defaultImage Optional default image to return until the actual image is loaded.
      */
+    public ImageContainer get(String requestUrl, final ImageListener listener,Map<String, String> mheaders) {
+        return get(requestUrl, listener, 0, 0,mheaders);
+    }
+    
     public ImageContainer get(String requestUrl, final ImageListener listener) {
-        return get(requestUrl, listener, 0, 0);
+    	Map<String, String> mheaders=new HashMap<String, String>();
+        return get(requestUrl, listener, 0, 0,mheaders);
     }
 
     /**
@@ -200,7 +207,7 @@ public class HeaderImageLoader {
      *     the currently available image (default if remote is not loaded).
      */
     public ImageContainer get(String requestUrl, ImageListener imageListener,
-            int maxWidth, int maxHeight) {
+            int maxWidth, int maxHeight, Map<String, String> mheaders) {
         // only fulfill requests that were initiated from the main thread.
         throwIfNotOnMainThread();
 
@@ -232,7 +239,7 @@ public class HeaderImageLoader {
 
         // The request is not already in flight. Send the new request to the network and
         // track it.
-        Request<Bitmap> newRequest = makeImageRequest(requestUrl, maxWidth, maxHeight, cacheKey);
+        Request<Bitmap> newRequest = makeImageRequest(requestUrl, maxWidth, maxHeight, cacheKey,mheaders);
 
         mRequestQueue.add(newRequest);
         mInFlightRequests.put(cacheKey,
@@ -240,7 +247,7 @@ public class HeaderImageLoader {
         return imageContainer;
     }
 
-    protected Request<Bitmap> makeImageRequest(String requestUrl, int maxWidth, int maxHeight, final String cacheKey) {
+    protected Request<Bitmap> makeImageRequest(String requestUrl, int maxWidth, int maxHeight, final String cacheKey,final Map<String, String> mheaders) {
         return new ImageRequest(requestUrl, new Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -252,7 +259,15 @@ public class HeaderImageLoader {
             public void onErrorResponse(VolleyError error) {
                 onGetImageError(cacheKey, error);
             }
-        });
+        })
+        {
+
+			@Override
+			public Map<String, String> getHeaders() throws AuthFailureError {
+				return mheaders;
+			}
+        	
+        };
     }
 
     /**

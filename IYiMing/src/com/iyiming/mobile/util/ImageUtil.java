@@ -1,5 +1,8 @@
 package com.iyiming.mobile.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
@@ -11,6 +14,7 @@ import com.iyiming.mobile.R;
 import com.iyiming.mobile.net.HeaderImageLoader;
 import com.iyiming.mobile.net.HeaderImageLoader.ImageCache;
 import com.iyiming.mobile.net.HeaderImageLoader.ImageListener;
+import com.iyiming.mobile.view.activity.IYiMingApplication;
 
 /**
  * 图片显示帮助类(网络，本地 L1 L2 缓存)
@@ -51,6 +55,30 @@ public class ImageUtil {
 	{
 		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
 		imageLoader.get(url,listener);
+	}
+	
+	/**
+	 * 从网络或者硬盘获取图片
+	 * @param imageView
+	 */
+	public void getImage(ImageView imageView,String url,boolean isLogin)
+	{
+		
+		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
+		if(isLogin)
+		{
+			Map<String, String> headers=new HashMap<String, String>();
+			if(IYiMingApplication.SESSION_ID!=null&&IYiMingApplication.SESSION_ID.length()!=0)
+			{
+				headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
+			}
+			ILog.e("[图片header]"+headers.toString());
+			imageLoader.get(url,listener,headers);
+		}
+		else
+		{
+			imageLoader.get(url,listener);
+		}
 	}
 	
 	

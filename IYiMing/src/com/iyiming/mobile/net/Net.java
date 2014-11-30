@@ -166,11 +166,12 @@ public class Net {
 			protected Response<String> parseNetworkResponse(
 					NetworkResponse response) {
 				
+				ILog.e("[服务器返回]"+response.headers.toString());
 				if(response.headers.containsKey("Set-Cookie"))
 				{
 					//Set-Cookie=JSESSIONID=7660D948DC2300F555CC0C9C2680AAA9; Path=/IYiMing/; HttpOnly
 					//11-18 22:34:56.547: E/ILog(28189): {X-Android-Selected-Transport=http/1.1, Transfer-Encoding=chunked, Date=Tue, 18 Nov 2014 14:33:48 GMT, X-Android-Received-Millis=1416321296548, Set-Cookie=JSESSIONID=4B3CEEDB417428D39BB021724917DDDF; Path=/IYiMing/; HttpOnly, Content-Type=application/json;charset=UTF-8, X-Android-Response-Source=NETWORK 200, Server=Apache-Coyote/1.1, X-Android-Sent-Millis=1416321296519}
-					ILog.e(response.headers.toString());
+					
 					String cookies=response.headers.get("Set-Cookie");
 					String temp=cookies.split("=")[1];
 					temp=temp.split("; ")[0];
@@ -184,7 +185,7 @@ public class Net {
 
 			@Override
 			public Map<String, String> getHeaders() throws AuthFailureError {
-
+				ILog.e("[请求]"+mheaders.toString());
 				return mheaders;
 				
 			}
