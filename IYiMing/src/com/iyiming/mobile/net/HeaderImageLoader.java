@@ -48,6 +48,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.iyiming.mobile.util.ILog;
 
 /**
  * Helper that handles loading and caching images from remote URLs.
@@ -125,8 +126,22 @@ public class HeaderImageLoader {
 
             @Override
             public void onResponse(ImageContainer response, boolean isImmediate) {
+            	ILog.e("进入获取图片");
                 if (response.getBitmap() != null) {
-                    view.setImageBitmap(response.getBitmap());
+                	if(view.getTag()!= null)
+                	{
+                		ILog.e("有Tag："+view.getTag()+"请求字符串："+response.getRequestUrl());
+                		if(view.getTag().equals(response.getRequestUrl()))
+                		{
+                			ILog.e("地址相通");
+                			view.setImageBitmap(response.getBitmap());
+                		}
+                	}
+                	else
+                	{
+                		ILog.e("没有Tag");
+                		view.setImageBitmap(response.getBitmap());
+                	}
                 } else if (defaultImageResId != 0) {
                     view.setImageResource(defaultImageResId);
                 }

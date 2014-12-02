@@ -7,16 +7,15 @@
  */
 package com.iyiming.mobile.view.activity;
 
-import com.iyiming.mobile.model.User;
-import com.iyiming.mobile.util.ILog;
-
 import android.app.Application;
+
+import com.iyiming.mobile.model.User;
 
 /**
  * @DESCRIBE ifxme 应用程序上下文
  */
 public class IYiMingApplication extends Application{
-	
+
 	/**
 	 * 用户信息
 	 */
@@ -26,6 +25,9 @@ public class IYiMingApplication extends Application{
 	public User user=null;
 	public static String SESSION_ID="";
 	public boolean isLoged=false;
+
+	
+
 	public String toString()
 	{
 		if(user!=null)
@@ -37,5 +39,6 @@ public class IYiMingApplication extends Application{
 			return "获取用户失败";
 		}
 	}
+	
 
 }

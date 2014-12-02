@@ -33,6 +33,7 @@ import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ILog;
+import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
@@ -48,11 +49,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private CirclePageIndicator indicator;
 	private HomeAdapter mAdapter;
 
-	private List<Project> list = null;
-
-	private List<Project> listBottom = null;
-
 	private List<Project> listTop = null;
+	private List<Project> list = null;
 
 	private LinearLayout homeYiming;
 	private LinearLayout homeLiuxue;
@@ -140,8 +138,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		listView.setOnItemClickListener(this);
 		this.initHeadView(inflater);
 		listView.addHeaderView(this.headView);
-		listBottom=new ArrayList<Project>();
-		mAdapter = new HomeAdapter(getActivity(), listBottom);
+		list = new ArrayList<Project>();
+		mAdapter = new HomeAdapter(getActivity(), list);
 		listView.setAdapter(mAdapter);
 		listView.setPullLoadEnable(true);
 
@@ -163,8 +161,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private void initData() {
 
 		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
-		
-		ILog.e(application.toString());
+
 
 	}
 
@@ -227,8 +224,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 						Type type = new TypeToken<List<Project>>() {
 						}.getType();
 						projectDetails = new Gson().fromJson(items, type);
-						listBottom.clear();
-						listBottom.addAll(projectDetails);
+						list.clear();
+						list.addAll(projectDetails);
 						mAdapter.notifyDataSetChanged();
 						page = 1;
 					}
@@ -239,10 +236,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 						Type type = new TypeToken<List<Project>>() {
 						}.getType();
 						projectDetails1 = new Gson().fromJson(items1, type);
-						
+
 						if (projectDetails1 != null && projectDetails1.size() > 0) {
 							page++;
-							listBottom.addAll(projectDetails1);
+							list.addAll(projectDetails1);
 							mAdapter.notifyDataSetChanged();
 						}
 					}
@@ -303,7 +300,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;  
+			ViewHolder holder = null;
 			if (convertView == null) {
 				holder = new ViewHolder();
 				convertView = LayoutInflater.from(con).inflate(R.layout.list_item_project, parent, false);
@@ -317,13 +314,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			ImageUtil.getInstance(getActivity()).getImage(holder.itemImage,
-					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+datas.get(position).getImageUrl());
-			holder.itemMoney.setText(datas.get(position).getAmt()+"￥");
+			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			// 给 ImageView 设置一个 tag
+//			holder.itemImage.setTag(imgUrl);
+			ImageManager.getInstance(getActivity()).getImage(holder.itemImage, imgUrl);
+			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
 			holder.itemTitle.setText(datas.get(position).getName());
 			holder.itemInfo.setText(datas.get(position).getIntro());
 
 			return convertView;
+				
 		}
 
 		class ViewHolder {
@@ -366,7 +366,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		public void finishUpdate(ViewGroup container) {
 			super.finishUpdate(container);
 		}
- 
+
 		@Override
 		public int getItemPosition(Object object) {
 			return super.getItemPosition(object);
@@ -397,7 +397,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			container.addView(view);
 
 			ImageView image = (ImageView) view.findViewById(R.id.iv_home_page_viewpager_item);
-			ImageUtil.getInstance(getActivity()).getImage(image, "http://p1.image.hiapk.com/uploads/allimg/141118/7730-14111Q13047.jpg");
+			ImageManager.getInstance(getActivity()).getImage(image, "http://www.baidu.com/img/bdlogo.png");
 			return view;
 		}
 
@@ -419,19 +419,46 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	}
 
 	@Override
-	public void onClick(View arg0) {
-
+	public void onClick(View v) {
+		String type = "1";
+		if (v == homeYiming) {
+			type = "1";
+		} else if (v == homeLiuxue) {
+			type = "2";
+		} else if (v == homeQianzheng) {
+			type = "3";
+		} else if (v == homeShengzi) {
+			type = "4";
+		} else if (v == homeFangchan) {
+			type = "5";
+		} else if (v == homeShuiwu) {
+			type = "6";
+		} else if (v == homeShangye) {
+			type = "7";
+		} else if (v == homeYinhang) {
+			type = "8";
+		} else if (v == homeTouzi) {
+			type = "9";
+		} else if (v == homeJiangzuo) {
+			type = "10";
+		} else if (v == homeYouji) {
+			type = "11";
+		}
 		Intent intent = new Intent();
+		intent.putExtra("type", type);
 		intent.setClass(getActivity(), ProjectListActivity.class);
 		startActivity(intent);
 
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent intent = new Intent();
-		intent.setClass(getActivity(), ProjectDetailActivity.class);
-		startActivity(intent);
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		if (position > 1 && position < mAdapter.getCount() + 2) {
+			Intent intent = new Intent();
+			intent.putExtra("id", list.get(position - 2).getId());
+			intent.setClass(getActivity(), ProjectDetailActivity.class);
+			startActivity(intent);
+		}
 	}
 
 }

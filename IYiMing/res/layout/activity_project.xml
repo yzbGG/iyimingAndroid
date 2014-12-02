@@ -43,7 +43,7 @@
                 android:layout_below="@+id/relativeLayout1"
                 android:background="#ffffff"
                 android:padding="7dp"
-                android:text="天津航空包机直飞，人侍洞宜比思酒店入住，赠送接机服务和一日游服务" />
+                android:text="" />
 
             <RelativeLayout
                 android:background="#ffffff"
@@ -71,7 +71,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/linearLayout1"
-                    android:text="曼谷游，北京出发"
+                    android:text=""
                     android:textColor="#222222"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -85,12 +85,12 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="5888￥"
+                android:text="0￥"
                 android:textColor="#ee9e35"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/item_attentioncount"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_alignBaseline="@+id/item_money"
@@ -98,7 +98,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:text="已经有90人关注"
+                android:text="已经有0人关注"
                 android:textColor="#ee9e35"
                 android:textSize="15sp" />
         </RelativeLayout>

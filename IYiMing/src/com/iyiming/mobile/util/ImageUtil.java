@@ -1,5 +1,6 @@
 package com.iyiming.mobile.util;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class ImageUtil {
 		this.context=context;
 		mQueue = Volley.newRequestQueue(this.context);
 		imageLoader = new HeaderImageLoader(mQueue,new BitmapCache());
+		
 	}
 	
 	public static ImageUtil getInstance(Context context)
@@ -53,7 +55,7 @@ public class ImageUtil {
 	 */
 	public void getImage(ImageView imageView,String url)
 	{
-		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
+		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.color.cornsilk,R.color.cornsilk);
 		imageLoader.get(url,listener);
 	}
 	
@@ -64,7 +66,7 @@ public class ImageUtil {
 	public void getImage(ImageView imageView,String url,boolean isLogin)
 	{
 		
-		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.drawable.default_bg,R.drawable.default_bg); 
+		ImageListener listener=HeaderImageLoader.getImageListener(imageView,R.color.cornsilk,R.color.cornsilk); 
 		if(isLogin)
 		{
 			Map<String, String> headers=new HashMap<String, String>();
@@ -72,7 +74,7 @@ public class ImageUtil {
 			{
 				headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
 			}
-			ILog.e("[图片header]"+headers.toString());
+			ILog.e("[图片header]"+headers.toString());  
 			imageLoader.get(url,listener,headers);
 		}
 		else
@@ -88,8 +90,8 @@ public class ImageUtil {
 		private LruCache<String, Bitmap> mCache;  
 		  
 	    public BitmapCache() {  
-	        int maxSize = 10 * 1024 * 1024;  
-	        mCache = new LruCache<String, Bitmap>(maxSize) {  
+	        int maxSize = 50 * 1024 * 1024;
+	        mCache = new LruCache<String, Bitmap>(maxSize) {
 	            @Override  
 	            protected int sizeOf(String key, Bitmap bitmap) {  
 	                return bitmap.getRowBytes() * bitmap.getHeight();  
@@ -98,8 +100,8 @@ public class ImageUtil {
 	    }  
 	  
 	    @Override  
-	    public Bitmap getBitmap(String url) {  
-	        return mCache.get(url);  
+	    public Bitmap getBitmap(String url){  
+	        return mCache.get(url);
 	    }  
 	  
 	    @Override  
@@ -108,5 +110,7 @@ public class ImageUtil {
 	    }  
 
 	}
+	
+
 	
 }

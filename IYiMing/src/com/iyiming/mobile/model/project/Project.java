@@ -43,6 +43,8 @@ public class Project implements Serializable{
 	private String flowId;
 	
 	private int attentionCount;
+	
+	private String attentionFlag;
 
 	public int getId() {
 		return id;
@@ -122,6 +124,14 @@ public class Project implements Serializable{
 
 	public void setAttentionCount(int attentionCount) {
 		this.attentionCount = attentionCount;
+	}
+
+	public String getAttentionFlag() {
+		return attentionFlag;
+	}
+
+	public void setAttentionFlag(String attentionFlag) {
+		this.attentionFlag = attentionFlag;
 	}
 	
 	

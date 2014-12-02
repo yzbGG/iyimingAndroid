@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ILog;
+import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.account.LoginActivty;
@@ -96,7 +97,7 @@ public class MineFragment extends BaseFragment{
 		}
 		else
 		{
-			showLogoutView();
+			showLoginView();
 		}
 	}
 	
@@ -141,13 +142,13 @@ public class MineFragment extends BaseFragment{
 			avatarContainer.setVisibility(View.VISIBLE);
 			loginContainer.setVisibility(View.GONE);
 			logout.setVisibility(View.VISIBLE);
-			ImageUtil.getInstance(getActivity()).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+application.user.getImageUrl(),true);
+			ImageManager.getInstance(getActivity()).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+application.user.getImageUrl(),true);
 			name.setText(application.user.getUsername());
 			ILog.e(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()+application.user.getImageUrl());
 
 	}
 	
-	private void showLogoutView()
+	private void showLoginView()
 	{
 		avatarContainer.setVisibility(View.GONE);
 		loginContainer.setVisibility(View.VISIBLE);

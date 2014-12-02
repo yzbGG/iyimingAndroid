@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
@@ -201,7 +202,7 @@ public class FollowFragment extends BaseFragment implements OnItemClickListener{
 				holder = (ViewHolder) convertView.getTag();
 			}
 			
-			ImageUtil.getInstance(getActivity()).getImage(holder.itemImage,"http://image.tianjimedia.com/uploadImages/2014/317/17/7XKU0PL1X93S_1000x500.jpg");
+			ImageManager.getInstance(getActivity()).getImage(holder.itemImage,"http://image.tianjimedia.com/uploadImages/2014/317/17/7XKU0PL1X93S_1000x500.jpg");
 			holder.itemMoney.setText("2888￥");
 			holder.itemTitle.setText("曼谷游，北京出发");
 			holder.itemMoneyOld.setText("5888￥");
