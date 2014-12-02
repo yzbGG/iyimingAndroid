@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ import com.iyiming.mobile.view.widget.XListView;
 /**
  * @DESCRIBE ...
  */
-public class ProjectListActivity extends BaseActivity {
+public class ProjectListActivity extends BaseActivity implements OnItemClickListener{
 
 	private XListView listView;
 
@@ -78,7 +80,7 @@ public class ProjectListActivity extends BaseActivity {
 		mAdapter = new Projectdapter(this,list);
 		listView.setAdapter(mAdapter);
 		listView.setPullLoadEnable(true);
-
+		listView.setOnItemClickListener(this);
 		navBar = (NavBar) findViewById(R.id.navBar1);
 		navBar.setTitle("项目列表");
 		navBar.hideLeft(false);
@@ -111,12 +113,12 @@ public class ProjectListActivity extends BaseActivity {
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, type), false, GPL_REFRESH);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, type), false, GPL_LOADMORE);
 			}
 		});
 	}
@@ -124,7 +126,7 @@ public class ProjectListActivity extends BaseActivity {
 	
 	private void getList(String type)
 	{
-		String mtype=Constants.PROJECT_TYPE_LIST[Integer.valueOf(type)];
+		String mtype=Constants.PROJECT_TYPE_LIST[Integer.valueOf(type)-1];
 		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, mtype), false, GPL_REFRESH);
 	}
 	
@@ -235,7 +237,6 @@ public class ProjectListActivity extends BaseActivity {
 
 			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
 			// 给 ImageView 设置一个 tag
-			holder.itemImage.setTag(imgUrl);
 			ImageManager.getInstance(ProjectListActivity.this).getImage(holder.itemImage, imgUrl);
 			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
 			holder.itemTitle.setText(datas.get(position).getName());
@@ -252,6 +253,16 @@ public class ProjectListActivity extends BaseActivity {
 
 		}
 
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		if (position > 0 && position < mAdapter.getCount() + 1) {
+			Intent intent = new Intent();
+			intent.putExtra("id", list.get(position - 1).getId());
+			intent.setClass(this, ProjectDetailActivity.class);
+			startActivity(intent);
+		}
 	}
 
 }

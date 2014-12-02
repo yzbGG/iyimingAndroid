@@ -22,22 +22,23 @@ import com.iyiming.mobile.view.fragment.FollowFragment;
 import com.iyiming.mobile.view.fragment.HomeFragment;
 import com.iyiming.mobile.view.fragment.MineFragment;
 import com.iyiming.mobile.view.fragment.MoreFragment;
+import com.iyiming.mobile.view.fragment.ProjectFragment;
 import com.iyiming.mobile.view.widget.NavBar;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private LinearLayout tabHome;
-	private LinearLayout tabFollow;
+	private LinearLayout tabProject;
 	private LinearLayout tabMine;
 	private LinearLayout tabMore;
 
 	private ImageView imageHome;
-	private ImageView imageFollow;
+	private ImageView imageProject;
 	private ImageView imageMine;
 	private ImageView imageMore;
 
 	private TextView textHome;
-	private TextView textFollow;
+	private TextView textProject;
 	private TextView textMine;
 	private TextView textMore;
 
@@ -76,17 +77,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		
 		navBar = (NavBar) findViewById(R.id.navBar);
 		tabHome = (LinearLayout) findViewById(R.id.tab_home);
-		tabFollow = (LinearLayout) findViewById(R.id.tab_follow);
+		tabProject = (LinearLayout) findViewById(R.id.tab_follow);
 		tabMine = (LinearLayout) findViewById(R.id.tab_mine);
 		tabMore = (LinearLayout) findViewById(R.id.tab_more);
 
 		imageHome = (ImageView) findViewById(R.id.home_image);
-		imageFollow = (ImageView) findViewById(R.id.follow_image);
+		imageProject = (ImageView) findViewById(R.id.follow_image);
 		imageMine = (ImageView) findViewById(R.id.mine_image);
 		imageMore = (ImageView) findViewById(R.id.more_image);
 
 		textHome = (TextView) findViewById(R.id.home_text);
-		textFollow = (TextView) findViewById(R.id.follow_text);
+		textProject = (TextView) findViewById(R.id.follow_text);
 		textMine = (TextView) findViewById(R.id.mine_text);
 		textMore = (TextView) findViewById(R.id.more_text);
 
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initLinstener() {
 		tabHome.setOnClickListener(this);
-		tabFollow.setOnClickListener(this);
+		tabProject.setOnClickListener(this);
 		tabMine.setOnClickListener(this);
 		tabMore.setOnClickListener(this);
 
@@ -213,7 +214,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			fragment = new HomeFragment();
 			break;
 		case 1:
-			fragment = new FollowFragment();
+			fragment = new ProjectFragment();
 			break;
 		case 2:
 			fragment = new MineFragment();
@@ -236,7 +237,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		if (v == tabHome) {
 			setTabIndex(0);
-		} else if (v == tabFollow) {
+		} else if (v == tabProject) {
 			setTabIndex(1);
 		} else if (v == tabMine) {
 			setTabIndex(2);
@@ -256,11 +257,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void setTabIndex(int index) {
 		imageHome.setImageResource(R.drawable.bottom_home);
-		imageFollow.setImageResource(R.drawable.bottom_follow);
+		imageProject.setImageResource(R.drawable.bottom_follow);
 		imageMine.setImageResource(R.drawable.bottom_mine);
 		imageMore.setImageResource(R.drawable.bottom_more);
 		textHome.setTextColor(textNomal);
-		textFollow.setTextColor(textNomal);
+		textProject.setTextColor(textNomal);
 		textMine.setTextColor(textNomal);
 		textMore.setTextColor(textNomal);
 		switch (index) {
@@ -269,8 +270,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			textHome.setTextColor(textSelected);
 			break;
 		case 1:
-			imageFollow.setImageResource(R.drawable.bottom_follow_down);
-			textFollow.setTextColor(textSelected);
+			imageProject.setImageResource(R.drawable.bottom_follow_down);
+			textProject.setTextColor(textSelected);
 			break;
 		case 2:
 			imageMine.setImageResource(R.drawable.bottom_mine_down);

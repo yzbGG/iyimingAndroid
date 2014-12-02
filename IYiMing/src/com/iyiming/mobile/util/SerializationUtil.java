@@ -60,4 +60,13 @@ public class SerializationUtil {
 			return null;
 		}
 	}
+	
+	public void delete(Context context)
+	{
+		File file = context.getFileStreamPath(AppInfoUtil.sharedAppInfoUtil().getSerializeDir());
+		if (file != null) {
+			file.delete();
+		}
+	
+	}
 }

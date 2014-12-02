@@ -25,7 +25,9 @@ import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.ImageUtil;
+import com.iyiming.mobile.util.SerializationUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
+import com.iyiming.mobile.view.activity.IYiMingApplication;
 import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.activity.my.EditPasswordActivity;
 import com.iyiming.mobile.view.activity.my.UserInfoActivity;
@@ -52,6 +54,8 @@ public class MineFragment extends BaseFragment{
 	private Button login;
 	
 	private final int LOGIN=10001;
+	
+	private final String logout_tag="logout";
 	
 	
 	
@@ -131,6 +135,18 @@ public class MineFragment extends BaseFragment{
 				startActivityForResult(intent, LOGIN);
 			}
 		});
+		logout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				logout();
+				logout.setEnabled(false);
+			}
+		});
+	}
+	
+	private void logout()
+	{
+		post(logout_tag, addParam(logout_tag),true,logout_tag);
 	}
 	
 	/**
@@ -154,6 +170,26 @@ public class MineFragment extends BaseFragment{
 		loginContainer.setVisibility(View.VISIBLE);
 		logout.setVisibility(View.GONE);
 	}
+	
+	
+	
+	
+
+	@Override
+	public boolean onResponseOK(Object response, String tag) {
+		if(super.onResponseOK(response, tag))
+		{
+			if(tag.equalsIgnoreCase(logout_tag))//登出
+			{
+				application.isLoged=false;
+				application.user=null;
+				IYiMingApplication.SESSION_ID="";
+				SerializationUtil.sharedSerializationUtil().delete(getActivity());//清除用户数据
+			}
+		}
+		return true;
+	}
+
 
 	@Override
 	public int getFragmentTitleResourceId() {
