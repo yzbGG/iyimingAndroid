@@ -78,6 +78,42 @@ public class MD5Util {
 	}
 	
 	
+	public String Md5_16(String plainText) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			try {
+				md.update(plainText.getBytes("utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			byte b[] = md.digest();
+
+			int i;
+
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++) {
+				i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
+
+			//System.out.println("result: " + buf.toString());// 32位的加密
+
+			//System.out.println("result: " + buf.toString().substring(8, 24));// 16位的加密
+			
+			return buf.toString().substring(8, 24);//大写
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			
+			return null;
+		}
+	}
+	
+	
 	//实例
 	/*File big = new File("E:/adt-bundle-windows-x86_64-20130729.zip");
 	try {

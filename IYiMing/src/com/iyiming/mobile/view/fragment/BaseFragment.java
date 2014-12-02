@@ -149,6 +149,10 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 //
 //	}
 	
+	public void post(String key, Object[] params,boolean isLoged,String Tag) {
+		post(key,params,isLoged,Tag,false);
+	}
+	
 	/**
 	 * 
 	 * @param key
@@ -156,7 +160,7 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 	 * @param isLoged
 	 * @param Tag 唯一标识
 	 */
-	public void post(String key, Object[] params,boolean isLoged,String Tag) {
+	public void post(String key, Object[] params,boolean isLoged,String Tag,boolean isCache) {
 
 		Map<String, String> map = getParamMap(key, params);
 		Map<String, String> headers=new HashMap<String, String>();
@@ -165,9 +169,7 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
 		}
 			// 安全性加密过的参数
-		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, Tag);
-		
-
+		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, Tag,isCache);
 	}
 	
 	

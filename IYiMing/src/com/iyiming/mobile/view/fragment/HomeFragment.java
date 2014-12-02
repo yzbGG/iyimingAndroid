@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private final String GPL_LOADMORE = "gpl_loadmore";
 
 	private int page = 1;
-	private String pageSize = "20";
+	private String pageSize = "5";
 
 	@Override
 	public int getFragmentTitleResourceId() {
@@ -160,7 +160,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private void initData() {
 
-		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH,true);
 
 
 	}
@@ -182,12 +182,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH,true);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE,true);
 			}
 		});
 	}
