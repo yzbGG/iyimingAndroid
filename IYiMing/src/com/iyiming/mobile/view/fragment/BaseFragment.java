@@ -7,6 +7,7 @@
  */
 package com.iyiming.mobile.view.fragment;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,20 +135,6 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 		net = new Net(this);
 	}
 	
-
-//	public void post(String key, Object[] params,boolean isLoged) {
-//
-//		Map<String, String> map = getParamMap(key, params);
-//		Map<String, String> headers=new HashMap<String, String>();
-//		if(IYiMingApplication.SESSION_ID.length()!=0)
-//		{
-//			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
-//		}
-//			// 安全性加密过的参数
-//		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, key);
-//		
-//
-//	}
 	
 	public void post(String key, Object[] params,boolean isLoged,String Tag) {
 		post(key,params,isLoged,Tag,false);
@@ -170,6 +157,18 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 		}
 			// 安全性加密过的参数
 		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, Tag,isCache);
+	}
+	
+	
+	public void multiUpload(String key,final Map<String,File> files, final Map<String, String> params,String tag)
+	{
+		Map<String, String> headers=new HashMap<String, String>();
+		headers.putAll(params);
+		if(IYiMingApplication.SESSION_ID!=null&&IYiMingApplication.SESSION_ID.length()!=0)
+		{
+			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
+		}
+		net.multiUpload(AppInfoUtil.sharedAppInfoUtil().getServerUrl()+UrlUtil.sharedUrlUtil().getUrl(key), files, SignUtil.getSignedParam(params, true), tag, headers);
 	}
 	
 	

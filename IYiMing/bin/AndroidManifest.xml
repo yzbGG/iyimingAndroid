@@ -40,6 +40,7 @@
         <activity  android:name="com.iyiming.mobile.view.activity.my.UserInfoActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.my.EditNickNameActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.my.EditPasswordActivity"/>
+        <activity  android:name="com.iyiming.mobile.view.activity.my.album.ShowImageActivity"/>
         
     </application>
 

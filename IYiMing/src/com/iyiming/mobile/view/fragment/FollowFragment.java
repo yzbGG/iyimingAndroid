@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.ImageUtil;
+import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
 import com.iyiming.mobile.view.widget.XListView;

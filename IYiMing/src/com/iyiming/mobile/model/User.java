@@ -21,6 +21,7 @@ public class User implements Serializable {
 	private String nickName;// 昵称
 	private String city;// 城市
 	private String sex;// 性别
+	private String address;// 地址
 	
 	private String sessionId;//session
 
@@ -207,6 +208,14 @@ public class User implements Serializable {
 	 */
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

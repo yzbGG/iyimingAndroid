@@ -34,7 +34,7 @@ import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.ImageUtil;
+import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
 import com.iyiming.mobile.view.activity.project.ProjectListActivity;

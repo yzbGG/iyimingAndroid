@@ -10,6 +10,7 @@ package com.iyiming.mobile.view.activity.my;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.view.activity.BaseActivity;
@@ -21,6 +22,9 @@ import com.iyiming.mobile.view.widget.NavBar;
 public class EditNickNameActivity extends BaseActivity{
 	
 	NavBar navBar;
+	private final String cp="cp";
+	private TextView tvNickName;
+	private String currentNickName="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,14 @@ public class EditNickNameActivity extends BaseActivity{
 		navBar.hideLeft(false);
 		navBar.hideRight(false);
 		navBar.isNav(true);
+		tvNickName=(TextView)findViewById(R.id.nickName);
+	}
+	
+	
+	private void saveNickName(String nickName)
+	{
+		currentNickName=nickName;
+		post(cp, addParam(cp,null,null,null,null,nickName), true, cp);
 	}
 	
 	private void setListener()
@@ -55,6 +67,9 @@ public class EditNickNameActivity extends BaseActivity{
 			@Override
 			public void onClick(View arg0) {
 				//保存
+				saveNickName(tvNickName.getText().toString());
+				showToast("修改成功");
+				application.user.setNickName(currentNickName);
 			}
 		});
 	}

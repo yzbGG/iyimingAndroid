@@ -35,7 +35,7 @@ import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.Constants;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.ImageUtil;
+import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.widget.NavBar;
 import com.iyiming.mobile.view.widget.XListView;

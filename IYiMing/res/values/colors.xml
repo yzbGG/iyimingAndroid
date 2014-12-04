@@ -1,8 +1,7 @@
 <resources>
 
     <!-- The default background of the menu. -->
-    
-    
+
     <color name="md__defaultBackground">#FF555555</color>
 
     <drawable name="no_color_drawable">#00000000</drawable>
@@ -10,9 +9,9 @@
 
     <color name="no_color">#00000000</color>
     <color name="menu_selected">#55000000</color>
-    
+
     <!-- 标题红色 -->
-    <color name="title_red" >#ff3311</color>
+    <color name="title_red">#ff3311</color>
 
     <!-- 应用程序背景 -->
     <color name="app_bg">#f1f0f6</color>
@@ -22,27 +21,25 @@
     <color name="alert">#CC0000</color>
     <color name="confirm">#FF8800</color>
     <color name="info">#669900</color>
+
     <drawable name="ba_bg_select">#55555555</drawable>
-        <drawable name="gray_drawable">#55000000</drawable>
-        
-        
+    <drawable name="gray_drawable">#55000000</drawable>
+
     <!-- 底栏背景色 默认 -->
     <color name="bg_bottom_bar_normal">#fafafa</color>
     <!-- 底栏背景色  按下 -->
     <color name="bg_bottom_bar_selected">#fafafa</color>
-    
-
-     <color name="bg_bottom_bar_text_normal">#444444</color>
-     <color name="bg_bottom_bar_text_selected">#ed4135</color>
-     
-         <color name="transparent">#00000000</color>
+    <color name="bg_bottom_bar_text_normal">#444444</color>
+    <color name="bg_bottom_bar_text_selected">#ed4135</color>
+    <color name="transparent">#00000000</color>
     <color name="transbackground">#aa000000</color>
-     
+    <color name="gray_c">#838384</color>
+    
+        <!-- 通用背景色 -->
+    <color name="bg_common">#f6f6f6</color>
+    
+    <color name="black_overlay">#66000000</color>
 
-    
-    
-    
-    
     <!-- 各种颜色 -->
 
     <color name="white">#FFFFFF</color>
@@ -330,12 +327,8 @@
     <color name="black">#000000</color>
     <!-- 黑色 -->
 
-	<!-- 浅黑色 -->
-	<color name="light_black">#313332</color>
-    
-    
-    
-    
-    
+
+    <!-- 浅黑色 -->
+    <color name="light_black">#313332</color>
 
 </resources>

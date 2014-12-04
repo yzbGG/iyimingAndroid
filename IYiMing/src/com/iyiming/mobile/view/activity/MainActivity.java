@@ -1,6 +1,10 @@
 package com.iyiming.mobile.view.activity;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -11,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.User;
 import com.iyiming.mobile.util.AppHelper;
@@ -46,6 +52,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	 * 上一个显示的fragment，需要隐藏的
 	 */
 	private BaseFragment lastFragment;
+	
+	private final String gp="gp";
 
 	/**
 	 * 当前的fragment
@@ -302,6 +310,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			application.user=user;
 			application.isLoged=true;
 			IYiMingApplication.SESSION_ID=user.getSessionId();
+			getUserProfile();
 		}
 		else
 		{
@@ -309,6 +318,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			application.isLoged=false;
 			IYiMingApplication.SESSION_ID=null;
 		}
+	}
+	
+	private void getUserProfile(){
+		post(gp, addParam(gp),true,gp);//获取个人资料
 	}
 	
 	/**
@@ -319,6 +332,42 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	{
 		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
 	}
+
+	@Override
+	public boolean onResponseOK(Object response, String tag) {
+		if(super.onResponseOK(response, tag))
+		{
+			if(tag.equalsIgnoreCase(gp))
+			{
+				JSONObject json;
+				try {
+					json = new JSONObject((String)response);
+					json.remove("memo");
+					json.remove("status");
+					String data=json.toString();
+					Type type = new TypeToken<User>(){}.getType();
+					User user = new Gson().fromJson(data, type);
+					user.setSessionId(IYiMingApplication.SESSION_ID);
+					application.user=user;
+					application.isLoged=true;
+					saveUser(user);//保存用户到持久化数据
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 保存user
+	 * @param user
+	 */
+	private void saveUser(User user)
+	{
+		SerializationUtil.sharedSerializationUtil().serialize(this,user);
+	}
+	
 	
 
 }

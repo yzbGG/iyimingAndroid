@@ -24,7 +24,7 @@
         android:orientation="vertical" >
 
         <com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView
-            android:id="@+id/roundedImageView1"
+            android:id="@+id/avatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentLeft="true"
@@ -33,15 +33,16 @@
             android:src="@drawable/avatar_default"
             iyiming:border_color="#ffffff"
             iyiming:border_width="1dp"
+            android:scaleType="centerCrop"
             iyiming:oval="true" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/nikename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/roundedImageView1"
+            android:layout_toRightOf="@+id/avatar"
             android:text="一米阳光"
             android:textColor="#ffffff"
             android:textSize="17sp" />
@@ -51,7 +52,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/textView1"
+            android:layout_toRightOf="@+id/nikename"
             android:scaleType="centerInside"
             android:src="@drawable/ic_edit_white" />
     </RelativeLayout>
@@ -82,7 +83,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18855343322"
@@ -114,7 +115,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="陈某某"
@@ -146,7 +147,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"
@@ -178,7 +179,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="某某地"

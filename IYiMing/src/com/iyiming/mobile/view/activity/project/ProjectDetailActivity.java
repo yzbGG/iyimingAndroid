@@ -27,7 +27,7 @@ import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.ImageUtil;
+import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.widget.NavBar;

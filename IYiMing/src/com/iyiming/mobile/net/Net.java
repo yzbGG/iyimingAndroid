@@ -174,12 +174,10 @@ public class Net {
 			public void onErrorResponse(VolleyError error) {
 				printStackTrace(tag, error);
 				if (isCache) {
-					JSONObject jsonObject=OffLineDataUtil.shardOffLineDataUtil(context).get(getStringParam(url,param));
+					JSONObject jsonObject = OffLineDataUtil.shardOffLineDataUtil(context).get(getStringParam(url, param));
 					if (jsonObject != null) {
 						listener.onResponseOK(jsonObject.toString(), tag);
-					}
-					else
-					{
+					} else {
 						listener.onResponseError(error, tag);
 					}
 				} else {
@@ -245,19 +243,25 @@ public class Net {
 	 * @param errorListener
 	 * @param tag
 	 */
-	public void addPutUploadFileRequest(final String url, final Map<String, File> files, final Map<String, String> params,
-			final Listener<String> responseListener, final ErrorListener errorListener, final Object tag) {
-		if (null == url || null == responseListener) {
+	public void multiUpload(final String url, final Map<String,File> files, final Map<String, String> params, final String tag,
+			final Map<String, String> mheaders) {
+		if (null == url) {
 			return;
 		}
+		MultiPartStringRequest multiPartRequest = new MultiPartStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
 
-		MultiPartStringRequest multiPartRequest = new MultiPartStringRequest(Request.Method.PUT, url, responseListener, new ErrorListener() {
-
+				Log.v(TAG, "[服务器返回] [" + tag + "]=" + response);
+				listener.onResponseOK(response, tag);
+			}
+		}, new ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				if (error != null) {
 					if (error.networkResponse != null)
 						Log.i(TAG, " error " + new String(error.networkResponse.data));
+					listener.onResponseError(error, tag);
 				}
 			}
 		}) {
@@ -271,6 +275,12 @@ public class Net {
 			public Map<String, String> getStringUploads() {
 				return params;
 			}
+
+			@Override
+			public Map<String, String> getHeaders() throws AuthFailureError {
+				return mheaders;
+			}
+
 		};
 
 		Log.i(TAG, " volley put : uploadFile " + url);
@@ -351,7 +361,7 @@ public class Net {
 	 * @return
 	 */
 	private String getStringParam(String url, Map<String, String> params) {
-		
+
 		String string = url + "_";
 		params.remove("timestamp");
 		params.remove("sign");

@@ -13,7 +13,7 @@
     </com.iyiming.mobile.view.widget.NavBar>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/nickName"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentLeft="true"
@@ -31,7 +31,7 @@
         android:layout_height="1px"
         android:background="#c1c0c5"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/nickName"
         android:orientation="vertical" >
     </LinearLayout>
 
@@ -40,12 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/nickName"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:textColor="#99999b"
         android:textSize="13sp"
-        android:text="昵称必须是4个英文字符或2-5个中文字符" />
+        android:text="昵称必须是4个以上英文字符或2-5个中文字符" />
 
 </RelativeLayout>
