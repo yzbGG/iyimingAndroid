@@ -10,6 +10,7 @@ package com.iyiming.mobile.view.activity.my;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.view.activity.BaseActivity;
@@ -21,7 +22,9 @@ import com.iyiming.mobile.view.widget.NavBar;
 public class EditPasswordActivity extends BaseActivity{
 	
 	NavBar navBar;
-
+	private EditText oldPwd;
+	private EditText newPwd;
+	private EditText newPwd2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

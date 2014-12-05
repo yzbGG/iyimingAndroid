@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:orientation="horizontal"
+             android:background="#345e36" >
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_return_selector"
+                android:paddingLeft="10dip"
+                android:paddingRight="30dip"
+               />
+           
+
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingRight="10dip"
+           android:gravity="center"
+                android:background="#345e36"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+
+        <com.iyiming.mobile.view.activity.my.album.FriendCycleViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_gravity="bottom"
+        android:background="#80000000"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:textColor="#ffffff"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:id="@+id/choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:paddingRight="10dip" >
+
+            <CheckBox
+                android:id="@+id/check"
+                android:clickable="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:focusable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="选择"
+                android:textColor="#FFFFFF" >
+            </TextView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -30,6 +30,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.net.FileUploadUtil;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.DateUtil;
 import com.iyiming.mobile.util.ILog;
@@ -325,17 +326,29 @@ public class UserInfoActivity extends BaseActivity {
 	}
 	
 	
-	private void uploadHeadIcon(String path)
+	private void uploadHeadIcon(final String path)
 	{
 //		:;
 //	: form-data; name=""
-		File file=new File(path);
-		Map<String,File> fileMap=new HashMap<String,File>();
-		fileMap.put("avatar", file);
-		Map<String,String> paramMap=new HashMap<String,String>();
-		paramMap.put("Content-Type","multipart/form-data");
-		paramMap.put("Content-Disposition","avatar");
-		multiUpload(ua, fileMap, paramMap, ua);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					FileUploadUtil.post(path, ua, addParam(ua));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
+//		File file=new File(path);
+//		Map<String,File> fileMap=new HashMap<String,File>();
+//		fileMap.put("avatar", file);
+//		Map<String,String> paramMap=new HashMap<String,String>();
+//		paramMap.put("Content-Type","multipart/form-data");
+//		paramMap.put("Content-Disposition","form-data; name=\"avatar\"");
+//		multiUpload(ua, fileMap, paramMap, ua);
 	}
 
 	@Override

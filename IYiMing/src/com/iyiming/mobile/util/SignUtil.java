@@ -54,6 +54,44 @@ public class SignUtil {
 		requestParams.put("sign", sign);
 		return requestParams;
 	}
+	
+	
+	/**
+	 * 获取增加安全验证的map
+	 * 
+	 * @param params
+	 * @param isloged
+	 * @return
+	 */
+	public static final String getSignedString(Map<String, String> params, boolean isloged) {
+		params.put("timestamp", getDateTimePoint());
+		params.put("v", "1.0");
+		// params.put("app_key", AppInfoUtil.sharedAppInfoUtil().getAppKey());
+		if (isloged) {
+//			 params.put("session_id",
+//			 UserData.SharedUserData().getUSESSION());
+		}
+		params.put("app_secret", AppInfoUtil.sharedAppInfoUtil().getAppSecret());
+		Object[] keys = params.keySet().toArray();
+		Arrays.sort(keys);
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < keys.length; i++) {
+			builder.append(keys[i].toString() + params.get(keys[i].toString()));
+		}
+		String sign = MD5Util.SharedMD5Util().Md5(builder.toString());
+		params.remove("app_secret");
+//		Map<String, String> requestParams = new HashMap<String, String>();
+		String url="";
+		Iterator<String> it = params.keySet().iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+//			requestParams.put(key, params.get(key));
+			url+=key+"="+params.get(key)+"&";
+		}
+		url+="sign="+sign;
+//		requestParams.put("sign", sign);
+		return url;
+	}
 
 	/**
 	 * 获取当前的时间戳

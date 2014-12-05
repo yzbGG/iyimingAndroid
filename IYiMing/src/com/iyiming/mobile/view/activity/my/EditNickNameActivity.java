@@ -48,7 +48,11 @@ public class EditNickNameActivity extends BaseActivity{
 	private void saveNickName(String nickName)
 	{
 		currentNickName=nickName;
-		post(cp, addParam(cp,null,null,null,null,nickName), true, cp);
+		String city=application.user.getCity()==null?"":application.user.getCity();
+		String sex=application.user.getSex()==null?"":application.user.getSex();
+		String realname=application.user.getRealName()==null?"":application.user.getRealName();
+		String address=application.user.getAddress()==null?"":application.user.getAddress();
+		post(cp, addParam(cp,city,sex,realname,address,nickName), true, cp);
 	}
 	
 	private void setListener()
