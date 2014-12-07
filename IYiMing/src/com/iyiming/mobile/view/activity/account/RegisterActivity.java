@@ -30,6 +30,7 @@ public class RegisterActivity extends BaseActivity {
 	private EditText sign;
 	private EditText pwd;
 	private Button btnRegister;
+	private EditText city;
 	private LinearLayout back;
 	/** 手机验证码 */
 	private final String cvc = "cvc";
@@ -55,6 +56,7 @@ public class RegisterActivity extends BaseActivity {
 		pwd = (EditText) findViewById(R.id.pwd);
 		btnRegister = (Button) findViewById(R.id.register);
 		back = (LinearLayout) findViewById(R.id.back);
+		city= (EditText) findViewById(R.id.city);
 	}
 
 	private void initData() {
@@ -77,7 +79,7 @@ public class RegisterActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 
-				register(signedPhoneNumber,signedPhoneNumber,pwd.getText().toString(), sign.getText().toString());
+				register(signedPhoneNumber,signedPhoneNumber,pwd.getText().toString(), sign.getText().toString(),city.getText().toString());
 
 			}
 		});
@@ -99,14 +101,14 @@ public class RegisterActivity extends BaseActivity {
 		}
 	}
 
-	private void register(String mobile, String username, String password, String validateCode) {
+	private void register(String mobile, String username, String password, String validateCode,String citys) {
 		if(validateCode.length()==0)
 		{
 			showToast("验证码不能为空");
 		}
 		if(password.length()>=6)
 		{
-			post(register, addParam(register, mobile, username, MD5Util.SharedMD5Util().Md5(password),validateCode,"南京"), false,register);// 用户登录
+			post(register, addParam(register, mobile, username, MD5Util.SharedMD5Util().Md5(password),validateCode,citys), false,register);// 用户登录
 		}
 		else
 		{
