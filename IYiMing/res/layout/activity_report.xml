@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:iyiming="http://schemas.android.com/apk/res/com.iyiming.mobile"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg" >
+
+    <com.iyiming.mobile.view.widget.NavBar
+        android:id="@+id/navBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        iyiming:mtext="服务中心" >
+    </com.iyiming.mobile.view.widget.NavBar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navBar1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_edit_normal"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:background="#00000000"
+            android:ems="10"
+            android:gravity="top|left"
+            android:hint="请说出您对我们的看法"
+            android:maxLength="300"
+            android:padding="7dp"
+            android:textSize="@dimen/sp_17" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#aaaaaa"
+            android:gravity="center_vertical|right" >
+
+            <TextView
+                android:id="@+id/text_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="0/300字"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_13" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="10dp"
+        android:text="您的每一条意见我们都会仔细阅读并回复，而且有机会获得一定的金额激励" />
+
+</RelativeLayout>
