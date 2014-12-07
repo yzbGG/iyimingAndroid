@@ -16,9 +16,11 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -31,6 +33,8 @@ import com.iyiming.mobile.util.UrlUtil;
 import com.iyiming.mobile.util.UrlUtil.UrlBean;
 import com.iyiming.mobile.view.activity.IYiMingApplication;
 import com.iyiming.mobile.view.activity.BaseActivity;
+import com.iyiming.mobile.view.activity.account.LoginActivty;
+import com.iyiming.mobile.view.widget.PopBox;
 
 /**
  * @DESCRIBE 所有的网络请求activity基类
@@ -42,7 +46,7 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 	
 	private final String RET="status";
 	private final String SUCCESS_TAG="000";
-	
+	private final String SESSION_TIMEOUT_TAG="113";
 	private final String MSG="memo";
 	protected EditText searchText;
 	
@@ -223,7 +227,26 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 			json = new JSONObject((String) response);
 			if( !json.getString(RET).equals(SUCCESS_TAG))// 返回成功信息
 			{
-				showToast(json.getString(MSG));
+				if(json.getString(RET).equals(SESSION_TIMEOUT_TAG))
+				{
+					PopBox popBox=new PopBox(getActivity());
+					popBox.showTitle("提示");
+					popBox.showContent("登录已经过期，请重新登录");
+					popBox.showBtnOk("好的");
+					popBox.setOKClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							//退出登录
+							Intent intent=new Intent();
+							intent.setClass(getActivity(),LoginActivty.class);
+							startActivity(intent);
+						}
+					});
+					popBox.showDialog();
+				}
+				else{
+					showToast(json.getString(MSG));
+				}
 				return false;
 			} else {
 				return true;

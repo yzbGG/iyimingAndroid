@@ -120,6 +120,7 @@ public class ProjectDetailActivity extends BaseActivity {
 	 */
 	private boolean loginCheck() {
 		return application.isLoged;
+//		return true;
 	}
 
 	private void setListener() {

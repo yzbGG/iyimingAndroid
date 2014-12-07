@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.SignUtil;
 import com.iyiming.mobile.util.UrlUtil;
 import com.iyiming.mobile.util.UrlUtil.UrlBean;
+import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.widget.PopBox;
 
 /**
@@ -129,14 +131,16 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 				if(json.getString(RET).equals(SESSION_TIMEOUT_TAG))
 				{
 					PopBox popBox=new PopBox(this);
-					popBox.showTitle("警告");
-					popBox.showContent("您已经在异地登录，如非本人操作，请修改密码");
+					popBox.showTitle("提示");
+					popBox.showContent("登录已经过期，请重新登录");
 					popBox.showBtnOk("好的");
 					popBox.setOKClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View arg0) {
 							//退出登录
-							showToast("程序已经退出");
+							Intent intent=new Intent();
+							intent.setClass(BaseActivity.this,LoginActivty.class);
+							startActivity(intent);
 						}
 					});
 					popBox.showDialog();

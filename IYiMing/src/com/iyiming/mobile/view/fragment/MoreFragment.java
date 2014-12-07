@@ -26,6 +26,7 @@ import com.iyiming.mobile.R;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.more.AboutActivity;
 import com.iyiming.mobile.view.activity.more.ReportActivity;
+import com.iyiming.mobile.view.widget.PopBox;
 import com.iyiming.mobile.view.widget.ShareDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
@@ -176,9 +177,15 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 			intent.setClass(getActivity(), ReportActivity.class);
 			startActivity(intent);
 		} else if (v == tabContact) {
-
+			PopBox popBox=new PopBox(getActivity());
+			popBox.showContent("详情请见官网 http://www.ayiming.com");
+			popBox.showBtnOk("好的");
+			popBox.showDialog();
 		} else if (v == tabVersion) {
-
+				PopBox popBox=new PopBox(getActivity());
+				popBox.showContent("当前版本已经是最新版本");
+				popBox.showBtnOk("好的");
+				popBox.showDialog();
 		}
 	}
 	

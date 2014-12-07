@@ -43,6 +43,7 @@
         <activity android:name="com.iyiming.mobile.view.activity.my.album.ShowImageActivity" />
         <activity android:name="com.iyiming.mobile.view.activity.more.AboutActivity" />
         <activity android:name="com.iyiming.mobile.view.activity.more.ReportActivity" />
+        <activity android:name="com.iyiming.mobile.view.activity.search.SearchActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"

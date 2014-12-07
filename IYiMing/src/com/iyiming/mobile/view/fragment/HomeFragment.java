@@ -46,6 +46,7 @@ import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
 import com.iyiming.mobile.view.activity.project.ProjectListActivity;
+import com.iyiming.mobile.view.activity.search.SearchActivity;
 import com.iyiming.mobile.view.widget.CirclePageIndicator;
 import com.iyiming.mobile.view.widget.FixedSpeedScroller;
 import com.iyiming.mobile.view.widget.XListView;
@@ -234,7 +235,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		            
 		            break;  
 		        case EditorInfo.IME_ACTION_SEARCH:  
-		            	showToast("正在搜索");
+//		            	showToast("正在搜索");
+		        	if(searchText.getText().toString().length()!=0)
+		        	{
+		        		Intent intent=new Intent();
+		        		intent.putExtra("keyword", searchText.getText().toString());
+		        		intent.setClass(getActivity(), SearchActivity.class);
+		        		startActivity(intent);
+		        	}
 		            break;  
 		        }  
 				return true;
