@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -61,6 +63,8 @@ public class UserInfoActivity extends BaseActivity {
 	private PopupWindow popWindow;
 	
 	private final String ua="ua";
+	
+	private Bitmap photo;
 
 	/**
 	 * 头像地址
@@ -114,10 +118,45 @@ public class UserInfoActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.setClass(UserInfoActivity.this, EditNickNameActivity.class);
+				intent.putExtra("type", "nickName");
+				intent.setClass(UserInfoActivity.this, EditProfileActivity.class);
 				startActivity(intent);
 			}
 		});
+		
+		name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.putExtra("type", "name");
+				intent.setClass(UserInfoActivity.this, EditProfileActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		sex.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.putExtra("type", "sex");
+				intent.setClass(UserInfoActivity.this, EditProfileActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		address.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.putExtra("type", "address");
+				intent.setClass(UserInfoActivity.this, EditProfileActivity.class);
+				startActivity(intent);
+			}
+		});
+
 
 		navBar.OnLeftClick(new OnClickListener() {
 
@@ -303,7 +342,7 @@ public class UserInfoActivity extends BaseActivity {
 		} else if (resultCode == RESULT_OK && requestCode == ACTIVITY_RESULT_CROP) {
 			ILog.d("ResumeActivity=剪裁");
 			Bundle bundle = data.getExtras();
-			Bitmap photo = (Bitmap) bundle.getParcelable("data");
+			photo = (Bitmap) bundle.getParcelable("data");
 			String dir = application.HeadSDCardPath;
 			String fileName = DateUtil.formatDateTime(new Date()) + ".png";
 			try {
@@ -312,7 +351,7 @@ public class UserInfoActivity extends BaseActivity {
 				showToast("裁剪图片失败");
 				return;
 			}
-			avatar.setImageBitmap(photo);
+			
 			////上传图片
 			uploadHeadIcon(dir + fileName);
 
@@ -326,6 +365,33 @@ public class UserInfoActivity extends BaseActivity {
 	}
 	
 	
+	Handler handler=new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			
+			switch (msg.what) {
+			case 1:
+				showToast("修改成功");
+				avatar.setImageBitmap(photo);
+				ImageManager.getInstance(UserInfoActivity.this).mMemoryCache.put(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), photo);
+				ImageManager.getInstance(UserInfoActivity.this).mDiskCache.put(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), photo);
+				break;
+				
+			case 2:
+				showToast("修改失败");
+				break;
+
+			default:
+				showToast("修改失败，请重试");
+				break;
+			}
+			
+		}
+		
+	};
+	
 	private void uploadHeadIcon(final String path)
 	{
 //		:;
@@ -335,12 +401,16 @@ public class UserInfoActivity extends BaseActivity {
 			@Override
 			public void run() {
 				try {
-					FileUploadUtil.post(path, ua, addParam(ua));
+					FileUploadUtil.post(path, ua, addParam(ua),handler);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}).start();
+		
+		
+		
+	
 		
 //		File file=new File(path);
 //		Map<String,File> fileMap=new HashMap<String,File>();

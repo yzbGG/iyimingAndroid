@@ -1,4 +1,3 @@
-
 package com.iyiming.mobile.util;
 
 import java.io.File;
@@ -43,16 +42,14 @@ import android.os.Message;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
-
-
 public class ImageManager {
 	private static ImageManager imageManager;
 	public LruCache<String, Bitmap> mMemoryCache;
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 40; // 10MB
 	private static final String DISK_CACHE_SUBDIR = "thumbnails";
 	public DiskLruCache mDiskCache;
-	
-	private static final int maxImageSize=1024*2;//假设为imageview 显示的最大高度
+
+	private static final int maxImageSize = 1024 * 2;// 假设为imageview 显示的最大高度
 
 	/** 图片加载队列，后进先出 */
 	private Stack<ImageRef> mImageQueue = new Stack<ImageRef>();
@@ -74,16 +71,14 @@ public class ImageManager {
 	private static final int MSG_STOP = 3;
 	/** 如果图片是从网络加载，则应用渐显动画，如果从缓存读出则不应用动画 */
 	private boolean isFromNet = true;
-	
-	
+
 	private File cachefile = null;
-	
-//	private Context context;
-	
+
+	// private Context context;
+
 	private static HttpClient httpClient;
-	
-	public static ArrayList<String> getIntentArrayList(
-			ArrayList<String> dataList) {
+
+	public static ArrayList<String> getIntentArrayList(ArrayList<String> dataList) {
 		ArrayList<String> tDataList = new ArrayList<String>();
 		for (String s : dataList) {
 			if (!s.contains("default")) {
@@ -105,8 +100,6 @@ public class ImageManager {
 		if (Looper.myLooper() != Looper.getMainLooper()) {
 			throw new RuntimeException("Cannot instantiate outside UI thread.");
 		}
-	
-		
 
 		if (imageManager == null) {
 			httpClient = createHttpClient();
@@ -123,9 +116,8 @@ public class ImageManager {
 	 */
 	private ImageManager(Context context) {
 		this.cachefile = context.getCacheDir();
-//		this.context=context;
-		int memClass = ((ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		// this.context=context;
+		int memClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 		memClass = memClass > 32 ? 32 : memClass;
 		// 使用可用内存的1/8作为图片缓存
 		final int cacheSize = 1024 * 1024 * memClass / 3;
@@ -138,8 +130,7 @@ public class ImageManager {
 
 		};
 
-		File cacheDir = DiskLruCache
-				.getDiskCacheDir(context, DISK_CACHE_SUBDIR);
+		File cacheDir = DiskLruCache.getDiskCacheDir(context, DISK_CACHE_SUBDIR);
 		mDiskCache = DiskLruCache.openCache(context, cacheDir, DISK_CACHE_SIZE);
 
 	}
@@ -159,7 +150,7 @@ public class ImageManager {
 		int resId;
 		int width = 0;
 		int height = 0;
-		boolean isLoged=false;
+		boolean isLoged = false;
 
 		/**
 		 * 构造函数
@@ -169,29 +160,28 @@ public class ImageManager {
 		 * @param resId
 		 * @param filePath
 		 */
-		ImageRef(ImageView imageView, String url, String filePath, int resId,boolean isLoged) {
+		ImageRef(ImageView imageView, String url, String filePath, int resId, boolean isLoged) {
 			this.imageView = imageView;
 			this.url = url;
 			this.filePath = filePath;
 			this.resId = resId;
-			this.isLoged=isLoged;
+			this.isLoged = isLoged;
 		}
 
-		ImageRef(ImageView imageView, String url, String filePath, int resId,
-				int width, int height,boolean isLoged) {
+		ImageRef(ImageView imageView, String url, String filePath, int resId, int width, int height, boolean isLoged) {
 			this.imageView = imageView;
 			this.url = url;
 			this.filePath = filePath;
 			this.resId = resId;
 			this.width = width;
 			this.height = height;
-			this.isLoged=isLoged;
+			this.isLoged = isLoged;
 		}
 
 	}
-	
+
 	public void getImage(ImageView imageView, String url) {
-		getImage(imageView,url,false);
+		getImage(imageView, url, false);
 	}
 
 	/**
@@ -201,15 +191,14 @@ public class ImageManager {
 	 * @param url
 	 * @param resId
 	 */
-	public void getImage(ImageView imageView, String url,boolean isLogin) {
+	public void getImage(ImageView imageView, String url, boolean isLogin) {
 		if (imageView == null) {
 			return;
 		}
-		if (imageView.getTag() != null
-				&& imageView.getTag().toString().equals(url)) {
+		if (imageView.getTag() != null && imageView.getTag().toString().equals(url)) {
 			return;
 		}
-			imageView.setImageResource(R.color.cornsilk);
+		imageView.setImageResource(R.color.cornsilk);
 
 		if (url == null || url.equals("")) {
 			return;
@@ -219,7 +208,7 @@ public class ImageManager {
 
 		// 读取map缓存
 		Bitmap bitmap = mMemoryCache.get(url);
-	
+
 		if (bitmap != null) {
 			setImageBitmap(imageView, bitmap, false);
 			return;
@@ -227,13 +216,12 @@ public class ImageManager {
 
 		// 生成文件名
 		String filePath = urlToFilePath(url);
-		
+
 		if (filePath == null) {
 			return;
 		}
-		
 
-		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk,isLogin));
+		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk, isLogin));
 	}
 
 	/**
@@ -250,8 +238,7 @@ public class ImageManager {
 	 * @param height
 	 *            指定高度
 	 */
-	public void getImage(ImageView imageView, String url,
-			int width, int height,boolean isLogin) {
+	public void getImage(ImageView imageView, String url, int width, int height, boolean isLogin) {
 		if (imageView == null) {
 			return;
 		}
@@ -269,11 +256,11 @@ public class ImageManager {
 		}
 		// 生成文件名
 		String filePath = urlToFilePath(url);
-		
+
 		if (filePath == null) {
 			return;
 		}
-		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk, width, height,isLogin)); 
+		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk, width, height, isLogin));
 	}
 
 	/**
@@ -305,15 +292,13 @@ public class ImageManager {
 		if (mImageLoaderHandler == null) {
 			HandlerThread imageLoader = new HandlerThread("image_loader");
 			imageLoader.start();
-			mImageLoaderHandler = new ImageLoaderHandler(
-					imageLoader.getLooper());
+			mImageLoaderHandler = new ImageLoaderHandler(imageLoader.getLooper());
 		}
 
 		// 发送请求
 		if (mImageLoaderIdle && mImageQueue.size() > 0) {
 			ImageRef imageRef = mImageQueue.pop();
-			Message message = mImageLoaderHandler.obtainMessage(MSG_REQUEST,
-					imageRef);
+			Message message = mImageLoaderHandler.obtainMessage(MSG_REQUEST, imageRef);
 			mImageLoaderHandler.sendMessage(message);
 			mImageLoaderIdle = false;
 			mRequestQueue.add(imageRef);
@@ -355,13 +340,12 @@ public class ImageManager {
 						opt.inSampleSize = bitmapSize / (1000 * 2000);
 						opt.inJustDecodeBounds = false;
 						tBitmap = BitmapFactory.decodeFile(url, opt);
-						/*图片旋转*/
-//						tBitmap = ImageUtil.rotateBitmap(tBitmap, ImageUtil.readPictureDegree(url));
+						/* 图片旋转 */
+						// tBitmap = ImageUtil.rotateBitmap(tBitmap,
+						// ImageUtil.readPictureDegree(url));
 						if (imageRef.width != 0 && imageRef.height != 0) {
-							bitmap = ThumbnailUtils.extractThumbnail(
-									tBitmap,// 图片压缩
-									imageRef.width, imageRef.height,
-									ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+							bitmap = ThumbnailUtils.extractThumbnail(tBitmap,// 图片压缩
+									imageRef.width, imageRef.height, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
 							isFromNet = true;
 						} else {
 							bitmap = tBitmap;
@@ -369,16 +353,15 @@ public class ImageManager {
 						}
 
 					} else
+
 						bitmap = mDiskCache.get(url);
 
-					if (bitmap != null) {
+					if (bitmap != null && !url.equalsIgnoreCase(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + "/file/getAvatar")) {
 						// ToolUtil.log("从disk缓存读取");
 						// 写入map缓存
 						if (imageRef.width != 0 && imageRef.height != 0) {
-							if (mMemoryCache.get(url + imageRef.width
-									+ imageRef.height) == null)
-								mMemoryCache.put(url + imageRef.width
-										+ imageRef.height, bitmap);
+							if (mMemoryCache.get(url + imageRef.width + imageRef.height) == null)
+								mMemoryCache.put(url + imageRef.width + imageRef.height, bitmap);
 						} else {
 							if (mMemoryCache.get(url) == null)
 								mMemoryCache.put(url, bitmap);
@@ -386,7 +369,7 @@ public class ImageManager {
 
 					} else {
 						try {
-							byte[] data = loadByteArrayFromNetwork(url,imageRef.isLoged);
+							byte[] data = loadByteArrayFromNetwork(url, imageRef.isLoged);
 
 							if (data != null) {
 
@@ -394,49 +377,46 @@ public class ImageManager {
 								opt.inSampleSize = 1;
 
 								opt.inJustDecodeBounds = true;
-								BitmapFactory.decodeByteArray(data, 0,
-										data.length, opt);
-								int bitmapSize = opt.outHeight * opt.outWidth
-										* 4;// pixels*3 if it's RGB and pixels*4
-											// if it's ARGB
+								BitmapFactory.decodeByteArray(data, 0, data.length, opt);
+								int bitmapSize = opt.outHeight * opt.outWidth * 4;// pixels*3
+																					// if
+																					// it's
+																					// RGB
+																					// and
+																					// pixels*4
+																					// if
+																					// it's
+																					// ARGB
 								if (bitmapSize > 1000 * 1200)
 									opt.inSampleSize = 2;
-								int maxSize=opt.outHeight>opt.outWidth?opt.outHeight:opt.outWidth;
-								if(maxSize>maxImageSize)//判断最大的边是否超过4096
+								int maxSize = opt.outHeight > opt.outWidth ? opt.outHeight : opt.outWidth;
+								if (maxSize > maxImageSize)// 判断最大的边是否超过4096
 								{
-									int sample=(int)(maxSize/(maxImageSize*1.0f)+0.5f);
+									int sample = (int) (maxSize / (maxImageSize * 1.0f) + 0.5f);
 									opt.inSampleSize = sample;
 								}
 								opt.inJustDecodeBounds = false;
-								tBitmap = BitmapFactory.decodeByteArray(data,
-										0, data.length, opt);
+								tBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, opt);
 								if (imageRef.width != 0 && imageRef.height != 0) {
-									bitmap = ThumbnailUtils
-											.extractThumbnail(
-													tBitmap,
-													imageRef.width,
-													imageRef.height,
-													ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+									bitmap = ThumbnailUtils.extractThumbnail(tBitmap, imageRef.width, imageRef.height,
+											ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
 								} else {
 									bitmap = tBitmap;
 									tBitmap = null;
 								}
-								
-//								if(bitmap!=null&&(url.endsWith("GIF")||url.endsWith("gif")))
-//								{
-//									BitmapDrawable drawable=(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_delete);
-//									bitmap=AppHelper.createWatermarkBitmap(bitmap,drawable.getBitmap());
-//								}
-								
+
+								// if(bitmap!=null&&(url.endsWith("GIF")||url.endsWith("gif")))
+								// {
+								// BitmapDrawable drawable=(BitmapDrawable)
+								// context.getResources().getDrawable(R.drawable.ic_delete);
+								// bitmap=AppHelper.createWatermarkBitmap(bitmap,drawable.getBitmap());
+								// }
 
 								if (bitmap != null && url != null) {
 									// 写入SD卡
-									if (imageRef.width != 0
-											&& imageRef.height != 0) {
-										mDiskCache.put(url + imageRef.width
-												+ imageRef.height, bitmap);
-										mMemoryCache.put(url + imageRef.width
-												+ imageRef.height, bitmap);
+									if (imageRef.width != 0 && imageRef.height != 0) {
+										mDiskCache.put(url + imageRef.width + imageRef.height, bitmap);
+										mMemoryCache.put(url + imageRef.width + imageRef.height, bitmap);
 									} else {
 										mDiskCache.put(url, bitmap);
 										mMemoryCache.put(url, bitmap);
@@ -452,8 +432,7 @@ public class ImageManager {
 				}
 
 				if (mImageManagerHandler != null) {
-					Message message = mImageManagerHandler.obtainMessage(
-							MSG_REPLY, bitmap);
+					Message message = mImageManagerHandler.obtainMessage(MSG_REPLY, bitmap);
 					mImageManagerHandler.sendMessage(message);
 				}
 				break;
@@ -482,9 +461,7 @@ public class ImageManager {
 						if (imageRef == null)
 							break;
 
-						if (imageRef.imageView == null
-								|| imageRef.imageView.getTag() == null
-								|| imageRef.url == null)
+						if (imageRef.imageView == null || imageRef.imageView.getTag() == null || imageRef.url == null)
 							break;
 
 						if (!(msg.obj instanceof Bitmap) || msg.obj == null) {
@@ -493,8 +470,7 @@ public class ImageManager {
 						Bitmap bitmap = (Bitmap) msg.obj;
 
 						// 非同一ImageView
-						if (!(imageRef.url).equals((String) imageRef.imageView
-								.getTag())) {
+						if (!(imageRef.url).equals((String) imageRef.imageView.getTag())) {
 							break;
 						}
 
@@ -520,9 +496,8 @@ public class ImageManager {
 	 * 添加图片显示渐现动画
 	 * 
 	 */
-	private void setImageBitmap(ImageView imageView, Bitmap bitmap,
-			boolean isTran) {
-		
+	private void setImageBitmap(ImageView imageView, Bitmap bitmap, boolean isTran) {
+
 		imageView.setImageBitmap(bitmap);
 
 	}
@@ -533,13 +508,13 @@ public class ImageManager {
 	 * @param url
 	 * @return
 	 */
-	private byte[] loadByteArrayFromNetwork(String url,boolean isLoged) {
+	private byte[] loadByteArrayFromNetwork(String url, boolean isLoged) {
 
 		try {
 
 			HttpGet method = new HttpGet(url);
-			if(isLoged)
-			method.addHeader("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
+			if (isLoged)
+				method.addHeader("Cookie", "JSESSIONID=" + IYiMingApplication.SESSION_ID);
 			HttpResponse response = httpClient.execute(method);
 			HttpEntity entity = response.getEntity();
 			return EntityUtils.toByteArray(entity);
@@ -565,7 +540,6 @@ public class ImageManager {
 		}
 
 		StringBuilder filePath = new StringBuilder();
-		
 
 		// 图片存取路径
 		filePath.append(cachefile.toString()).append('/');
@@ -585,50 +559,45 @@ public class ImageManager {
 		mImageQueue.clear();
 
 	}
-	
-	
-	  /**
-     * 获得裁剪后的图片
-     * @param bitmap
-     * @return
-     */
-    /** 
-     * 按正方形裁切图片
-      */
-     public  Bitmap ImageCrop(Bitmap bitmap,int width,int height) {
-         int w = bitmap.getWidth(); // 得到图片的宽，高
-         int h = bitmap.getHeight();
-         
-         if(w>width){
-        	 
-         }
- 
-        int wh = w > h ? h : w;// 裁切后所取的正方形区域边长
-        int retX = w > h ? (w - h) / 2 : 0;//基于原图，取正方形左上角x坐标
-         int retY = w > h ? 0 : (h - w) / 2;
- 
-        //下面这句是关键
-         return Bitmap.createBitmap(bitmap, retX, retY, wh, wh, null, false);
-     }
-     
-     
- 	private static HttpClient createHttpClient() {
+
+	/**
+	 * 获得裁剪后的图片
+	 * 
+	 * @param bitmap
+	 * @return
+	 */
+	/**
+	 * 按正方形裁切图片
+	 */
+	public Bitmap ImageCrop(Bitmap bitmap, int width, int height) {
+		int w = bitmap.getWidth(); // 得到图片的宽，高
+		int h = bitmap.getHeight();
+
+		if (w > width) {
+
+		}
+
+		int wh = w > h ? h : w;// 裁切后所取的正方形区域边长
+		int retX = w > h ? (w - h) / 2 : 0;// 基于原图，取正方形左上角x坐标
+		int retY = w > h ? 0 : (h - w) / 2;
+
+		// 下面这句是关键
+		return Bitmap.createBitmap(bitmap, retX, retY, wh, wh, null, false);
+	}
+
+	private static HttpClient createHttpClient() {
 		HttpParams params = new BasicHttpParams();
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-		HttpProtocolParams.setContentCharset(params,
-				HTTP.DEFAULT_CONTENT_CHARSET);
+		HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET);
 		HttpProtocolParams.setUseExpectContinue(params, true);
 		HttpConnectionParams.setConnectionTimeout(params, 20 * 1000);
 		HttpConnectionParams.setSoTimeout(params, 20 * 1000);
 		HttpConnectionParams.setSocketBufferSize(params, 8192);
 		SchemeRegistry schReg = new SchemeRegistry();
-		schReg.register(new Scheme("http", PlainSocketFactory
-				.getSocketFactory(), 80));
-		schReg.register(new Scheme("https",
-				SSLSocketFactory.getSocketFactory(), 443));
+		schReg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
 
-		ClientConnectionManager connMgr = new ThreadSafeClientConnManager(
-				params, schReg);
+		ClientConnectionManager connMgr = new ThreadSafeClientConnManager(params, schReg);
 
 		return new DefaultHttpClient(connMgr, params);
 	}
@@ -642,15 +611,15 @@ public class ImageManager {
 	public HttpClient getHttpClient() {
 		return httpClient;
 	}
-	
+
 	/**
 	 * 从缓存中和磁盘中移除这个文件
+	 * 
 	 * @param key
 	 */
-	public void remove(String key){
+	public void remove(String key) {
 		mMemoryCache.remove(key);
 		mDiskCache.remove(key);
 	}
-
 
 }

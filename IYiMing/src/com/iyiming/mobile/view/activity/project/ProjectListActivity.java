@@ -9,7 +9,6 @@ package com.iyiming.mobile.view.activity.project;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONException;
@@ -20,30 +19,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.Constants;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.widget.NavBar;
+import com.iyiming.mobile.view.widget.PopSelector;
 import com.iyiming.mobile.view.widget.XListView;
 
 /**
  * @DESCRIBE ...
  */
-public class ProjectListActivity extends BaseActivity implements OnItemClickListener{
+public class ProjectListActivity extends BaseActivity implements OnItemClickListener {
 
 	private XListView listView;
 
@@ -53,15 +54,29 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 	private List<Project> list = null;
 
 	private Projectdapter mAdapter;
-	
-	private String type="1";
-	
+
+	private String type = "1";
+
 	private final String gpl = "gpl";
 	private final String GPL_REFRESH = "gpl_refresh";
 	private final String GPL_LOADMORE = "gpl_loadmore";
 
+	private RelativeLayout tabCountry;
+
+	private RelativeLayout tabMoney;
+
+	private RelativeLayout tabTime;
+
 	private int page = 1;
 	private String pageSize = "20";
+
+	private String itemsCountry = null;
+	private String itemsMoney = null;
+	private String itemsDate = null;
+
+	private TextView textCountry;
+	private TextView textMoney;
+	private TextView textDate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +92,32 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 		listView.setHeaderDividersEnabled(false);
 		listView.setFooterDividersEnabled(false);
 		list = new ArrayList<Project>();
-		mAdapter = new Projectdapter(this,list);
+		mAdapter = new Projectdapter(this, list);
 		listView.setAdapter(mAdapter);
 		listView.setPullLoadEnable(true);
 		listView.setOnItemClickListener(this);
 		navBar = (NavBar) findViewById(R.id.navBar1);
-		navBar.setTitle("项目列表");
+
 		navBar.hideLeft(false);
 		navBar.hideRight(true);
 		navBar.isNav(true);
+
+		tabCountry = (RelativeLayout) findViewById(R.id.tabCountry);
+		tabMoney = (RelativeLayout) findViewById(R.id.tabMoney);
+		tabTime = (RelativeLayout) findViewById(R.id.tabTime);
+
+		textCountry = (TextView) findViewById(R.id.textcountry);
+		textMoney = (TextView) findViewById(R.id.textmoney);
+		textDate = (TextView) findViewById(R.id.textdate);
+
 	}
 
 	private void initData() {
-		Intent intent=this.getIntent();
-		type=intent.getStringExtra("type");
-		getList(type);
+		Intent intent = this.getIntent();
+		type = intent.getStringExtra("type");
+		String mtype = Constants.PROJECT_TYPE_LIST[Integer.valueOf(type) - 1];
+		navBar.setTitle(mtype);
+		getList(1, type, GPL_REFRESH);
 	}
 
 	private void initListener() {
@@ -113,26 +139,113 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, type), false, GPL_REFRESH);
+				// post(gpl, addParam(gpl, pageSize, String.valueOf(1), null,
+				// null, null, null, null, null, type), false, GPL_REFRESH);
+				getList(1, type, GPL_REFRESH);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, type), false, GPL_LOADMORE);
+				// post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1),
+				// null, null, null, null, null, null, type), false,
+				// GPL_LOADMORE);
+				getList(page + 1, type, GPL_LOADMORE);
 			}
 		});
+
+		tabCountry.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+
+					PopSelector.getInstance(ProjectListActivity.this).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsCountry = null;
+							} else {
+								itemsCountry = Constants.COUNTRY_LIST[arg2];
+							}
+							textCountry.setText(Constants.COUNTRY_LIST[arg2]);
+							PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+							getList(1, type, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(ProjectListActivity.this).ShowSelector(Constants.COUNTRY_LIST, arg0);
+				} else {
+					PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+				}
+			}
+		});
+
+		tabMoney.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+
+					PopSelector.getInstance(ProjectListActivity.this).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsMoney = null;
+							} else if (arg2 == 1) {
+								itemsMoney = "A";
+							} else if (arg2 == 2) {
+								itemsMoney = "B";
+							}
+							textMoney.setText(Constants.MONEY_LIST[arg2]);
+							PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+							getList(1, type, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(ProjectListActivity.this).ShowSelector(Constants.MONEY_LIST, arg0);
+				} else {
+					PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+				}
+			}
+		});
+
+		tabTime.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+
+					PopSelector.getInstance(ProjectListActivity.this).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsDate = null;
+							} else if (arg2 == 1) {
+								itemsDate = AppHelper.getDateString(0);
+							} else if (arg2 == 2) {
+								itemsDate = AppHelper.getDateString(-3);
+							} else if (arg2 == 3) {
+								itemsDate = AppHelper.getDateString(-7);
+							}
+							textDate.setText(Constants.DATE_LIST[arg2]);
+							PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+							getList(1, type, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(ProjectListActivity.this).ShowSelector(Constants.DATE_LIST, arg0);
+				} else {
+					PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
+				}
+			}
+		});
+
 	}
-	
-	
-	private void getList(String type)
-	{
-		String mtype=Constants.PROJECT_TYPE_LIST[Integer.valueOf(type)-1];
-		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, mtype), false, GPL_REFRESH);
+
+	private void getList(int num, String type, String tag) {
+		String mtype = Constants.PROJECT_TYPE_LIST[Integer.valueOf(type) - 1];
+		post(gpl, addParam(gpl, pageSize, String.valueOf(num), itemsCountry, null, null, null, itemsDate, null, mtype, itemsMoney,null, null), false, tag);
 	}
-	
-	
-	
-	
 
 	@Override
 	public boolean onResponseOK(Object response, String tag) {
@@ -176,10 +289,6 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 		return true;
 	}
 
-
-
-
-
 	private class Projectdapter extends BaseAdapter {
 
 		private Context con;
@@ -189,20 +298,6 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 			this.con = con;
 			this.datas = datas;
 		}
-
-//		/**
-//		 * 刷新数据
-//		 * 
-//		 * @param news
-//		 */
-//		public void refreshData(List<HashMap<String, Object>> datas) {
-//			if (null == datas) {
-//				this.datas = new ArrayList<HashMap<String, Object>>();
-//			} else {
-//				this.datas = datas;
-//			}
-//			notifyDataSetChanged();
-//		}
 
 		@Override
 		public int getCount() {
@@ -254,7 +349,7 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 		}
 
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		if (position > 0 && position < mAdapter.getCount() + 1) {

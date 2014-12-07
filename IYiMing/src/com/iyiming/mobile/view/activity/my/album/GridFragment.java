@@ -343,7 +343,6 @@ public class GridFragment extends Fragment {
 			count.setText(mGruopMap.get(key).size() + "张");
 			
 			String path = mGruopMap.get(key).get(0);
-			// ����NativeImageLoader����ر���ͼƬ
 			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
 					new Point(100, 100), new NativeImageCallBack() {
 

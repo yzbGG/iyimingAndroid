@@ -1,9 +1,13 @@
 package com.iyiming.mobile.view.fragment;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +16,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -32,13 +39,12 @@ import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.util.AppInfoUtil;
-import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.ImageManager;
-import com.iyiming.mobile.util.LoadImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
 import com.iyiming.mobile.view.activity.project.ProjectListActivity;
 import com.iyiming.mobile.view.widget.CirclePageIndicator;
+import com.iyiming.mobile.view.widget.FixedSpeedScroller;
 import com.iyiming.mobile.view.widget.XListView;
 
 public class HomeFragment extends BaseFragment implements OnClickListener, OnItemClickListener {
@@ -71,6 +77,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private int page = 1;
 	private String pageSize = "5";
+	
+//    private int oldPosition = 0;//记录上一次点的位置
+      private int currentItem; //当前页面
+      private ScheduledExecutorService scheduledExecutorService;
 
 	@Override
 	public int getFragmentTitleResourceId() {
@@ -160,9 +170,22 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private void initData() {
 
-		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH,true);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null,null,null), false, GPL_REFRESH,true);
 
 
+		
+		try {
+		    Field mScroller;
+		    mScroller = ViewPager.class.getDeclaredField("mScroller");
+		    mScroller.setAccessible(true); 
+		    FixedSpeedScroller scroller = new FixedSpeedScroller(viewpager.getContext(), new AccelerateInterpolator());
+		    // scroller.setFixedDuration(5000);
+		    mScroller.set(viewpager, scroller);
+		} catch (NoSuchFieldException e) {
+		} catch (IllegalArgumentException e) {
+		} catch (IllegalAccessException e) {
+		}
+		
 	}
 
 	private void initListener() {
@@ -182,12 +205,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH,true);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null,null,null), false, GPL_REFRESH,true);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE,true);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null,null,null,null), false, GPL_LOADMORE,true);
 			}
 		});
 	}
@@ -354,7 +377,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		@Override
 		public int getCount() {
 			// return datas.size();
-			return 5;
+			return 4;
 		}
 
 		@Override
@@ -397,7 +420,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			container.addView(view);
 
 			ImageView image = (ImageView) view.findViewById(R.id.iv_home_page_viewpager_item);
-			ImageManager.getInstance(getActivity()).getImage(image, "http://www.baidu.com/img/bdlogo.png");
+			ImageManager.getInstance(getActivity()).getImage(image, "http://b.hiphotos.baidu.com/baike/c0%3Dbaike180%2C5%2C5%2C180%2C60/sign=d8c77aae81025aafc73f76999a84c001/b21c8701a18b87d62eab9771040828381e30fdf6.jpg");
 			return view;
 		}
 
@@ -460,5 +483,47 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			startActivity(intent);
 		}
 	}
+	
+    @Override
+	public void onStart() {  
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();  
+        // 当Activity显示出来后，每两秒钟切换一次图片显示  
+        scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 5, 5, TimeUnit.SECONDS);  
+        super.onStart();  
+    }  
+  
+    @Override
+	public void onStop() {  
+        // 当Activity不可见的时候停止切换  
+        scheduledExecutorService.shutdown();  
+        super.onStop();  
+    }  
+    
+    // 切换当前显示的图片  
+    private Handler handler = new Handler() {  
+        public void handleMessage(android.os.Message msg) {  
+            viewpager.setCurrentItem(currentItem);// 切换当前显示的图片  
+        };  
+    };  
+  
+    /** 
+     * 换行切换任务 
+     *  
+     * @author Administrator 
+     *  
+     */  
+    private class ScrollTask implements Runnable {  
+  
+        public void run() {  
+            synchronized (viewpager) {  
+                System.out.println("currentItem: " + currentItem);  
+                currentItem = (currentItem + 1) % 4;  
+                handler.obtainMessage().sendToTarget(); // 通过Handler切换图片  
+            }  
+        }  
+  
+    }  
+	 
+	
 
 }

@@ -6,7 +6,7 @@
     android:paddingBottom="10dip"
     android:descendantFocusability="blocksDescendants" >
 
-    <com.extra.image.MyImageView
+    <com.iyiming.mobile.view.activity.my.album.MyImageView
         android:id="@+id/imageview"
         android:layout_width="40dip"
         android:layout_height="40dip"
@@ -37,6 +37,7 @@
 
     <CheckBox
         android:id="@+id/checcc"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

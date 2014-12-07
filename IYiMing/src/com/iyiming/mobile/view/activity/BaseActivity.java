@@ -17,10 +17,10 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.NetworkImageView;
 import com.iyiming.mobile.net.Net;
 import com.iyiming.mobile.net.Net.NetResponseListener;
 import com.iyiming.mobile.util.AppHelper;
@@ -28,6 +28,7 @@ import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.SignUtil;
 import com.iyiming.mobile.util.UrlUtil;
 import com.iyiming.mobile.util.UrlUtil.UrlBean;
+import com.iyiming.mobile.view.widget.PopBox;
 
 /**
  * @DESCRIBE 所有的网络请求activity基类
@@ -39,7 +40,7 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 	
 	private final String RET="status";
 	private final String SUCCESS_TAG="000";
-	
+	private final String SESSION_TIMEOUT_TAG="113";
 	private final String MSG="memo";
 	
 	@Override
@@ -70,17 +71,6 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 		}
 			// 安全性加密过的参数
 		net.postString(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), SignUtil.getSignedParam(map, isLoged),headers, Tag,isCache);
-	}
-	
-	public void multiUpload(String key,final Map<String,File> files, final Map<String, String> params,String tag)
-	{
-		Map<String, String> headers=new HashMap<String, String>();
-		headers.putAll(params);
-		if(IYiMingApplication.SESSION_ID!=null&&IYiMingApplication.SESSION_ID.length()!=0)
-		{
-			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
-		}
-		net.multiUpload(AppInfoUtil.sharedAppInfoUtil().getServerUrl() + UrlUtil.sharedUrlUtil().getUrl(key), files, SignUtil.getSignedParam(params, true), tag, headers);
 	}
 	
 	
@@ -136,7 +126,24 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 			json = new JSONObject((String) response);
 			if( !json.getString(RET).equals(SUCCESS_TAG))// 返回成功信息
 			{
-				showToast(json.getString(MSG));
+				if(json.getString(RET).equals(SESSION_TIMEOUT_TAG))
+				{
+					PopBox popBox=new PopBox(this);
+					popBox.showTitle("警告");
+					popBox.showContent("您已经在异地登录，如非本人操作，请修改密码");
+					popBox.showBtnOk("好的");
+					popBox.setOKClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							//退出登录
+							showToast("程序已经退出");
+						}
+					});
+					popBox.showDialog();
+				}
+				else{
+					showToast(json.getString(MSG));
+				}
 				return false;
 			} else {
 				return true;
@@ -181,25 +188,25 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 		return "连接失败";
 	}
 
-	/**
-	 * 获取返回值中的data   
-	 * 
-	 * @param response
-	 * @return
-	 */
-	protected String getDataString(Object response) {
-		JSONObject json;
-		try {
-			json = new JSONObject((String) response);
-			if (json.getInt(RET) != 0)// 返回成功信息
-			{
-				return null;
-			} else {
-				return json.get("data").toString();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	/**
+//	 * 获取返回值中的data   
+//	 * 
+//	 * @param response
+//	 * @return
+//	 */
+//	protected String getDataString(Object response) {
+//		JSONObject json;
+//		try {
+//			json = new JSONObject((String) response);
+//			if (json.getInt(RET) != 0)// 返回成功信息
+//			{
+//				return null;
+//			} else {
+//				return json.get("data").toString();
+//			}
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 }

@@ -38,9 +38,14 @@
         <activity  android:name="com.iyiming.mobile.view.activity.project.ProjectDetailActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.project.ProjectListActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.my.UserInfoActivity"/>
-        <activity  android:name="com.iyiming.mobile.view.activity.my.EditNickNameActivity"/>
+        <activity  android:name="com.iyiming.mobile.view.activity.my.EditProfileActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.my.EditPasswordActivity"/>
+        <activity  android:name="com.iyiming.mobile.view.activity.my.FollowActivity"/>
         <activity  android:name="com.iyiming.mobile.view.activity.my.album.ShowImageActivity"/>
+         <activity  android:name="com.iyiming.mobile.view.activity.more.AboutActivity"/>
+         <activity  android:name="com.iyiming.mobile.view.activity.more.ReportActivity"/>
+        
+         
         
     </application>
 

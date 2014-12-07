@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.DensityUtil;
 
 /**
  * Draws circles (one for each view). The current view position is filled and
@@ -101,7 +102,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mPaintStroke.setStrokeWidth(a.getDimension(R.styleable.CirclePageIndicator_strokeWidth, defaultStrokeWidth));
         mPaintFill.setStyle(Style.FILL);
         mPaintFill.setColor(a.getColor(R.styleable.CirclePageIndicator_fillColor, defaultFillColor));
-        mRadius = a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
+        mRadius = DensityUtil.dip2px(context, 5);//a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
         mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
 
         Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);

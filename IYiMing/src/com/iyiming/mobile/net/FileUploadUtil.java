@@ -16,8 +16,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.Handler;
 import android.util.Log;
 
+import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.SignUtil;
 import com.iyiming.mobile.util.UrlUtil;
 import com.iyiming.mobile.util.UrlUtil.UrlBean;
@@ -42,7 +47,7 @@ public class FileUploadUtil {
 	     * @return
 	     * @throws IOException
 	     */
-	    public static void post( String filaPath,String key,Object[] mparams) throws IOException
+	    public static void post( String filaPath,String key,Object[] mparams,Handler handler) throws IOException
 	    {
 	    	Map<String, File> files=new HashMap<String, File>();
 	    	files.put("avatar", new File(filaPath));
@@ -127,6 +132,21 @@ public class FileUploadUtil {
 	                {
 	                    sb2.append((char) ch);
 	                }
+	                ILog.e(sb2.toString());
+	                try {
+						JSONObject json=new JSONObject(sb2.toString());
+						if(json.getString("status").equals("000"))
+						{
+							handler.sendEmptyMessage(1);
+						}
+						else
+						{
+							handler.sendEmptyMessage(2);
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+						handler.sendEmptyMessage(2);
+					}
 	            }
 	            outStream.close();
 	            conn.disconnect();

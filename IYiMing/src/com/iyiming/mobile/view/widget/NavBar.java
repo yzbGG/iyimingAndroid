@@ -12,6 +12,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,6 +33,7 @@ public class NavBar extends LinearLayout{
 	private ImageView rightImage;
 	private RelativeLayout 	navContainer;
 	private LinearLayout 	searchContainer;
+	private EditText searchEdit;
 
 	/**
 	 * @param context
@@ -78,6 +80,8 @@ public class NavBar extends LinearLayout{
 		title = (TextView) findViewById(R.id.title);
 		navContainer=(RelativeLayout)findViewById(R.id.navContainer);
 		searchContainer=(LinearLayout)findViewById(R.id.searchContainer);
+		searchEdit=(EditText)findViewById(R.id.searchText);
+		
 		String mText = null;
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs,

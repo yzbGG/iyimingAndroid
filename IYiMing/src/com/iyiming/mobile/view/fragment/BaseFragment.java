@@ -160,16 +160,6 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 	}
 	
 	
-	public void multiUpload(String key,final Map<String,File> files, final Map<String, String> params,String tag)
-	{
-		Map<String, String> headers=new HashMap<String, String>();
-		headers.putAll(params);
-		if(IYiMingApplication.SESSION_ID!=null&&IYiMingApplication.SESSION_ID.length()!=0)
-		{
-			headers.put("Cookie", "JSESSIONID="+IYiMingApplication.SESSION_ID);
-		}
-		net.multiUpload(AppInfoUtil.sharedAppInfoUtil().getServerUrl()+UrlUtil.sharedUrlUtil().getUrl(key), files, SignUtil.getSignedParam(params, true), tag, headers);
-	}
 	
 	
 

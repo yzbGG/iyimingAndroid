@@ -117,19 +117,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottommenu"
-        android:layout_below="@+id/line" >
+        android:layout_below="@+id/navBar" >
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/navBar"
-        android:background="#55000000"
-        android:orientation="vertical" >
-    </LinearLayout>
+ 
 
     <com.iyiming.mobile.view.widget.NavBar
         android:id="@+id/navBar"

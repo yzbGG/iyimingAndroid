@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/user_topbg"
@@ -25,12 +25,12 @@
 
             <com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView
                 android:id="@+id/avatar"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default"
                 iyiming:border_color="#ffffff"
-                iyiming:border_width="1dp"
-                android:scaleType="centerCrop"
+                iyiming:border_width="2dp"
                 iyiming:oval="true" />
 
             <TextView
@@ -38,20 +38,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="1.2"
                 android:text="一米阳光"
                 android:textColor="#ffffff"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/loginContainer"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/textView2"
@@ -66,20 +70,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:background="@drawable/btn_user_login"
-                android:textSize="15sp"
-                android:text="马上登录" />
-
+                android:text="马上登录"
+                android:textSize="15sp" />
         </LinearLayout>
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/relativeLayout1"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rect_selector" >
 
         <ImageView
@@ -92,14 +94,14 @@
             android:src="@drawable/ic_my_follow" />
 
         <TextView
-            android:id="@+id/guanzhu" 
+            android:id="@+id/guanzhu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_guanzhu"
-            android:textColor="#323232"
             android:text="我的关注"
+            android:textColor="#323232"
             android:textSize="17sp" />
 
         <ImageView
@@ -118,14 +120,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rect_selector"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/tab_info"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rect_selector"
             android:orientation="vertical" >
 
             <ImageView
@@ -144,8 +145,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_ziliao"
-                android:textColor="#323232"
                 android:text="个人资料"
+                android:textColor="#323232"
                 android:textSize="17sp" />
 
             <ImageView
@@ -158,16 +159,11 @@
                 android:src="@drawable/ic_right_tag" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#efefef" >
-        </LinearLayout>
-
         <RelativeLayout
             android:id="@+id/tab_pwd"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
+            android:background="@drawable/rect_selector"
             android:orientation="vertical" >
 
             <ImageView
@@ -186,8 +182,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_bianji"
-                android:textColor="#323232"
                 android:text="编辑密码"
+                android:textColor="#323232"
                 android:textSize="17sp" />
 
             <ImageView
@@ -207,7 +203,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn_logout"
         android:text="退出登录"
         android:textColor="#ffffff" />

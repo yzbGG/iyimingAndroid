@@ -21,20 +21,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
+import com.iyiming.mobile.util.Constants;
 import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.project.ProjectDetailActivity;
+import com.iyiming.mobile.view.activity.project.ProjectListActivity;
+import com.iyiming.mobile.view.widget.PopSelector;
 import com.iyiming.mobile.view.widget.XListView;
 
 /** 
@@ -61,6 +67,21 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 
 	private int page = 1;
 	private String pageSize = "20";
+	
+	
+	private RelativeLayout tabCountry;
+
+	private RelativeLayout tabMoney;
+
+	private RelativeLayout tabTime;
+
+	private String itemsCountry = null;
+	private String itemsMoney = null;
+	private String itemsDate = null;
+	
+	private TextView textCountry;
+	private TextView textMoney;
+	private TextView textDate;
 
 	@Override
 	public void rightTitleClick(View v, BaseActivity context) {
@@ -136,12 +157,21 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 		mAdapter = new ProjectListAdapter(getActivity(), list);
 		listView.setAdapter(mAdapter);
 		listView.setPullLoadEnable(true);
+		
+		tabCountry = (RelativeLayout) view.findViewById(R.id.tabCountry);
+		tabMoney = (RelativeLayout) view.findViewById(R.id.tabMoney);
+		tabTime = (RelativeLayout) view.findViewById(R.id.tabTime);
+		
+		textCountry=(TextView)view.findViewById(R.id.textcountry);
+		textMoney=(TextView)view.findViewById(R.id.textmoney);
+		textDate=(TextView)view.findViewById(R.id.textdate);
 	}
 
 	
 	private void initData()
 	{
-		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+//		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null), false, GPL_REFRESH);
+		getList( 1,GPL_REFRESH);
 
 	}
 	
@@ -150,14 +180,106 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null), false, GPL_REFRESH);
+//				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null), false, GPL_REFRESH);
+				getList( 1,GPL_REFRESH);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null), false, GPL_LOADMORE);
+//				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null,null), false, GPL_LOADMORE);
+				
+				getList(page + 1,GPL_LOADMORE);
 			}
 		});
+		
+		
+		tabCountry.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+					
+					PopSelector.getInstance(getActivity()).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsCountry = null;
+							} else {
+								itemsCountry = Constants.COUNTRY_LIST[arg2];
+							}
+							textCountry.setText(Constants.COUNTRY_LIST[arg2]);
+							PopSelector.getInstance(getActivity()).hidePopWindow();
+							getList(1, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(getActivity()).ShowSelector(Constants.COUNTRY_LIST, arg0);
+				} else {
+					PopSelector.getInstance(getActivity()).hidePopWindow();
+				}
+			}
+		});
+		
+		tabMoney.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+					
+					PopSelector.getInstance(getActivity()).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsMoney = null;
+							} else if (arg2 == 1) {
+								itemsMoney = "A";
+							} else if (arg2 == 2) {
+								itemsMoney = "B";
+							}
+							textMoney.setText(Constants.MONEY_LIST[arg2]);
+							PopSelector.getInstance(getActivity()).hidePopWindow();
+							getList(1, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(getActivity()).ShowSelector(Constants.MONEY_LIST, arg0);
+				} else {
+					PopSelector.getInstance(getActivity()).hidePopWindow();
+				}
+			}
+		});
+	
+		tabTime.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!PopSelector.isPopUp) {
+				
+					PopSelector.getInstance(getActivity()).setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+							if (arg2 == 0) {
+								itemsDate = null;
+							} else if (arg2 == 1) {
+								itemsDate = AppHelper.getDateString(0);
+							} else if (arg2 == 2) {
+								itemsDate = AppHelper.getDateString(-3);
+							} else if (arg2 == 3) {
+								itemsDate = AppHelper.getDateString(-7);
+							}
+							textDate.setText(Constants.DATE_LIST[arg2]);
+							PopSelector.getInstance(getActivity()).hidePopWindow();
+							getList(1, GPL_REFRESH);
+						}
+					});
+					PopSelector.getInstance(getActivity()).ShowSelector(Constants.DATE_LIST, arg0);
+				} else {
+					PopSelector.getInstance(getActivity()).hidePopWindow();
+				}
+			}
+		});
+		
 	}
 	
 	
@@ -202,6 +324,12 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 		}
 		return true;
 	}
+	
+	
+	private void getList(int pagenum,String tag) {
+		post(gpl, addParam(gpl, pageSize, String.valueOf(pagenum), itemsCountry, null, null, null, itemsDate, null, null, itemsMoney,null, null), false, tag);
+	}
+
 
 	
 	
@@ -215,19 +343,6 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 			this.datas = datas;
 		}
 
-//		/**
-//		 * 刷新数据
-//		 * 
-//		 * @param news
-//		 */
-//		public void refreshData(List<HashMap<String, Object>> datas) {
-//			if (null == datas) {
-//				this.datas = new ArrayList<HashMap<String, Object>>();
-//			} else {
-//				this.datas = datas;
-//			}
-//			notifyDataSetChanged();
-//		}
 
 		@Override
 		public int getCount() {

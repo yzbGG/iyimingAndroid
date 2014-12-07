@@ -8,6 +8,7 @@
  */
 package com.iyiming.mobile.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.RelativeLayout;
 
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.view.activity.BaseActivity;
+import com.iyiming.mobile.view.activity.more.AboutActivity;
+import com.iyiming.mobile.view.activity.more.ReportActivity;
 import com.iyiming.mobile.view.widget.ShareDialog;
 
 /**
@@ -60,7 +63,7 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public boolean isLeftTitleHide() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -77,6 +80,7 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 	private RelativeLayout tabService;
 	private RelativeLayout tabContact;
 	private RelativeLayout tabVersion;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,8 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void initData() {
+		
+
 
 	}
 
@@ -114,14 +120,20 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v == tabAbout) {
-			
+			Intent intent=new Intent();
+			intent.setClass(getActivity(), AboutActivity.class);
+			startActivity(intent);
 		} else if (v == tabService) {
-			
+			Intent intent=new Intent();
+			intent.setClass(getActivity(), ReportActivity.class);
+			startActivity(intent);
 		} else if (v == tabContact) {
 			
 		} else if (v == tabVersion) {
 			
 		}
 	}
+	
+
 
 }

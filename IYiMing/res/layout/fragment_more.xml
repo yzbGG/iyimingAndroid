@@ -18,7 +18,7 @@
             android:id="@+id/about"
             android:layout_width="match_parent"
             android:clickable="true"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:orientation="vertical" >
 
             <ImageView
@@ -60,7 +60,7 @@
         <RelativeLayout
             android:id="@+id/service"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:clickable="true"
             android:background="#ffffff"
             android:orientation="vertical" >
@@ -104,7 +104,7 @@
         <RelativeLayout
             android:id="@+id/contact"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:clickable="true"
             android:background="#ffffff"
             android:orientation="vertical" >
@@ -148,7 +148,7 @@
         <RelativeLayout
             android:id="@+id/version"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:clickable="true"
             android:background="#ffffff"
             android:orientation="vertical" >

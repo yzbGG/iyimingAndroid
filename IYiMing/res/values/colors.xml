@@ -21,6 +21,9 @@
     <color name="alert">#CC0000</color>
     <color name="confirm">#FF8800</color>
     <color name="info">#669900</color>
+    
+    
+    <color name="test">#00ddff</color>
 
     <drawable name="ba_bg_select">#55555555</drawable>
     <drawable name="gray_drawable">#55000000</drawable>
@@ -38,7 +41,9 @@
         <!-- 通用背景色 -->
     <color name="bg_common">#f6f6f6</color>
     
-    <color name="black_overlay">#66000000</color>
+    <color name="black_overlay">#99000000</color>
+    
+    <drawable name="green_drawable">#A5E02E</drawable>
 
     <!-- 各种颜色 -->
 

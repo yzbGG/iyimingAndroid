@@ -45,6 +45,7 @@
             android:layout_marginRight="3dp"
             android:maxLines="2"
             android:ellipsize="end"
+            android:textSize="17sp"
             android:layout_toRightOf="@+id/linearLayout1"
             android:text="德国伯恩伯恩4晚五日游，北京出发" />
 
@@ -59,13 +60,13 @@
             android:text="2888￥" />
 
         <TextView
-            android:id="@+id/moneyOld"
+            android:id="@+id/flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/moneyNow"
             android:layout_alignBottom="@+id/moneyNow"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/moneyNow"
+            android:layout_alignRight="@+id/title"
+            android:textColor="#666666"
+            android:textSize="15sp"
             android:text="5888￥" />
 
     </RelativeLayout>

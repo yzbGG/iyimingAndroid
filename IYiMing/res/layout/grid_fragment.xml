@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dip"
-             android:background="#345e36">
+             android:background="#ffffff">
 
             <ImageView
                 android:id="@+id/back"
@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="10dip"
                 android:paddingRight="30dip"
-                android:src="@drawable/ic_return_selector" />
+                android:src="@drawable/ic_back" />
 
             <Button
                 android:id="@+id/ok_button"
@@ -31,8 +31,12 @@
                
                 android:gravity="center"
                 android:paddingRight="10dip"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/black" />
         </RelativeLayout>
+        
+        <LinearLayout android:background="#aeaeae"
+            android:layout_width="match_parent"
+            android:layout_height="1px"></LinearLayout>
 
         <GridView
             android:id="@+id/child_grid"
@@ -50,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:layout_gravity="bottom"
-        android:background="#94000000"
+        android:background="#ae000000"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -64,9 +68,10 @@
                 android:layout_width="100dip"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dip"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:maxLength="20"
                 android:singleLine="true"
+                android:textSize="15sp"
                 android:text="所有图片"
                 android:textColor="#FFFFFF" />
 
@@ -85,6 +90,7 @@
             android:gravity="right|center_vertical"
             android:paddingRight="20dip"
             android:text="预览"
+            android:textSize="15sp"
             android:textColor="#FFFFFF" >
         </TextView>
     </LinearLayout>

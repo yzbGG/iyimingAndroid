@@ -30,6 +30,7 @@ import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.IYiMingApplication;
 import com.iyiming.mobile.view.activity.account.LoginActivty;
 import com.iyiming.mobile.view.activity.my.EditPasswordActivity;
+import com.iyiming.mobile.view.activity.my.FollowActivity;
 import com.iyiming.mobile.view.activity.my.UserInfoActivity;
 import com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView;
 
@@ -44,6 +45,7 @@ public class MineFragment extends BaseFragment {
 
 	private RelativeLayout tabInfo;
 	private RelativeLayout tabPwd;
+	private RelativeLayout tabAttention;;
 	private Button logout;
 
 	private LinearLayout avatarContainer;
@@ -75,6 +77,7 @@ public class MineFragment extends BaseFragment {
 	private void initView(LayoutInflater inflater, View view) {
 		tabInfo = (RelativeLayout) view.findViewById(R.id.tab_info);
 		tabPwd = (RelativeLayout) view.findViewById(R.id.tab_pwd);
+		tabAttention= (RelativeLayout) view.findViewById(R.id.relativeLayout2);
 		logout = (Button) view.findViewById(R.id.logout);
 		avatarContainer = (LinearLayout) view.findViewById(R.id.avatarContainer);
 
@@ -128,6 +131,23 @@ public class MineFragment extends BaseFragment {
 
 			}
 		});
+		tabAttention.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				if (application.isLoged) {
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), FollowActivity.class);
+					startActivity(intent);
+				} else// 需要登录
+				{
+					Intent intent = new Intent();
+					intent.setClass(getActivity(), LoginActivty.class);
+					startActivityForResult(intent, LOGIN);
+				}
+			}
+		});
+		
 		login.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -179,7 +199,7 @@ public class MineFragment extends BaseFragment {
 			{
 				application.isLoged = false;
 				application.user = null;
-				IYiMingApplication.SESSION_ID = "";
+				IYiMingApplication.SESSION_ID =null;
 				SerializationUtil.sharedSerializationUtil().delete(getActivity());// 清除用户数据
 				showLoginView();
 			}
@@ -217,12 +237,12 @@ public class MineFragment extends BaseFragment {
 
 	@Override
 	public boolean isLeftTitleHide() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isRightTitleHide() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -246,6 +266,7 @@ public class MineFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		if (application.isLoged) {
+			avatar.setTag(null);
 			ImageManager.getInstance(getActivity()).getImage(avatar,
 					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), true);
 			name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());

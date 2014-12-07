@@ -7,8 +7,6 @@
  */
 package com.iyiming.mobile.net;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -20,18 +18,13 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.iyiming.mobile.net.file.MultiPartStack;
-import com.iyiming.mobile.net.file.MultiPartStringRequest;
 import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.MD5Util;
 import com.iyiming.mobile.util.OffLineDataUtil;
@@ -56,7 +49,6 @@ public class Net {
 		this.context = context;
 		FakeX509TrustManager.allowAllSSL();
 		requestQueue = Volley.newRequestQueue(context);
-		fileRequestQueue = Volley.newRequestQueue(context, new MultiPartStack());
 		this.listener = context;
 	}
 
@@ -64,7 +56,6 @@ public class Net {
 		this.context = context.getActivity();
 		FakeX509TrustManager.allowAllSSL();
 		requestQueue = Volley.newRequestQueue(context.getActivity());
-		fileRequestQueue = Volley.newRequestQueue(context.getActivity(), new MultiPartStack());
 		this.listener = context;
 	}
 
@@ -231,73 +222,7 @@ public class Net {
 		requestQueue.add(stringRequest);
 	}
 
-	/**
-	 * 多文件上传
-	 * 
-	 * @param url
-	 * @param files
-	 *            文件
-	 * @param params
-	 *            参数
-	 * @param responseListener
-	 * @param errorListener
-	 * @param tag
-	 */
-	public void multiUpload(final String url, final Map<String,File> files, final Map<String, String> params, final String tag,
-			final Map<String, String> mheaders) {
-		if (null == url) {
-			return;
-		}
-		MultiPartStringRequest multiPartRequest = new MultiPartStringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-			@Override
-			public void onResponse(String response) {
 
-				Log.v(TAG, "[服务器返回] [" + tag + "]=" + response);
-				listener.onResponseOK(response, tag);
-			}
-		}, new ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				if (error != null) {
-					if (error.networkResponse != null)
-						Log.i(TAG, " error " + new String(error.networkResponse.data));
-					listener.onResponseError(error, tag);
-				}
-			}
-		}) {
-
-			@Override
-			public Map<String, File> getFileUploads() {
-				return files;
-			}
-
-			@Override
-			public Map<String, String> getStringUploads() {
-				return params;
-			}
-
-			@Override
-			public Map<String, String> getHeaders() throws AuthFailureError {
-				return mheaders;
-			}
-
-		};
-
-		Log.i(TAG, " volley put : uploadFile " + url);
-
-		fileRequestQueue.add(multiPartRequest);
-	}
-
-	// ErrorListener mErrorListener = new ErrorListener() {
-	//
-	// @Override
-	// public void onErrorResponse(VolleyError error) {
-	// if (error != null) {
-	// if (error.networkResponse != null)
-	// Log.i(TAG, " error " + new String(error.networkResponse.data));
-	// }
-	// }
-	// };
 
 	/**
 	 * 取消指定的网络队列

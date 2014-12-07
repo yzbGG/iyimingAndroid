@@ -41,7 +41,7 @@ import com.iyiming.mobile.view.activity.MainActivity;
 public class LoginActivty extends BaseActivity {
 
 	private static final String LOGIN_TAG = "login";
-	private static final String EP_TAG = "ep";
+
 	/**验证吗*/
 	private static final String Cvc="cvc";
 	
@@ -217,7 +217,7 @@ public class LoginActivty extends BaseActivity {
 					signContainer.setVisibility(View.VISIBLE);
 					isSignImageOn=true;
 					//请求验证码
-					cci();
+//					cci();
 				}
 				
 			}
@@ -232,11 +232,7 @@ public class LoginActivty extends BaseActivity {
 	}
 	
 
-//	private void resetPassword(String oldPwd, String newPwd, String newPwd2) {
-//
-//		post(EP_TAG,
-//				addParam(EP_TAG, MD5Util.SharedMD5Util().Md5(oldPwd), MD5Util.SharedMD5Util().Md5(newPwd), MD5Util.SharedMD5Util().Md5(newPwd2)),true,EP_TAG);// 用户登录
-//	}
+
 	
 
 

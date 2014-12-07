@@ -78,14 +78,20 @@ public class OffLineDataUtil {
 	public JSONObject get(String key) {
 		ILog.d("读取缓存"+key);
 		byte[] bytes=readInternalStoragePrivate(prefix+key,context);
-		try {
-			String string=new String( bytes ,"UTF-8");
-			return new JSONObject(string);
-		} catch (UnsupportedEncodingException | JSONException e) {
-			e.printStackTrace();
-			return null;
 
-		}
+			String string;
+			JSONObject json = null;
+			try {
+				string = new String( bytes ,"UTF-8");
+				json=new JSONObject(string);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			return json;
+
 	}
 	
 	/**
