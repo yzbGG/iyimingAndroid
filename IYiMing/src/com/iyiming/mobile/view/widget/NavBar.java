@@ -148,5 +148,13 @@ public class NavBar extends LinearLayout{
 		}
 	}
 
+	/**
+	 * 获取搜索按钮
+	 * @return
+	 */
+	public EditText getSearchEdit()
+	{
+		return searchEdit;
+	}
 
 }

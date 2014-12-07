@@ -176,6 +176,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void changeFragmentTitle(final BaseFragment fragment) {
 
+		fragment.getEdit(navBar.getSearchEdit());
 		navBar.isNav(!fragment.isNavBarHide());
 		navBar.hideLeft(fragment.isLeftTitleHide());
 		navBar.hideRight(fragment.isRightTitleHide());

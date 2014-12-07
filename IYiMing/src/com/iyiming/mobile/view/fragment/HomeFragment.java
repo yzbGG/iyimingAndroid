@@ -21,17 +21,20 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -213,6 +216,31 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null,null,null,null), false, GPL_LOADMORE,true);
 			}
 		});
+		
+		
+		searchText.setOnEditorActionListener(new OnEditorActionListener()
+		{
+
+			@Override
+			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+				switch(arg1){  
+		        case EditorInfo.IME_NULL:  
+		           
+		            break;  
+		        case EditorInfo.IME_ACTION_SEND:  
+		           
+		            break;  
+		        case EditorInfo.IME_ACTION_DONE:  
+		            
+		            break;  
+		        case EditorInfo.IME_ACTION_SEARCH:  
+		            	showToast("正在搜索");
+		            break;  
+		        }  
+				return true;
+			}
+			
+		});  
 	}
 
 	private void initHeadView(LayoutInflater inflater) {

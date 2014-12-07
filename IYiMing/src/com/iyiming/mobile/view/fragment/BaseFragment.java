@@ -19,6 +19,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.android.volley.VolleyError;
 import com.iyiming.mobile.net.Net;
@@ -43,6 +44,7 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 	private final String SUCCESS_TAG="000";
 	
 	private final String MSG="memo";
+	protected EditText searchText;
 	
 	
 	/**
@@ -98,6 +100,12 @@ public abstract class BaseFragment extends Fragment implements NetResponseListen
 	 * @return
 	 */
 	public abstract boolean isNeedRemove();
+	
+	
+	public void getEdit(EditText text)
+	{
+		this.searchText=text; 
+	}
 
 	/**
 	 * 点击的按钮id绑定到fragment
