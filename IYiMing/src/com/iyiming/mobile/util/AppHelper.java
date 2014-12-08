@@ -29,6 +29,8 @@ import com.iyiming.mobile.view.widget.appmsg.AppMsg;
 public class AppHelper {
 
 	public static int LOGIN_FAIL_TIMES = 1;
+	
+	private static long lastTimeStamp = 0l;
 
 	/**
 	 * 获取版本号
@@ -96,6 +98,23 @@ public class AppHelper {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String t = format.format(tomorrow);
 		return t;
+	}
+	
+	
+	/**
+	 * 退出程序
+	 * 
+	 * @param context
+	 */
+	public static void exitApplication(Activity context) {
+		long currentTimeStamp = System.currentTimeMillis();
+
+		if (currentTimeStamp - lastTimeStamp > 1350l) {
+			Toast.makeText(context, "再按一次退出爱移民", Toast.LENGTH_SHORT).show();
+		} else {
+			context.finish();
+		}
+		lastTimeStamp = currentTimeStamp;
 	}
 	
 //	 public static String getVersion(Context context) {

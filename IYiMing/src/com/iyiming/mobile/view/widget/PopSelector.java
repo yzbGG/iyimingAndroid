@@ -63,7 +63,7 @@ public class PopSelector {
 		/* 设置背景为空，解决点击PopupWindow中的RadioButton是RadioButton的背景变为透明的问题 */
 		popWindow.setBackgroundDrawable(context.getResources().getDrawable(R.color.no_color));
 		/* 设置PopupWindow外部区域是否可触摸 */
-		popWindow.setFocusable(false); // 设置PopupWindow可获得焦点
+		popWindow.setFocusable(true); // 设置PopupWindow可获得焦点
 		popWindow.setTouchable(true); // 设置PopupWindow可触摸
 		popWindow.setOutsideTouchable(true); // 设置非PopupWindow区域可触摸
 

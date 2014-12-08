@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -356,6 +357,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		return true;
 	}
 	
+	
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //按下的如果是BACK，同时没有重复
+		      //do something here
+		        AppHelper.exitApplication(this);
+		        return true;
+		    }
+		return super.onKeyDown(keyCode, event);
+		
+	}
+
 	/**
 	 * 保存user
 	 * @param user
