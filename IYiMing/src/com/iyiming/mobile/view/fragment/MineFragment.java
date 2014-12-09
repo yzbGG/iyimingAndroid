@@ -45,7 +45,7 @@ public class MineFragment extends BaseFragment {
 
 	private RelativeLayout tabInfo;
 	private RelativeLayout tabPwd;
-	private RelativeLayout tabAttention;;
+	private RelativeLayout tabAttention;
 	private Button logout;
 
 	private LinearLayout avatarContainer;
@@ -197,10 +197,13 @@ public class MineFragment extends BaseFragment {
 		if (super.onResponseOK(response, tag)) {
 			if (tag.equalsIgnoreCase(logout_tag))// 登出
 			{
+				ImageManager.getInstance(getActivity()).mMemoryCache.remove(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl());
+				ImageManager.getInstance(getActivity()).mDiskCache.remove(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl());
 				application.isLoged = false;
 				application.user = null;
 				IYiMingApplication.SESSION_ID =null;
 				SerializationUtil.sharedSerializationUtil().delete(getActivity());// 清除用户数据
+				
 				showLoginView();
 			}
 		}

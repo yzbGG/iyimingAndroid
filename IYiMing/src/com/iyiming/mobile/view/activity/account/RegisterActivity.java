@@ -149,7 +149,7 @@ public class RegisterActivity extends BaseActivity {
 				showToast("注册成功");
 				
 				Intent intent = new Intent();
-				intent.putExtra("type","OK");
+				intent.putExtra("state","OK");
 				intent.putExtra("username",signedPhoneNumber);
 				intent.putExtra("password",signedPassword);
 				setResult(RESULT_OK, intent);

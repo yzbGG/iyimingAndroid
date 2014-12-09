@@ -241,7 +241,7 @@ public class ImageManager {
 		if (imageView.getTag() != null && imageView.getTag().toString().equals(url)) {
 			return;
 		}
-		imageView.setImageResource(R.color.cornsilk);
+		imageView.setImageResource(defaultImage);
 
 		if (url == null || url.equals("")) {
 			return;

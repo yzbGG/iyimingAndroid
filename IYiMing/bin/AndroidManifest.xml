@@ -44,9 +44,7 @@
         <activity android:name="com.iyiming.mobile.view.activity.more.AboutActivity" />
         <activity android:name="com.iyiming.mobile.view.activity.more.ReportActivity" />
         <activity android:name="com.iyiming.mobile.view.activity.search.SearchActivity" />
-        <activity android:name="com.iyiming.mobile.view.widget.searchlist.CitySelector" />
-        
-
+		<activity android:name="com.iyiming.mobile.view.widget.searchlist.CitySelector" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5483d145fd98c5eae70005b7" />
