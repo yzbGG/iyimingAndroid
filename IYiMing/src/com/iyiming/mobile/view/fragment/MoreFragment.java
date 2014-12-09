@@ -177,15 +177,29 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 			intent.setClass(getActivity(), ReportActivity.class);
 			startActivity(intent);
 		} else if (v == tabContact) {
-			PopBox popBox=new PopBox(getActivity());
+			final PopBox popBox=new PopBox(getActivity());
 			popBox.showContent("详情请见官网 http://www.ayiming.com");
 			popBox.showBtnOk("好的");
 			popBox.showDialog();
+			popBox.setOKClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					popBox.dismiss();
+				}
+			});
 		} else if (v == tabVersion) {
-				PopBox popBox=new PopBox(getActivity());
+				final PopBox popBox=new PopBox(getActivity());
 				popBox.showContent("当前版本已经是最新版本");
 				popBox.showBtnOk("好的");
 				popBox.showDialog();
+				popBox.setOKClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						popBox.dismiss();
+					}
+				});
 		}
 	}
 	
