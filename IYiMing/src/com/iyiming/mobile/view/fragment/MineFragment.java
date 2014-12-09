@@ -179,7 +179,7 @@ public class MineFragment extends BaseFragment {
 		loginContainer.setVisibility(View.GONE);
 		logout.setVisibility(View.VISIBLE);
 		ImageManager.getInstance(getActivity()).getImage(avatar,
-				AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), true);
+				AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
 		name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());
 		ILog.e(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl());
 

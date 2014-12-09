@@ -17,7 +17,7 @@
         <LinearLayout
             android:id="@+id/avatarContainer"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="bottom|center"
@@ -35,16 +35,17 @@
 
             <TextView
                 android:id="@+id/name"
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="1.2"
                 android:text="一米阳光"
                 android:textColor="#ffffff"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -73,6 +74,15 @@
                 android:text="马上登录"
                 android:textSize="15sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="38dp" >
+        </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout

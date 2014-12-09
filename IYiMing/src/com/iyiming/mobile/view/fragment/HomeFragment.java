@@ -58,8 +58,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	private ViewPager viewpager;
 	private CirclePageIndicator indicator;
 	private HomeAdapter mAdapter;
+	private ViewAdapterTop viewAdapterTop;
 
-	private List<Project> listTop = null;
+	List<Project> picList;
 	private List<Project> list = null;
 
 	private LinearLayout homeYiming;
@@ -81,10 +82,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private int page = 1;
 	private String pageSize = "5";
-	
-//    private int oldPosition = 0;//记录上一次点的位置
-      private int currentItem; //当前页面
-      private ScheduledExecutorService scheduledExecutorService;
+
+	// private int oldPosition = 0;//记录上一次点的位置
+	private int currentItem; // 当前页面
+	private ScheduledExecutorService scheduledExecutorService;
 
 	@Override
 	public int getFragmentTitleResourceId() {
@@ -174,22 +175,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 	private void initData() {
 
-		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null,null,null), false, GPL_REFRESH,true);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null, null, null, null), false, GPL_REFRESH, true);
 
-
-		
 		try {
-		    Field mScroller;
-		    mScroller = ViewPager.class.getDeclaredField("mScroller");
-		    mScroller.setAccessible(true); 
-		    FixedSpeedScroller scroller = new FixedSpeedScroller(viewpager.getContext(), new AccelerateInterpolator());
-		    // scroller.setFixedDuration(5000);
-		    mScroller.set(viewpager, scroller);
+			Field mScroller;
+			mScroller = ViewPager.class.getDeclaredField("mScroller");
+			mScroller.setAccessible(true);
+			FixedSpeedScroller scroller = new FixedSpeedScroller(viewpager.getContext(), new AccelerateInterpolator());
+			// scroller.setFixedDuration(5000);
+			mScroller.set(viewpager, scroller);
 		} catch (NoSuchFieldException e) {
 		} catch (IllegalArgumentException e) {
 		} catch (IllegalAccessException e) {
 		}
-		
+
 	}
 
 	private void initListener() {
@@ -209,53 +208,54 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		listView.setXListViewListener(new XListView.IXListViewListener() {
 			@Override
 			public void onRefresh() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null,null,null,null), false, GPL_REFRESH,true);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(1), null, null, null, null, null, null, null, null, null, null), false, GPL_REFRESH,
+						true);
 			}
 
 			@Override
 			public void onLoadMore() {
-				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null,null,null,null), false, GPL_LOADMORE,true);
+				post(gpl, addParam(gpl, pageSize, String.valueOf(page + 1), null, null, null, null, null, null, null, null, null, null), false,
+						GPL_LOADMORE, true);
 			}
 		});
-		
-		
-		searchText.setOnEditorActionListener(new OnEditorActionListener()
-		{
+
+		searchText.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
 			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-				switch(arg1){  
-		        case EditorInfo.IME_NULL:  
-		           
-		            break;  
-		        case EditorInfo.IME_ACTION_SEND:  
-		           
-		            break;  
-		        case EditorInfo.IME_ACTION_DONE:  
-		            
-		            break;  
-		        case EditorInfo.IME_ACTION_SEARCH:  
-//		            	showToast("正在搜索");
-		        	if(searchText.getText().toString().length()!=0)
-		        	{
-		        		Intent intent=new Intent();
-		        		intent.putExtra("keyword", searchText.getText().toString());
-		        		intent.setClass(getActivity(), SearchActivity.class);
-		        		startActivity(intent);
-		        	}
-		            break;  
-		        }  
+				switch (arg1) {
+				case EditorInfo.IME_NULL:
+
+					break;
+				case EditorInfo.IME_ACTION_SEND:
+
+					break;
+				case EditorInfo.IME_ACTION_DONE:
+
+					break;
+				case EditorInfo.IME_ACTION_SEARCH:
+					// showToast("正在搜索");
+					if (searchText.getText().toString().length() != 0) {
+						Intent intent = new Intent();
+						intent.putExtra("keyword", searchText.getText().toString());
+						intent.setClass(getActivity(), SearchActivity.class);
+						startActivity(intent);
+					}
+					break;
+				}
 				return true;
 			}
-			
-		});  
+
+		});
 	}
 
 	private void initHeadView(LayoutInflater inflater) {
 		headView = inflater.inflate(R.layout.fragment_home_header, null);
 		viewpager = (ViewPager) headView.findViewById(R.id.viewpager_home_page);
 		indicator = (CirclePageIndicator) headView.findViewById(R.id.indicator_home_page);
-		viewpager.setAdapter(new ViewAdapterTop(listTop, getActivity()));
+		picList = new ArrayList<Project>();
+		viewAdapterTop = new ViewAdapterTop(picList, getActivity());
+		viewpager.setAdapter(viewAdapterTop);
 		indicator.setViewPager(viewpager);
 		indicator.setRadius(5f);
 		indicator.setFillColor(getResources().getColor(R.color.white));
@@ -265,8 +265,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 	}
 
 	private void refreshHeadView() {
-		viewpager.setAdapter(new ViewAdapterTop(listTop, getActivity()));
-		indicator.setViewPager(viewpager);
+		// viewpager.setAdapter(new ViewAdapterTop(listTop, getActivity()));
+		// indicator.setViewPager(viewpager);
 	}
 
 	@Override
@@ -287,6 +287,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 						list.addAll(projectDetails);
 						mAdapter.notifyDataSetChanged();
 						page = 1;
+
+						picList.clear();
+						if (projectDetails.size() > 4) {
+							for (int i = 0; i < 4; i++) {
+								picList.add(projectDetails.get(i));
+							}
+						} else {
+							for (int i = 0; i < projectDetails.size(); i++) {
+								picList.add(projectDetails.get(i));
+							}
+						}
+						viewAdapterTop.notifyDataSetChanged();
 					}
 				} else if (tag.equalsIgnoreCase(GPL_LOADMORE)) {
 					List<Project> projectDetails1;
@@ -375,14 +387,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
 			// 给 ImageView 设置一个 tag
-//			holder.itemImage.setTag(imgUrl);
+			// holder.itemImage.setTag(imgUrl);
 			ImageManager.getInstance(getActivity()).getImage(holder.itemImage, imgUrl);
 			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
 			holder.itemTitle.setText(datas.get(position).getName());
 			holder.itemInfo.setText(datas.get(position).getIntro());
 
 			return convertView;
-				
+
 		}
 
 		class ViewHolder {
@@ -412,8 +424,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 
 		@Override
 		public int getCount() {
-			// return datas.size();
-			return 4;
+			return datas.size();
 		}
 
 		@Override
@@ -456,7 +467,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			container.addView(view);
 
 			ImageView image = (ImageView) view.findViewById(R.id.iv_home_page_viewpager_item);
-			ImageManager.getInstance(getActivity()).getImage(image, "http://b.hiphotos.baidu.com/baike/c0%3Dbaike180%2C5%2C5%2C180%2C60/sign=d8c77aae81025aafc73f76999a84c001/b21c8701a18b87d62eab9771040828381e30fdf6.jpg");
+			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			// 给 ImageView 设置一个 tag
+			// holder.itemImage.setTag(imgUrl);
+			ImageManager.getInstance(getActivity()).getImage(image, imgUrl);
 			return view;
 		}
 
@@ -519,47 +533,45 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			startActivity(intent);
 		}
 	}
-	
-    @Override
-	public void onStart() {  
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();  
-        // 当Activity显示出来后，每两秒钟切换一次图片显示  
-        scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 5, 5, TimeUnit.SECONDS);  
-        super.onStart();  
-    }  
-  
-    @Override
-	public void onStop() {  
-        // 当Activity不可见的时候停止切换  
-        scheduledExecutorService.shutdown();  
-        super.onStop();  
-    }  
-    
-    // 切换当前显示的图片  
-    private Handler handler = new Handler() {  
-        public void handleMessage(android.os.Message msg) {  
-            viewpager.setCurrentItem(currentItem);// 切换当前显示的图片  
-        };  
-    };  
-  
-    /** 
-     * 换行切换任务 
-     *  
-     * @author Administrator 
-     *  
-     */  
-    private class ScrollTask implements Runnable {  
-  
-        public void run() {  
-            synchronized (viewpager) {  
-                System.out.println("currentItem: " + currentItem);  
-                currentItem = (currentItem + 1) % 4;  
-                handler.obtainMessage().sendToTarget(); // 通过Handler切换图片  
-            }  
-        }  
-  
-    }  
-	 
-	
+
+	@Override
+	public void onStart() {
+		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+		// 当Activity显示出来后，每两秒钟切换一次图片显示
+		scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 5, 5, TimeUnit.SECONDS);
+		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		// 当Activity不可见的时候停止切换
+		scheduledExecutorService.shutdown();
+		super.onStop();
+	}
+
+	// 切换当前显示的图片
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			viewpager.setCurrentItem(currentItem);// 切换当前显示的图片
+		};
+	};
+
+	/**
+	 * 换行切换任务
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	private class ScrollTask implements Runnable {
+
+		public void run() {
+			synchronized (viewpager) {
+				System.out.println("currentItem: " + currentItem);
+				currentItem = (currentItem + 1) % 4;
+				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
+			}
+		}
+
+	}
 
 }

@@ -192,6 +192,49 @@ public class ImageManager {
 	 * @param resId
 	 */
 	public void getImage(ImageView imageView, String url, boolean isLogin) {
+//		if (imageView == null) {
+//			return;
+//		}
+//		if (imageView.getTag() != null && imageView.getTag().toString().equals(url)) {
+//			return;
+//		}
+//		imageView.setImageResource(R.color.cornsilk);
+//
+//		if (url == null || url.equals("")) {
+//			return;
+//		}
+//		// 添加url tag
+//		imageView.setTag(url);
+//
+//		// 读取map缓存
+//		Bitmap bitmap = mMemoryCache.get(url);
+//
+//		if (bitmap != null) {
+//			setImageBitmap(imageView, bitmap, false);
+//			return;
+//		}
+//
+//		// 生成文件名
+//		String filePath = urlToFilePath(url);
+//
+//		if (filePath == null) {
+//			return;
+//		}
+//
+//		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk, isLogin));
+		
+		getImage(imageView, url,R.color.app_bg,isLogin);
+	}
+	
+	
+	/**
+	 * 显示图片
+	 * 
+	 * @param imageView
+	 * @param url
+	 * @param resId
+	 */
+	public void getImage(ImageView imageView, String url,int defaultImage, boolean isLogin) {
 		if (imageView == null) {
 			return;
 		}
@@ -221,8 +264,10 @@ public class ImageManager {
 			return;
 		}
 
-		queueImage(new ImageRef(imageView, url, filePath, R.color.cornsilk, isLogin));
+		queueImage(new ImageRef(imageView, url, filePath, defaultImage, isLogin));
 	}
+	
+	
 
 	/**
 	 * 显示图片固定大小图片的缩略图，一般用于显示列表的图片，可以大大减小内存使用

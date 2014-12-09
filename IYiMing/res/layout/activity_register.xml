@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".MainActivity" >
+    tools:context=".CitySelector" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -36,7 +36,7 @@
                     android:src="@drawable/ic_city" />
             </LinearLayout>
 
-            <EditText
+            <TextView
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -49,6 +49,7 @@
                 android:paddingRight="5dp"
                 android:singleLine="true"
                 android:text=""
+                android:gravity="center_vertical"
                 android:textColor="#efefef"
                 android:textColorHint="#fefefe"
                 android:textSize="17sp" />

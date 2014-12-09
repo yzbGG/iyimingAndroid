@@ -109,7 +109,7 @@ public class UserInfoActivity extends BaseActivity {
 		name.setText(application.user.getRealName() == null ? "" : application.user.getRealName());
 		sex.setText(application.user.getSex() == null ? "" : application.user.getSex());
 		address.setText(application.user.getAddress() == null ? "" : application.user.getAddress());
-		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), true);
+		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
 	}
 
 	private void initListener() {
