@@ -48,6 +48,7 @@ public class LoginActivty extends BaseActivity {
 	private final String gp="gp";
 
 	
+	public LinearLayout back;
 	private Button btnLogin;
 	private Button btnRegister;
 	private EditText username;
@@ -86,6 +87,8 @@ public class LoginActivty extends BaseActivity {
 		signImage=(ImageView)findViewById(R.id.sign_image);
 		signText=(EditText)findViewById(R.id.sign_text);
 		signContainer=(LinearLayout)findViewById(R.id.sign_container);
+		back=(LinearLayout)findViewById(R.id.back);
+		
 	}
 	
 	private void initData()
@@ -110,6 +113,14 @@ public class LoginActivty extends BaseActivity {
 				Intent intent=new Intent();
 				intent.setClass(LoginActivty.this, RegisterActivity.class);
 				startActivity(intent);
+			}
+		});
+		
+		back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
 			}
 		});
 	}
@@ -208,18 +219,18 @@ public class LoginActivty extends BaseActivity {
 		{
 			if(tag.equalsIgnoreCase(LOGIN_TAG))//登录成功
 			{
-				if(AppHelper.LOGIN_FAIL_TIMES<3)//低于三次则不显示验证码
-				{
-					AppHelper.LOGIN_FAIL_TIMES++;
-				}
-				else
-				{
-					signContainer.setVisibility(View.VISIBLE);
-					isSignImageOn=true;
-					//请求验证码
-//					cci();
-				}
-				
+//				if(AppHelper.LOGIN_FAIL_TIMES<3)//低于三次则不显示验证码
+//				{
+//					AppHelper.LOGIN_FAIL_TIMES++;
+//				}
+//				else
+//				{
+////					signContainer.setVisibility(View.VISIBLE);
+////					isSignImageOn=true;
+//					//请求验证码
+////					cci();
+//				}
+//				
 			}
 		}
 		
