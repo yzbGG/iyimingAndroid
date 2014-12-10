@@ -202,8 +202,8 @@ public class MineFragment extends BaseFragment {
 				application.isLoged = false;
 				application.user = null;
 				IYiMingApplication.SESSION_ID =null;
-				SerializationUtil.sharedSerializationUtil().delete(getActivity());// 清除用户数据
-				
+				// 清除用户数据
+				application.deleteUser();
 				showLoginView();
 			}
 		}
@@ -271,7 +271,7 @@ public class MineFragment extends BaseFragment {
 		if (application.isLoged) {
 			avatar.setTag(null);
 			ImageManager.getInstance(getActivity()).getImage(avatar,
-					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), true);
+					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
 			name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());
 		}
 	}

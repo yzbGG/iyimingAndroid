@@ -60,7 +60,7 @@
     </LinearLayout>
     
     
-    <!-- 分割线 隐藏部分 -->
+    <!-- 分割线 隐藏部分 #ed4135-->
 
    <RelativeLayout
         android:id="@+id/navContainer"
@@ -68,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="#ed4135" >
+        android:background="#ffffff" >
 
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="-   -   -"
-            android:textColor="#ffffff"
+            android:textColor="#ed4135"
             android:textStyle="bold"
                         android:shadowDx="0"
             android:shadowDy="0"
@@ -99,7 +99,7 @@
                 android:id="@+id/leftImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_white" />
+                android:src="@drawable/return_red" />
         </LinearLayout>
 
          <LinearLayout
@@ -116,7 +116,7 @@
                  android:id="@+id/rightImage"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-                 android:src="@drawable/ic_share" />
+                 android:src="@drawable/share" />
          </LinearLayout>
         
     </RelativeLayout>

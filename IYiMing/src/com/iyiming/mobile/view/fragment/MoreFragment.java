@@ -79,12 +79,12 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public int getRightTitle() {
-		return R.drawable.ic_share;
+		return R.drawable.share;
 	}
 
 	@Override
 	public int getLeftTitle() {
-		return R.drawable.ic_back_white;
+		return R.drawable.return_red;
 	}
 
 	@Override

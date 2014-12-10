@@ -29,7 +29,7 @@ import com.iyiming.mobile.view.widget.appmsg.AppMsg;
 public class AppHelper {
 
 	public static int LOGIN_FAIL_TIMES = 1;
-	
+
 	private static long lastTimeStamp = 0l;
 
 	/**
@@ -55,6 +55,32 @@ public class AppHelper {
 	 */
 	public static boolean isPhoneNumber(String str) {
 		Pattern p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+		Matcher m = p.matcher(str);
+		return m.matches();
+	}
+
+	/**
+	 * 2-5位汉字
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean hanZiNameCheck(String str) {
+		String pattern = "[\u4e00-\u9fa5]{2,5}";
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(str);
+		return m.matches();
+	}
+
+	/**
+	 * 4-16位英语
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean EngLishNameCheck(String str) {
+		String pattern = "[a-zA-Z]{3,15}";
+		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(str);
 		return m.matches();
 	}
@@ -99,8 +125,7 @@ public class AppHelper {
 		String t = format.format(tomorrow);
 		return t;
 	}
-	
-	
+
 	/**
 	 * 退出程序
 	 * 
@@ -116,17 +141,5 @@ public class AppHelper {
 		}
 		lastTimeStamp = currentTimeStamp;
 	}
-	
-//	 public static String getVersion(Context context) {
-//		      try {
-//		          PackageManager manager = context.getPackageManager();
-//		          PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-//		          String version = info.versionName;
-//		         return version;
-//		     } catch (Exception e) {
-//		         e.printStackTrace();
-//		         return"未知版本";
-//		     }
-//		 }
-	
+
 }

@@ -11,6 +11,8 @@ import android.app.Application;
 import android.os.Environment;
 
 import com.iyiming.mobile.model.User;
+import com.iyiming.mobile.util.ILog;
+import com.iyiming.mobile.util.SerializationUtil;
 
 /**
  * @DESCRIBE ifxme 应用程序上下文
@@ -42,7 +44,6 @@ public class IYiMingApplication extends Application{
 	 * 个人头像存储目录
 	 */
 	public final  String HeadSDCardPath = BaseSDCardPath+"personHeadIcon/";
-
 	
 
 	public String toString()
@@ -56,6 +57,31 @@ public class IYiMingApplication extends Application{
 			return "获取用户失败";
 		}
 	}
+	
+	
+	/**
+	 * 保存user
+	 * 
+	 * @param user
+	 */
+	public void saveUser() {
+		ILog.d("保存用户信息");
+		SerializationUtil.sharedSerializationUtil().serialize(this, user);
+	}
+	
+	
+	public User getUser()
+	{
+		ILog.d("读取用户信息");
+		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
+	}
+	
+	public void deleteUser()
+	{
+		ILog.d("删除用户信息");
+		SerializationUtil.sharedSerializationUtil().delete(this);
+	}
+	
 	
 
 }

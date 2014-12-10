@@ -32,7 +32,7 @@
             android:layout_marginLeft="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/avatar_default"
-            iyiming:border_color="#ffffff"
+            iyiming:border_color="#88ffffff"
             iyiming:border_width="2dp"
             iyiming:oval="true" />
 

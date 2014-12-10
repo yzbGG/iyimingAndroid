@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.widget.NavBar;
 
@@ -41,12 +42,12 @@ public class EditProfileActivity extends BaseActivity {
 
 	private void initView() {
 		navBar = (NavBar) findViewById(R.id.navBar1);
-		
+
 		navBar.hideLeft(false);
 		navBar.hideRight(false);
 		navBar.isNav(true);
 		tvNickName = (EditText) findViewById(R.id.nickName);
-		textInfo=(TextView)findViewById(R.id.textInfo);
+		textInfo = (TextView) findViewById(R.id.textInfo);
 	}
 
 	private void initData() {
@@ -58,7 +59,7 @@ public class EditProfileActivity extends BaseActivity {
 			textInfo.setText("昵称必须是4个以上英文字符或2-5个中文字符");
 		} else if (type.equals("name")) {
 			navBar.setTitle("修改真实姓名");
-			tvNickName.getText().insert(0,  application.user.getRealName() == null ? "" : application.user.getRealName());
+			tvNickName.getText().insert(0, application.user.getRealName() == null ? "" : application.user.getRealName());
 			textInfo.setText("姓名必须是4个以上英文字符或2-5个中文字符");
 		} else if (type.equals("sex")) {
 			navBar.setTitle("修改性别");
@@ -78,11 +79,21 @@ public class EditProfileActivity extends BaseActivity {
 		String sex = application.user.getSex() == null ? "" : application.user.getSex();
 		String realname = application.user.getRealName() == null ? "" : application.user.getRealName();
 		String address = application.user.getAddress() == null ? "" : application.user.getAddress();
+
 		if (type.equals("nickName")) {
+			if (!AppHelper.hanZiNameCheck(profile) && !AppHelper.EngLishNameCheck(profile)) {
+				showToast("昵称填写不正确");
+				return;
+			}
 			nickName = profile;
 		} else if (type.equals("name")) {
+			if (!AppHelper.hanZiNameCheck(profile) && !AppHelper.EngLishNameCheck(profile)) {
+				showToast("姓名填写不正确");
+				return;
+			}
 			realname = profile;
 		} else if (type.equals("sex")) {
+
 			sex = profile;
 		} else if (type.equals("address")) {
 			address = profile;
@@ -107,18 +118,14 @@ public class EditProfileActivity extends BaseActivity {
 				// 保存
 				saveProfile(tvNickName.getText().toString());
 
-
-			
 			}
 		});
 	}
 
 	@Override
 	public boolean onResponseOK(Object response, String tag) {
-		if(super.onResponseOK(response, tag))
-		{
-			if(tag.equalsIgnoreCase(cp))
-			{
+		if (super.onResponseOK(response, tag)) {
+			if (tag.equalsIgnoreCase(cp)) {
 				showToast("修改成功");
 
 				if (type.equals("nickName")) {
@@ -130,14 +137,11 @@ public class EditProfileActivity extends BaseActivity {
 				} else if (type.equals("address")) {
 					application.user.setAddress(currentProfile);
 				}
-				
+				application.saveUser();
 				finish();
 			}
 		}
 		return true;
 	}
-	
-	
-	
 
 }

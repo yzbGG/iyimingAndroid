@@ -193,7 +193,7 @@ public class LoginActivty extends BaseActivity {
 					user.setSessionId(IYiMingApplication.SESSION_ID);
 					application.user = user;
 					application.isLoged = true;
-					saveUser(user);// 保存用户到持久化数据
+					application.saveUser();// 保存用户到持久化数据
 					// Intent intent=new Intent();
 					// intent.setClass(LoginActivty.this, MainActivity.class);
 					// startActivity(intent);
@@ -242,14 +242,7 @@ public class LoginActivty extends BaseActivity {
 		post("cci", addParam("cci"), false, "cci");// 用户登录
 	}
 
-	/**
-	 * 保存user
-	 * 
-	 * @param user
-	 */
-	private void saveUser(User user) {
-		SerializationUtil.sharedSerializationUtil().serialize(this, user);
-	}
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

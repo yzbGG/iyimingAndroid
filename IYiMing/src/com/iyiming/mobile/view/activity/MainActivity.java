@@ -302,7 +302,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void autoLogin()
 	{
-		User user=getUser();
+		User user=application.getUser();
 		if(user!=null&&user.getSessionId()!=null&&user.getUsername()!=null)
 		{
 			application.user=user;
@@ -326,10 +326,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	 * 保存user
 	 * @param user
 	 */
-	private User getUser()
-	{
-		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
-	}
+//	private User getUser()
+//	{
+//		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
+//	}
 
 	@Override
 	public boolean onResponseOK(Object response, String tag) {
@@ -348,7 +348,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					user.setSessionId(IYiMingApplication.SESSION_ID);
 					application.user=user;
 					application.isLoged=true;
-					saveUser(user);//保存用户到持久化数据
+					application.saveUser();//保存用户到持久化数据
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -373,15 +373,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		
 	}
 
-	/**
-	 * 保存user
-	 * @param user
-	 */
-	private void saveUser(User user)
-	{
-		SerializationUtil.sharedSerializationUtil().serialize(this,user);
-	}
-	
+
 	
 
 }
