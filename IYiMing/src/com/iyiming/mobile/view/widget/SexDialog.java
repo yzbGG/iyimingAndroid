@@ -8,10 +8,12 @@
 */
 package com.iyiming.mobile.view.widget;
 
-import com.iyiming.mobile.R;
-
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import com.iyiming.mobile.R;
 
 /** 
  * @ClassName: SexDialog 
@@ -21,6 +23,9 @@ import android.content.Context;
  *  
  */
 public class SexDialog extends Dialog{
+	
+	private LinearLayout man;
+	private LinearLayout women;
 
 	/**
 	 * @param context
@@ -28,10 +33,17 @@ public class SexDialog extends Dialog{
 	public SexDialog(Context context) {
 		super(context,R.style.dialogSodino);
 		setContentView(R.layout.dialog_sex);
-		
-		
+		man=(LinearLayout)findViewById(R.id.man);
+		women=(LinearLayout)findViewById(R.id.women);
 	}
 	
+	public void setOnManClickListener(View.OnClickListener listener)
+	{
+		man.setOnClickListener(listener);
+	}
 	
-
+	public void setOnWomenClickListener(View.OnClickListener listener)
+	{
+		women.setOnClickListener(listener);
+	}
 }

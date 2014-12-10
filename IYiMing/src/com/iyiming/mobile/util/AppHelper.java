@@ -79,7 +79,7 @@ public class AppHelper {
 	 * @return
 	 */
 	public static boolean EngLishNameCheck(String str) {
-		String pattern = "[a-zA-Z]{3,15}";
+		String pattern = "[a-zA-Z]{4,16}";
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(str);
 		return m.matches();

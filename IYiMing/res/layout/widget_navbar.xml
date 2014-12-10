@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#ed4135"
     android:layout_height="45dp" >
-    
-        <LinearLayout
-           android:visibility="gone"
+
+    <LinearLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -27,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/index_search"
@@ -45,24 +43,23 @@
                 android:id="@+id/searchText"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:ems="10"
-                android:hint="请输入关键字"
-                android:singleLine="true"
-                android:textColor="#ffffff"
+                android:hint="请输入搜索内容 如:移民"
                 android:imeOptions="actionSearch"
-                android:textColorHint="#44ffffff"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textColorHint="#aaaaaa"
                 android:textSize="16sp" >
             </EditText>
         </LinearLayout>
     </LinearLayout>
-    
-    
-    <!-- 分割线 隐藏部分 #ed4135-->
 
-   <RelativeLayout
+    <!-- 分割线 隐藏部分 #ed4135 -->
+
+    <RelativeLayout
         android:id="@+id/navContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,20 +67,19 @@
         android:layout_alignParentTop="true"
         android:background="#ffffff" >
 
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="-   -   -"
-            android:textColor="#ed4135"
-            android:textStyle="bold"
-                        android:shadowDx="0"
+            android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="1.4"
-            android:textSize="22sp" />
+            android:text="-   -   -"
+            android:textColor="#ed4135"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/left"
@@ -93,7 +89,8 @@
             android:layout_centerVertical="true"
             android:background="@drawable/selector_btn"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="10dp" >
 
             <ImageView
                 android:id="@+id/leftImage"
@@ -102,23 +99,38 @@
                 android:src="@drawable/return_red" />
         </LinearLayout>
 
-         <LinearLayout
-             android:id="@+id/right"
-             android:layout_width="50dp"
-             android:layout_height="match_parent"
-             android:layout_alignParentRight="true"
-             android:layout_alignParentTop="true"
-             android:background="@drawable/selector_btn"
-             android:gravity="center"
-             android:orientation="vertical" >
+        <LinearLayout
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-             <ImageView
-                 android:id="@+id/rightImage"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:src="@drawable/share" />
-         </LinearLayout>
-        
+            <TextView
+                android:visibility="gone" 
+                android:id="@+id/savetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="1.4"
+                android:text="---"
+                android:textColor="#ed4135"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/rightImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

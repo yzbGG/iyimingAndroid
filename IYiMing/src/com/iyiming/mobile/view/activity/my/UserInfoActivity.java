@@ -27,12 +27,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.net.FileUploadUtil;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.DateUtil;
 import com.iyiming.mobile.util.ILog;
@@ -41,6 +43,7 @@ import com.iyiming.mobile.util.ImageUtil;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.activity.my.album.ShowImageActivity;
 import com.iyiming.mobile.view.widget.NavBar;
+import com.iyiming.mobile.view.widget.SexDialog;
 import com.iyiming.mobile.view.widget.roundedimageview.RoundedImageView;
 
 /**
@@ -61,10 +64,13 @@ public class UserInfoActivity extends BaseActivity {
 	private NavBar navBar;
 
 	private PopupWindow popWindow;
-	
-	private final String ua="ua";
-	
+
+	private final String ua = "ua";
+
 	private Bitmap photo;
+
+	private final String cp = "cp";
+	private String currentProfile = "";
 
 	/**
 	 * 头像地址
@@ -109,7 +115,8 @@ public class UserInfoActivity extends BaseActivity {
 		name.setText(application.user.getRealName() == null ? "" : application.user.getRealName());
 		sex.setText(application.user.getSex() == null ? "" : application.user.getSex());
 		address.setText(application.user.getAddress() == null ? "" : application.user.getAddress());
-		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
+		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),
+				R.drawable.avatar_default, true);
 	}
 
 	private void initListener() {
@@ -123,7 +130,7 @@ public class UserInfoActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-		
+
 		name.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -134,18 +141,34 @@ public class UserInfoActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-		
+
 		sex.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.putExtra("type", "sex");
-				intent.setClass(UserInfoActivity.this, EditProfileActivity.class);
-				startActivity(intent);
+				final SexDialog dialog = new SexDialog(UserInfoActivity.this);
+				dialog.show();
+				dialog.setOnManClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						
+						saveSex("男");
+						dialog.dismiss();
+					}
+				});
+
+				dialog.setOnWomenClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						saveSex("女");
+						dialog.dismiss();
+					}
+				});
 			}
 		});
-		
+
 		address.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -156,7 +179,6 @@ public class UserInfoActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-
 
 		navBar.OnLeftClick(new OnClickListener() {
 
@@ -351,8 +373,8 @@ public class UserInfoActivity extends BaseActivity {
 				showToast("裁剪图片失败");
 				return;
 			}
-			
-			////上传图片
+
+			// //上传图片
 			uploadHeadIcon(dir + fileName);
 
 		} else if (resultCode == RESULT_CANCELED) {
@@ -363,22 +385,23 @@ public class UserInfoActivity extends BaseActivity {
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
-	
-	Handler handler=new Handler(){
+
+	Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			
+
 			switch (msg.what) {
 			case 1:
 				showToast("修改成功");
 				avatar.setImageBitmap(photo);
-				ImageManager.getInstance(UserInfoActivity.this).mMemoryCache.put(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), photo);
-				ImageManager.getInstance(UserInfoActivity.this).mDiskCache.put(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), photo);
+				ImageManager.getInstance(UserInfoActivity.this).mMemoryCache.put(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl()
+						+ application.user.getImageUrl(), photo);
+				ImageManager.getInstance(UserInfoActivity.this).mDiskCache.put(
+						AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(), photo);
 				break;
-				
+
 			case 2:
 				showToast("修改失败");
 				break;
@@ -387,38 +410,49 @@ public class UserInfoActivity extends BaseActivity {
 				showToast("修改失败，请重试");
 				break;
 			}
-			
+
 		}
-		
+
 	};
-	
-	private void uploadHeadIcon(final String path)
-	{
-//		:;
-//	: form-data; name=""
+
+	private void uploadHeadIcon(final String path) {
+		// :;
+		// : form-data; name=""
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
-					FileUploadUtil.post(path, ua, addParam(ua),handler);
+					FileUploadUtil.post(path, ua, addParam(ua), handler);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}).start();
-		
-		
-		
-	
-		
-//		File file=new File(path);
-//		Map<String,File> fileMap=new HashMap<String,File>();
-//		fileMap.put("avatar", file);
-//		Map<String,String> paramMap=new HashMap<String,String>();
-//		paramMap.put("Content-Type","multipart/form-data");
-//		paramMap.put("Content-Disposition","form-data; name=\"avatar\"");
-//		multiUpload(ua, fileMap, paramMap, ua);
+	}
+
+	@Override
+	public boolean onResponseOK(Object response, String tag) {
+		if (super.onResponseOK(response, tag)) {
+			if (tag.equalsIgnoreCase(cp)) {
+				application.user.setSex(currentProfile);
+				application.saveUser();
+				sex.setText(currentProfile);
+				finish();
+			}
+		}
+		return true;
+	}
+
+	private void saveSex(String profile) {
+		currentProfile = profile;
+		String nickName = application.user.getNickName() == null ? "" : application.user.getNickName();
+		String city = application.user.getCity() == null ? "" : application.user.getCity();
+		String sex = application.user.getSex() == null ? "" : application.user.getSex();
+		String realname = application.user.getRealName() == null ? "" : application.user.getRealName();
+		String address = application.user.getAddress() == null ? "" : application.user.getAddress();
+		sex = profile;
+		post(cp, addParam(cp, city, sex, realname, address, nickName), true, cp);
 	}
 
 	@Override
@@ -429,7 +463,8 @@ public class UserInfoActivity extends BaseActivity {
 		name.setText(application.user.getRealName() == null ? "" : application.user.getRealName());
 		sex.setText(application.user.getSex() == null ? "" : application.user.getSex());
 		address.setText(application.user.getAddress() == null ? "" : application.user.getAddress());
-		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
+		ImageManager.getInstance(this).getImage(avatar, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),
+				R.drawable.avatar_default, true);
 	}
 
 }

@@ -117,7 +117,8 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener{
 	private void initData() {
 		Intent intent = this.getIntent();
 		keyword = intent.getStringExtra("keyword");
-		navBar.setTitle("\""+keyword+"\"" +"的搜索结果");
+		String subKeyWord=keyword.length()>10?keyword.substring(0, 10)+"...":keyword;
+		navBar.setTitle("\""+subKeyWord+"\"" +"的搜索结果");
 		getList(1, keyword, GPL_REFRESH);
 	}
 

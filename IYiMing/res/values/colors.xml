@@ -5,7 +5,9 @@
     <color name="md__defaultBackground">#FF555555</color>
 
     <drawable name="no_color_drawable">#00000000</drawable>
-    <drawable name="dark_drawable">#99000000</drawable>
+    <drawable name="dark_drawable">#33000000</drawable>
+    
+    <drawable name="light_drawable">#33000000</drawable>
 
     <color name="no_color">#00000000</color>
     <color name="menu_selected">#55000000</color>

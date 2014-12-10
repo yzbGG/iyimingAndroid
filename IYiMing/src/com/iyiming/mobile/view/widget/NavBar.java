@@ -34,6 +34,7 @@ public class NavBar extends LinearLayout{
 	private RelativeLayout 	navContainer;
 	private LinearLayout 	searchContainer;
 	private EditText searchEdit;
+	private TextView saveText;
 
 	/**
 	 * @param context
@@ -81,6 +82,7 @@ public class NavBar extends LinearLayout{
 		navContainer=(RelativeLayout)findViewById(R.id.navContainer);
 		searchContainer=(LinearLayout)findViewById(R.id.searchContainer);
 		searchEdit=(EditText)findViewById(R.id.searchText);
+		saveText=(TextView) findViewById(R.id.savetext);
 		
 		String mText = null;
 		if (attrs != null) {
@@ -101,6 +103,13 @@ public class NavBar extends LinearLayout{
 
 	public void setRightImage(int resId) {
 		rightImage.setImageResource(resId);
+	}
+	
+	public void setRightText(String text)
+	{
+		saveText.setVisibility(View.VISIBLE);
+		rightImage.setVisibility(View.GONE);
+		saveText.setText(text);
 	}
 
 	public void OnLeftClick(OnClickListener listener) {

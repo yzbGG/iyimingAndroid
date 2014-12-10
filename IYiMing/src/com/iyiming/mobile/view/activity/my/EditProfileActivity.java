@@ -46,6 +46,7 @@ public class EditProfileActivity extends BaseActivity {
 		navBar.hideLeft(false);
 		navBar.hideRight(false);
 		navBar.isNav(true);
+		navBar.setRightText("保存");
 		tvNickName = (EditText) findViewById(R.id.nickName);
 		textInfo = (TextView) findViewById(R.id.textInfo);
 	}

@@ -48,7 +48,7 @@ public class StartActivity extends Activity {
 				handler.sendMessage(message);
 			}
 
-		}, 2500, 3000);
+		}, 1500, 2500);
 	}
 
 	private Handler handler = new Handler() {
