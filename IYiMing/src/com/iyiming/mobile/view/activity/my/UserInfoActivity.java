@@ -438,7 +438,6 @@ public class UserInfoActivity extends BaseActivity {
 				application.user.setSex(currentProfile);
 				application.saveUser();
 				sex.setText(currentProfile);
-				finish();
 			}
 		}
 		return true;
