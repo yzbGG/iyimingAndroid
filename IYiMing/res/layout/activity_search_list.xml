@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ed4135"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <com.iyiming.mobile.view.widget.searchlist.ClearEditText
@@ -16,9 +16,9 @@
         android:background="@drawable/index_search"
         android:drawableLeft="@drawable/search_icon"
         android:hint="请输入关键字"
-        android:textColorHint="#eeeeee"
         android:singleLine="true"
-        android:textColor="#ffffff"
+        android:textColor="#333333"
+        android:textColorHint="#aaaaaa"
         android:textSize="15.0dip" />
 
     <FrameLayout
@@ -26,11 +26,11 @@
         android:layout_height="fill_parent" >
 
         <ListView
-            android:background="#ffffff"
             android:id="@+id/country_lvcountry"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:background="#ffffff"
             android:divider="@null" />
 
         <TextView

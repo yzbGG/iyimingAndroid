@@ -95,7 +95,7 @@ public class ProjectDetailActivity extends BaseActivity {
 	 * @param id
 	 */
 	private void getProjectDetial(int id) {
-		post(gpd, addParam(gpd, String.valueOf(id)), false, gpd);
+		post(gpd, addParam(gpd, String.valueOf(id)), false, gpd,true);//添加了离线浏览模式
 	}
 
 	/**

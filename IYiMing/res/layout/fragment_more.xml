@@ -181,6 +181,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="7dp"
                 android:src="@drawable/ic_right_tag" />
+
+            <TextView
+                android:id="@+id/newVersionTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/bianji"
+                android:background="@drawable/corners_bg_red_selector"
+                android:text="新版本"
+                android:textSize="12sp"
+                android:textColor="#ffffff" />
+
         </RelativeLayout>
     </LinearLayout>
     

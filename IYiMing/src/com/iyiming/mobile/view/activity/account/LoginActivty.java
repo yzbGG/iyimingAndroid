@@ -102,7 +102,7 @@ public class LoginActivty extends BaseActivity {
 			public void onClick(View v) {
 
 				login(username.getText().toString(), password.getText().toString());
-				btnLogin.setEnabled(false);
+				
 			}
 		});
 
@@ -150,6 +150,7 @@ public class LoginActivty extends BaseActivity {
 				return;
 			}
 		}
+		btnLogin.setEnabled(false);
 		post(LOGIN_TAG, addParam(LOGIN_TAG, username, MD5Util.SharedMD5Util().Md5(password)), false, LOGIN_TAG);// 用户登录
 		rightUserName = username;
 	}

@@ -10,8 +10,10 @@ package com.iyiming.mobile.view.activity.more;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.view.activity.BaseActivity;
 import com.iyiming.mobile.view.widget.NavBar;
 
@@ -20,6 +22,7 @@ import com.iyiming.mobile.view.widget.NavBar;
  */
 public class AboutActivity extends BaseActivity{
 	private NavBar navBar;
+	private TextView version;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class AboutActivity extends BaseActivity{
 				finish();
 			}
 		});
+		
+		version=(TextView)findViewById(R.id.version);
+		version.setText("当前版本  v"+AppHelper.getVersion(this));
 	}
 	
 	

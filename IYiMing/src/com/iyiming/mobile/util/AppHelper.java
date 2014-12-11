@@ -14,13 +14,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.Toast;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.view.activity.IYiMingApplication;
 import com.iyiming.mobile.view.widget.appmsg.AppMsg;
 
 /**
@@ -32,8 +33,10 @@ public class AppHelper {
 
 	private static long lastTimeStamp = 0l;
 
+	public static String appVersion = "";
+
 	/**
-	 * 获取版本号
+	 * 获取版本
 	 * 
 	 * @param context
 	 * @return
@@ -49,14 +52,30 @@ public class AppHelper {
 	}
 
 	/**
+	 * 获取版本号
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static int getVersionCode(Context context) {
+		try {
+			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return pi.versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	/**
 	 * 检查是否是手机号码
 	 * 
 	 * @param str
 	 */
 	public static boolean isPhoneNumber(String str) {
-		Pattern p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
-		Matcher m = p.matcher(str);
-		return m.matches();
+		Pattern phone = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher ma = phone.matcher(str);
+		return ma.matches();
 	}
 
 	/**
@@ -92,11 +111,25 @@ public class AppHelper {
 	 * @param s
 	 */
 	public static void showToast(Context context, String s) {
-		Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+		if (context != null)
+			Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 	}
 
-	public static void showViewToast(Activity context, String s) {
-		AppMsg.makeText(context, s, AppMsg.STYLE_CONFIRM).show();
+	public static void showViewToast(Context context, String s) {
+		if (context != null) {
+			if (context instanceof Activity) {
+				AppMsg.makeText(((Activity) (context)), s, AppMsg.STYLE_CONFIRM).show();
+			}
+			else
+			{
+				ILog.e("创建弹窗失败");
+			}
+		}
+	}
+
+	public static void showViewToast(Fragment context, String s) {
+		if (context != null)
+			AppMsg.makeText(context.getActivity(), s, AppMsg.STYLE_INFO).show();
 	}
 
 	/** 判断手机API版本 */
@@ -137,7 +170,9 @@ public class AppHelper {
 		if (currentTimeStamp - lastTimeStamp > 1350l) {
 			Toast.makeText(context, "再按一次退出爱移民", Toast.LENGTH_SHORT).show();
 		} else {
+			IYiMingApplication.isInOfflineState=false;//重置离线提示
 			context.finish();
+			
 		}
 		lastTimeStamp = currentTimeStamp;
 	}

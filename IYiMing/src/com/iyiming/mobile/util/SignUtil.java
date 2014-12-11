@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.iyiming.mobile.view.activity.IYiMingApplication;
+
 import android.util.Log;
 
 /**
@@ -30,11 +32,15 @@ public class SignUtil {
 	 */
 	public static final Map<String, String> getSignedParam(Map<String, String> params, boolean isloged) {
 		params.put("timestamp", getDateTimePoint());
-		params.put("v", "1.0");
+		if (AppHelper.appVersion != null && AppHelper.appVersion.length() != 0) {
+			params.put("v", AppHelper.appVersion);
+		} else {
+			params.put("v", "unknown");
+		}
 		// params.put("app_key", AppInfoUtil.sharedAppInfoUtil().getAppKey());
 		if (isloged) {
-//			 params.put("session_id",
-//			 UserData.SharedUserData().getUSESSION());
+			// params.put("session_id",
+			// UserData.SharedUserData().getUSESSION());
 		}
 		params.put("app_secret", AppInfoUtil.sharedAppInfoUtil().getAppSecret());
 		Object[] keys = params.keySet().toArray();
@@ -54,8 +60,7 @@ public class SignUtil {
 		requestParams.put("sign", sign);
 		return requestParams;
 	}
-	
-	
+
 	/**
 	 * 获取增加安全验证的map
 	 * 
@@ -68,8 +73,8 @@ public class SignUtil {
 		params.put("v", "1.0");
 		// params.put("app_key", AppInfoUtil.sharedAppInfoUtil().getAppKey());
 		if (isloged) {
-//			 params.put("session_id",
-//			 UserData.SharedUserData().getUSESSION());
+			// params.put("session_id",
+			// UserData.SharedUserData().getUSESSION());
 		}
 		params.put("app_secret", AppInfoUtil.sharedAppInfoUtil().getAppSecret());
 		Object[] keys = params.keySet().toArray();
@@ -80,16 +85,16 @@ public class SignUtil {
 		}
 		String sign = MD5Util.SharedMD5Util().Md5(builder.toString());
 		params.remove("app_secret");
-//		Map<String, String> requestParams = new HashMap<String, String>();
-		String url="";
+		// Map<String, String> requestParams = new HashMap<String, String>();
+		String url = "";
 		Iterator<String> it = params.keySet().iterator();
 		while (it.hasNext()) {
 			String key = it.next();
-//			requestParams.put(key, params.get(key));
-			url+=key+"="+params.get(key)+"&";
+			// requestParams.put(key, params.get(key));
+			url += key + "=" + params.get(key) + "&";
 		}
-		url+="sign="+sign;
-//		requestParams.put("sign", sign);
+		url += "sign=" + sign;
+		// requestParams.put("sign", sign);
 		return url;
 	}
 

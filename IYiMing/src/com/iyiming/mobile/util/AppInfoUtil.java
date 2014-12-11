@@ -81,5 +81,13 @@ public class AppInfoUtil {
 		return get("image_server_url");
 	}
 	
+	/**
+	 * 获取应从程序更新的url
+	 * @return
+	 */
+	public String getAppUpdateUrl()
+	{
+		return get("app_update_url");
+	}
 	
 }

@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.ILog;
 import com.iyiming.mobile.util.MD5Util;
 import com.iyiming.mobile.util.OffLineDataUtil;
@@ -40,8 +41,6 @@ public class Net {
 
 	private NetResponseListener listener;
 	private RequestQueue requestQueue;
-
-	private RequestQueue fileRequestQueue;
 
 	private Context context;
 
@@ -147,7 +146,7 @@ public class Net {
 			public void onResponse(String response) {
 				Log.v(TAG, "[服务器返回] [" + tag + "]=" + response);
 				listener.onResponseOK(response, tag);
-
+				IYiMingApplication.isInOfflineState=false;
 				if (isCache) {// 如果需要缓存
 					JSONObject json;
 					try {
@@ -165,6 +164,11 @@ public class Net {
 			public void onErrorResponse(VolleyError error) {
 				printStackTrace(tag, error);
 				if (isCache) {
+					if(IYiMingApplication.isInOfflineState==false)
+					{
+						IYiMingApplication.isInOfflineState=true;
+						AppHelper.showViewToast(context, "网络目前不可用，您正处于离线浏览模式");
+					}
 					JSONObject jsonObject = OffLineDataUtil.shardOffLineDataUtil(context).get(getStringParam(url, param));
 					if (jsonObject != null) {
 						listener.onResponseOK(jsonObject.toString(), tag);
@@ -221,8 +225,6 @@ public class Net {
 		stringRequest.setTag(tag);
 		requestQueue.add(stringRequest);
 	}
-
-
 
 	/**
 	 * 取消指定的网络队列

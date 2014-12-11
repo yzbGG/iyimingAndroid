@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.util.AppHelper;
 
 /**
  * @ClassName: StartActivity
@@ -33,6 +34,7 @@ public class StartActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AppHelper.appVersion=AppHelper.getVersion(this);//获取版本
 		setContentView(R.layout.activity_start);
 		setTimerTask();
 	}
@@ -48,7 +50,7 @@ public class StartActivity extends Activity {
 				handler.sendMessage(message);
 			}
 
-		}, 1500, 2500);
+		}, 1000, 2000);
 	}
 
 	private Handler handler = new Handler() {

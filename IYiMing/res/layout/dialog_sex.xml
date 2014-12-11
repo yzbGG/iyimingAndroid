@@ -11,13 +11,13 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="#ffffff"
+        android:background="@drawable/corners_bg_selector"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#ffed4135"
+            android:background="@drawable/corners_bg_title"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
              android:clickable="true"
-            android:background="@drawable/selector_btn_light"
+            android:background="@drawable/corners_bottom_selector"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 

@@ -257,10 +257,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 		viewAdapterTop = new ViewAdapterTop(picList, getActivity());
 		viewpager.setAdapter(viewAdapterTop);
 		indicator.setViewPager(viewpager);
-		indicator.setRadius(5f);
-		indicator.setFillColor(getResources().getColor(R.color.white));
-		indicator.setPageColor(getResources().getColor(R.color.gray));
-		indicator.setStrokeColor(getResources().getColor(R.color.gray));
+		indicator.setRadius(10f);
+		indicator.setFillColor(getResources().getColor(R.color.whiteT));
+		indicator.setPageColor(getResources().getColor(R.color.grayT));
+		indicator.setStrokeColor(getResources().getColor(R.color.grayT));
 		indicator.setStrokeWidth(0f);
 	}
 
@@ -458,6 +458,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent();
+						intent.putExtra("id", list.get(position).getId());
 						intent.setClass(getActivity(), ProjectDetailActivity.class);
 						startActivity(intent);
 					}

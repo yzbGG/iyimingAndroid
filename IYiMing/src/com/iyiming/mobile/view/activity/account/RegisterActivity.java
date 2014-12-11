@@ -126,12 +126,25 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	private void register(String mobile, String username, String password, String validateCode, String citys) {
+		if (citys.length() == 0) {
+			showToast("请选择所在城市");
+			return;
+		}
+		if (mobile.length() == 0) {
+			showToast("请输入手机号");
+			return;
+		}
+		if (!AppHelper.isPhoneNumber(mobile)) {
+			showToast("请输入正确的手机号");
+			return;
+		}
 		if (validateCode.length() == 0) {
 			showToast("验证码不能为空");
+			return;
 		}
 		if (password.length() >= 6) {
-			signedPhoneNumber=mobile;
-			signedPassword=password;
+			signedPhoneNumber = mobile;
+			signedPassword = password;
 			post(register, addParam(register, mobile, username, MD5Util.SharedMD5Util().Md5(password), validateCode, citys), false, register);// 用户登录
 		} else {
 			showToast("密码长度不能小于6位");
@@ -147,11 +160,11 @@ public class RegisterActivity extends BaseActivity {
 				showToast("验证码已发送，请注意查收");
 			} else if (tag.equalsIgnoreCase(register)) {
 				showToast("注册成功");
-				
+
 				Intent intent = new Intent();
-				intent.putExtra("state","OK");
-				intent.putExtra("username",signedPhoneNumber);
-				intent.putExtra("password",signedPassword);
+				intent.putExtra("state", "OK");
+				intent.putExtra("username", signedPhoneNumber);
+				intent.putExtra("password", signedPassword);
 				setResult(RESULT_OK, intent);
 				finish();
 			}

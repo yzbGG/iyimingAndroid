@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,14 +20,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.User;
+import com.iyiming.mobile.service.UpdateService;
 import com.iyiming.mobile.util.AppHelper;
-import com.iyiming.mobile.util.SerializationUtil;
+import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.view.fragment.BaseFragment;
 import com.iyiming.mobile.view.fragment.HomeFragment;
 import com.iyiming.mobile.view.fragment.MineFragment;
 import com.iyiming.mobile.view.fragment.MoreFragment;
 import com.iyiming.mobile.view.fragment.ProjectFragment;
 import com.iyiming.mobile.view.widget.NavBar;
+import com.iyiming.mobile.view.widget.UpdateDialog;
+import com.iyiming.mobile.view.widget.UpdateDialog.OnUpdateClickListener;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 
@@ -49,8 +53,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	 * 上一个显示的fragment，需要隐藏的
 	 */
 	private BaseFragment lastFragment;
-	
-	private final String gp="gp";
+
+	private final String gp = "gp";
+
+	private final String gv = "gv";
 
 	/**
 	 * 当前的fragment
@@ -58,8 +64,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private BaseFragment currentFragment;
 
 	private int tabIndex = 0;
-	
-	
 
 	/**
 	 * 存放不需要重新创建的fragment
@@ -79,7 +83,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initView() {
 		autoLogin();
-		
+
 		navBar = (NavBar) findViewById(R.id.navBar);
 		tabHome = (LinearLayout) findViewById(R.id.tab_home);
 		tabProject = (LinearLayout) findViewById(R.id.tab_follow);
@@ -100,7 +104,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private void initData() {
 		setTabIndex(0);
-		
+		// 检测app更新
+		getVersion();
 	}
 
 	private void initLinstener() {
@@ -110,17 +115,20 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		tabMore.setOnClickListener(this);
 
 	}
-	
-	
 
+	/**
+	 * 获取版本号
+	 */
+	private void getVersion() {
+		post(gv, addParam(gv, "A"), false, gv);
+	}
 
 	/**
 	 * 显示fragment
 	 */
 	public BaseFragment showFragment(int checkId) {
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		if(AppHelper.getSDKVersionNumber()>=18)
-		{
+		if (AppHelper.getSDKVersionNumber() >= 18) {
 			transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		}
 		BaseFragment fragment = maps.get(checkId);
@@ -296,59 +304,95 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		tabIndex = index;
 		showFragment(tabIndex);
 	}
-	
+
 	/**
 	 * 过滤登录操作
 	 */
-	private void autoLogin()
-	{
-		User user=application.getUser();
-		if(user!=null&&user.getSessionId()!=null&&user.getUsername()!=null)
-		{
-			application.user=user;
-			application.isLoged=true;
-			IYiMingApplication.SESSION_ID=user.getSessionId();
+	private void autoLogin() {
+		User user = application.getUser();
+		if (user != null && user.getSessionId() != null && user.getUsername() != null) {
+			application.user = user;
+			application.isLoged = true;
+			IYiMingApplication.SESSION_ID = user.getSessionId();
 			getUserProfile();
-		}
-		else
-		{
-			application.user=null;
-			application.isLoged=false;
-			IYiMingApplication.SESSION_ID=null;
+		} else {
+			application.user = null;
+			application.isLoged = false;
+			IYiMingApplication.SESSION_ID = null;
 		}
 	}
-	
-	private void getUserProfile(){
-		post(gp, addParam(gp),true,gp);//获取个人资料
+
+	private void getUserProfile() {
+		post(gp, addParam(gp), true, gp);// 获取个人资料
 	}
-	
+
 	/**
 	 * 保存user
+	 * 
 	 * @param user
 	 */
-//	private User getUser()
-//	{
-//		return (User) SerializationUtil.sharedSerializationUtil().unSerialize(this);
-//	}
+	// private User getUser()
+	// {
+	// return (User)
+	// SerializationUtil.sharedSerializationUtil().unSerialize(this);
+	// }
 
 	@Override
 	public boolean onResponseOK(Object response, String tag) {
-		if(super.onResponseOK(response, tag))
-		{
-			if(tag.equalsIgnoreCase(gp))
+		if (super.onResponseOK(response, tag)) {
+			if (tag.equalsIgnoreCase(gp)) {
+				JSONObject json;
+				try {
+					json = new JSONObject((String) response);
+					json.remove("memo");
+					json.remove("status");
+					String data = json.toString();
+					Type type = new TypeToken<User>() {
+					}.getType();
+					User user = new Gson().fromJson(data, type);
+					user.setSessionId(IYiMingApplication.SESSION_ID);
+					application.user = user;
+					application.isLoged = true;
+					application.saveUser();// 保存用户到持久化数据
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} else if (tag.equalsIgnoreCase(gv))// 版本更新
 			{
 				JSONObject json;
 				try {
-					json = new JSONObject((String)response);
-					json.remove("memo");
-					json.remove("status");
-					String data=json.toString();
-					Type type = new TypeToken<User>(){}.getType();
-					User user = new Gson().fromJson(data, type);
-					user.setSessionId(IYiMingApplication.SESSION_ID);
-					application.user=user;
-					application.isLoged=true;
-					application.saveUser();//保存用户到持久化数据
+					json = new JSONObject((String) response);
+					int versionCode = json.getInt("code");
+					if (versionCode > AppHelper.getVersionCode(this)) {
+						
+						application.hasUpdate=true;//有更新
+
+						UpdateDialog dialog = new UpdateDialog(this);
+						try {
+							dialog.setText(json.getString("content"), json.getString("version"));
+							dialog.show();
+							dialog.setOnUpdateClickListener(new OnUpdateClickListener() {
+
+								@Override
+								public void OnCertainClick() {
+									Intent updateIntent = new Intent(MainActivity.this, UpdateService.class);
+									updateIntent.putExtra("titleId", "-----");
+									updateIntent.putExtra("appname", "爱移民");
+									updateIntent.putExtra("downurl", AppInfoUtil.sharedAppInfoUtil().getAppUpdateUrl());
+									startService(updateIntent);
+								}
+
+								@Override
+								public void OnCancelClickListener() {
+									// TODO Auto-generated method stub
+
+								}
+							});
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -356,24 +400,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 		return true;
 	}
-	
-	
-	
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		
-		
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //按下的如果是BACK，同时没有重复
-		      //do something here
-		        AppHelper.exitApplication(this);
-		        return true;
-		    }
+
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { // 按下的如果是BACK，同时没有重复
+			// do something here
+			AppHelper.exitApplication(this);
+			return true;
+		}
 		return super.onKeyDown(keyCode, event);
-		
+
 	}
-
-
-	
 
 }
