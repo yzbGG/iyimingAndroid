@@ -30,13 +30,13 @@ public class Project implements Serializable{
 	
 	private String intro;
 	
-	private float amt;
+	private double amt;
 	
 	private String type;
 	
 	private String country;
 	
-	private Long releaseDate;
+	private long releaseDate;
 	
 	private String imageUrl;
 	
@@ -45,6 +45,8 @@ public class Project implements Serializable{
 	private int attentionCount;
 	
 	private String attentionFlag;
+	
+	private int amtType;
 
 	public int getId() {
 		return id;
@@ -52,6 +54,7 @@ public class Project implements Serializable{
 
 	public void setId(int id) {
 		this.id = id;
+		
 	}
 
 	public String getName() {
@@ -62,11 +65,11 @@ public class Project implements Serializable{
 		this.name = name;
 	}
 
-	public float getAmt() {
+	public double getAmt() {
 		return amt;
 	}
 
-	public void setAmt(float amt) {
+	public void setAmt(double amt) {
 		this.amt = amt;
 	}
 
@@ -94,11 +97,11 @@ public class Project implements Serializable{
 		this.country = country;
 	}
 
-	public Long getReleaseDate() {
+	public long getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Long releaseDate) {
+	public void setReleaseDate(long releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 
@@ -132,6 +135,14 @@ public class Project implements Serializable{
 
 	public void setAttentionFlag(String attentionFlag) {
 		this.attentionFlag = attentionFlag;
+	}
+
+	public int getAmtType() {
+		return amtType;
+	}
+
+	public void setAmtType(int amtType) {
+		this.amtType = amtType;
 	}
 	
 	

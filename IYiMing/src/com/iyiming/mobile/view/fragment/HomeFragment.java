@@ -41,6 +41,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.view.activity.BaseActivity;
@@ -381,7 +382,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				holder.itemInfo = (TextView) convertView.findViewById(R.id.item_info);
 
 				convertView.setTag(holder);
-			} else {
+			} else { 
 				holder = (ViewHolder) convertView.getTag();
 			}
 
@@ -389,7 +390,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			// 给 ImageView 设置一个 tag
 			// holder.itemImage.setTag(imgUrl);
 			ImageManager.getInstance(getActivity()).getImage(holder.itemImage, imgUrl);
-			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
+			holder.itemMoney.setText(String.valueOf(AppHelper.getAmt(datas.get(position))));
 			holder.itemTitle.setText(datas.get(position).getName());
 			holder.itemInfo.setText(datas.get(position).getIntro());
 

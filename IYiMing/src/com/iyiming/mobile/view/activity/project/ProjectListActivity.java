@@ -222,11 +222,11 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 							if (arg2 == 0) {
 								itemsDate = null;
 							} else if (arg2 == 1) {
-								itemsDate = AppHelper.getDateString(0);
+								itemsDate = "1";
 							} else if (arg2 == 2) {
-								itemsDate = AppHelper.getDateString(-3);
+								itemsDate = "2";
 							} else if (arg2 == 3) {
-								itemsDate = AppHelper.getDateString(-7);
+								itemsDate = "3";
 							}
 							textDate.setText(Constants.DATE_LIST[arg2]);
 							PopSelector.getInstance(ProjectListActivity.this).hidePopWindow();
@@ -244,7 +244,7 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 
 	private void getList(int num, String type, String tag) {
 		String mtype = Constants.PROJECT_TYPE_LIST[Integer.valueOf(type) - 1];
-		post(gpl, addParam(gpl, pageSize, String.valueOf(num), itemsCountry, null, null, null, itemsDate, null, mtype, itemsMoney,null, null), false, tag);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(num), itemsCountry, null, null, null, null, null, mtype, itemsMoney,itemsDate, null), false, tag);
 	}
 
 	@Override
@@ -333,7 +333,7 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
 			// 给 ImageView 设置一个 tag
 			ImageManager.getInstance(ProjectListActivity.this).getImage(holder.itemImage, imgUrl);
-			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
+			holder.itemMoney.setText(AppHelper.getAmt(datas.get(position)));
 			holder.itemTitle.setText(datas.get(position).getName());
 			holder.itemInfo.setText(datas.get(position).getIntro());
 

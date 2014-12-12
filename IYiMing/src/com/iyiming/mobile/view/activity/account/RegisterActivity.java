@@ -85,7 +85,7 @@ public class RegisterActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 
-				register(signedPhoneNumber, signedPhoneNumber, pwd.getText().toString(), sign.getText().toString(), city.getText().toString());
+				register(phone.getText().toString(),phone.getText().toString(), pwd.getText().toString(), sign.getText().toString(), city.getText().toString());
 
 			}
 		});
@@ -131,7 +131,7 @@ public class RegisterActivity extends BaseActivity {
 			return;
 		}
 		if (mobile.length() == 0) {
-			showToast("请输入手机号");
+			showToast("请获取验证码");
 			return;
 		}
 		if (!AppHelper.isPhoneNumber(mobile)) {

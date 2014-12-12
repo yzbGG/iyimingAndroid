@@ -24,5 +24,29 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    
+    <string name="main_text">Options:</string>
+    <string name="option_progress">Progress:</string>
+    <string name="option_bar_color">Bar color:</string>
+    <string name="option_wheel_color">Wheel color:</string>
+    <string-array name="progress_value_options">
+        <item>Indeterminate</item>
+        <item>0%</item>
+        <item>10%</item>
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+    </string-array>
+    <string-array name="progress_color_options">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Magenta</item>
+    </string-array>
+    <string-array name="wheel_color_options">
+        <item>Default</item>
+        <item>Light Gray</item>
+        <item>Gray</item>
+    </string-array>
 
 </resources>

@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/item_image"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/user_topbg" />
+            android:scaleType="centerCrop"
+            android:src="@color/whitesmoke" />
     </FrameLayout>
 
     <RelativeLayout
@@ -49,11 +49,12 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:background="@drawable/item_money_bg"
-            android:gravity="center"
+            android:gravity="center|right"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="5888￥"
             android:textColor="#ffffff"
             android:textSize="15sp" />
-
     </RelativeLayout>
 
     <TextView
@@ -61,11 +62,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="#ffffff"
-        android:textColor="#666666"
         android:layout_below="@+id/relativeLayout1"
+        android:background="#ffffff"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:padding="7dp"
-        android:text="天津航空包机直飞，人侍洞宜比思酒店入住，赠送接机服务和一日游服务" />
+        android:text="天津航空包机直飞，人侍洞宜比思酒店入住，赠送接机服务和一日游服务"
+        android:textColor="#666666" />
 
     <LinearLayout
         android:layout_width="match_parent"

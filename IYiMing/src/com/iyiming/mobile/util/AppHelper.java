@@ -7,6 +7,7 @@
  */
 package com.iyiming.mobile.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +22,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.Toast;
 
 import com.iyiming.mobile.R;
+import com.iyiming.mobile.model.project.Project;
 import com.iyiming.mobile.view.activity.IYiMingApplication;
 import com.iyiming.mobile.view.widget.appmsg.AppMsg;
 
@@ -157,6 +159,41 @@ public class AppHelper {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String t = format.format(tomorrow);
 		return t;
+	}
+	
+	
+	public static String getAmt2(Project project)
+	{
+		DecimalFormat df = new DecimalFormat("0");
+		if(project.getAmtType()<3)
+		{
+			return df.format(project.getAmt())+Constants.CURRENCY_LIST[project.getAmtType()];
+		}
+		return project.getAmt()+" ¥";
+	}
+	
+	public static String getAmt(Project project)
+	{
+		String money="";
+		DecimalFormat df = new DecimalFormat("0.0");
+		if(project.getAmt()>10000)
+		{
+			money=df.format(project.getAmt()/10000)+"万";
+		}
+		else if(project.getAmt()>(10000*10000))
+		{
+			money=df.format(project.getAmt()/(10000*10000))+"亿";
+		}
+		else
+		{
+			money=df.format(project.getAmt());
+		}
+		
+		if(project.getAmtType()<4&&project.getAmtType()>0)
+		{
+			return Constants.CURRENCY_LIST[project.getAmtType()-1]+" "+ money;
+		}
+		return "¥ "+money;
 	}
 
 	/**

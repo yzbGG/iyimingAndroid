@@ -218,11 +218,11 @@ private TextView textDate;
 							if (arg2 == 0) {
 								itemsDate = null;
 							} else if (arg2 == 1) {
-								itemsDate = AppHelper.getDateString(0);
+								itemsDate = "1";
 							} else if (arg2 == 2) {
-								itemsDate = AppHelper.getDateString(-3);
+								itemsDate = "2";
 							} else if (arg2 == 3) {
-								itemsDate = AppHelper.getDateString(-7);
+								itemsDate = "3";
 							}
 							textDate.setText(Constants.DATE_LIST[arg2]);
 							PopSelector.getInstance(FollowActivity.this).hidePopWindow();
@@ -289,7 +289,7 @@ private TextView textDate;
 //	}
 	
 	private void getMyAttentionList(int num, String tag) {
-		post(gpl, addParam(gpl, pageSize, String.valueOf(num), itemsCountry, null, null, null, itemsDate, "Y", null, itemsMoney,null, null), false, tag);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(num), itemsCountry, null, null, null, null, "Y", null, itemsMoney,itemsDate, null), false, tag);
 	}
 	
 	
@@ -342,7 +342,7 @@ private TextView textDate;
 			}
 			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
 			ImageManager.getInstance(FollowActivity.this).getImage(holder.itemImage,imgUrl);
-			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
+			holder.itemMoney.setText(String.valueOf(AppHelper.getAmt(datas.get(position))));
 				holder.itemTitle.setText(datas.get(position).getName());
 			if(datas.get(position).getFlowId().equals("下架"))
 			{

@@ -270,9 +270,10 @@ public class MineFragment extends BaseFragment {
 		super.onResume();
 		if (application.isLoged) {
 			avatar.setTag(null);
-			ImageManager.getInstance(getActivity()).getImage(avatar,
-					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
-			name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());
+			showLogedView();
+//			ImageManager.getInstance(getActivity()).getImage(avatar,
+//					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
+//			name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());
 		}
 	}
 

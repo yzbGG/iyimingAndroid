@@ -262,11 +262,11 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 							if (arg2 == 0) {
 								itemsDate = null;
 							} else if (arg2 == 1) {
-								itemsDate = AppHelper.getDateString(0);
+								itemsDate = "1";
 							} else if (arg2 == 2) {
-								itemsDate = AppHelper.getDateString(-3);
+								itemsDate = "2";
 							} else if (arg2 == 3) {
-								itemsDate = AppHelper.getDateString(-7);
+								itemsDate = "3";
 							}
 							textDate.setText(Constants.DATE_LIST[arg2]);
 							PopSelector.getInstance(getActivity()).hidePopWindow();
@@ -327,7 +327,7 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 	
 	
 	private void getList(int pagenum,String tag) {
-		post(gpl, addParam(gpl, pageSize, String.valueOf(pagenum), itemsCountry, null, null, null, itemsDate, null, null, itemsMoney,null, null), false, tag);
+		post(gpl, addParam(gpl, pageSize, String.valueOf(pagenum), itemsCountry, null, null, null, null, null, null, itemsMoney,itemsDate, null), false, tag);
 	}
 
 
@@ -378,7 +378,7 @@ public class ProjectFragment extends BaseFragment implements OnItemClickListener
 			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
 			// 给 ImageView 设置一个 tag
 			ImageManager.getInstance(getActivity()).getImage(holder.itemImage, imgUrl);
-			holder.itemMoney.setText(datas.get(position).getAmt() + "￥");
+			holder.itemMoney.setText(AppHelper.getAmt(datas.get(position)));
 			holder.itemTitle.setText(datas.get(position).getName());
 			holder.itemInfo.setText(datas.get(position).getIntro());
 

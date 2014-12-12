@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
@@ -17,14 +17,14 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager_home_page"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="190dp" />
 
         <com.iyiming.mobile.view.widget.CirclePageIndicator
             android:id="@+id/indicator_home_page"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:padding="10dp" />
+            android:padding="15dp" />
     </FrameLayout>
 
     <LinearLayout

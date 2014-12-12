@@ -44,7 +44,7 @@
                 android:background="#00000000"
                 android:ems="10"
                 android:hint="请输入手机号"
-                android:inputType="textEmailAddress"
+                android:inputType="phone"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"

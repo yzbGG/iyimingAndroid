@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.iyiming.mobile.R;
 import com.iyiming.mobile.model.project.Project;
+import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
 import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.LoadImageUtil;
@@ -192,7 +193,7 @@ public class ProjectDetailActivity extends BaseActivity {
 		ImageManager.getInstance(this).getImage(itemImage, AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + projectDetail.getImageUrl());
 		itemTitle.setText(projectDetail.getName());
 		itemInfo.setText(projectDetail.getIntro());
-		itemMoney.setText(projectDetail.getAmt() + "￥");
+		itemMoney.setText(AppHelper.getAmt(projectDetail));
 		itemAttentionCount.setText("已经有" + projectDetail.getAttentionCount() + "人关注");
 		setBtnState(projectDetail);
 	}

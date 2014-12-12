@@ -45,6 +45,8 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
+import com.umeng.socialize.media.QQShareContent;
+import com.umeng.socialize.media.QZoneShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
@@ -77,9 +79,10 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 		// dialog.showDialog();
 
 		// 设置分享内容
-		mController.setShareContent("爱移民，https://115.29.248.18/login");
+		mController.setShareContent("爱移民，下载地址http://115.29.248.18/download/welcome.html");
 		// 设置分享图片, 参数2为图片的url地址
-		mController.setShareMedia(new UMImage(getActivity(), "https://115.29.248.18/static/images/logo.png"));
+		mController.setShareMedia(new UMImage(getActivity(),R.drawable.ic_launcher));
+		mController.setAppWebSite("http://115.29.248.18/download/welcome.html");
 		mController.openShare(getActivity(), false);
 
 		// showCustomUI(true);
@@ -168,7 +171,20 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 		qZoneSsoHandler.addToSocialSDK();
 
 		mController.getConfig().setSsoHandler(new SinaSsoHandler());
-
+		QQShareContent qqShareContent = new QQShareContent();
+		qqShareContent.setShareContent("爱移民，下载地址：http://115.29.248.18/download/welcome.html");
+		qqShareContent.setTitle("爱移民");
+		qqShareContent.setShareImage(new UMImage(getActivity(),R.drawable.ic_launcher));
+		qqShareContent.setTargetUrl("http://115.29.248.18/download/welcome.html");
+		mController.setShareMedia(qqShareContent);
+		
+		QZoneShareContent qzone = new QZoneShareContent();
+		qzone.setShareContent("爱移民，下载地址：http://115.29.248.18/download/welcome.html");
+		qzone.setTargetUrl("http://115.29.248.18/download/welcome.html");
+		qzone.setTitle("爱移民");
+		qzone.setShareImage(new UMImage(getActivity(),R.drawable.ic_launcher));
+		mController.setShareMedia(qzone);
+		
 	}
 
 	private void initListener() {

@@ -35,7 +35,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/user_topbg" />
+                android:src="@color/whitesmoke" />
 
             <TextView
                 android:id="@+id/item_info"

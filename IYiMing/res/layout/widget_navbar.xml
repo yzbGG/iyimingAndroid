@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:ems="10"
-                android:hint="请输入搜索内容 如:移民"
+                android:hint="请输入搜索内容"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#333333"
