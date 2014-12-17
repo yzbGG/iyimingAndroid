@@ -92,6 +92,7 @@ public class XListViewHeader extends LinearLayout {
 		case STATE_NORMAL:
 			if (mState == STATE_READY) {
 				mArrowImageView.startAnimation(mRotateDownAnim);
+				
 			}
 			if (mState == STATE_REFRESHING) {
 				mArrowImageView.clearAnimation();
