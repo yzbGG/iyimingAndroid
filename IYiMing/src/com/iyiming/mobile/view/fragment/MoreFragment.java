@@ -79,10 +79,10 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 		// dialog.showDialog();
 
 		// 设置分享内容
-		mController.setShareContent("爱移民，下载地址http://115.29.248.18/download/welcome.html");
+		mController.setShareContent("爱移民，下载地址http://aiyimin.com.cn");
 		// 设置分享图片, 参数2为图片的url地址
 		mController.setShareMedia(new UMImage(getActivity(),R.drawable.ic_launcher));
-		mController.setAppWebSite("http://115.29.248.18/download/welcome.html");
+		mController.setAppWebSite("http://aiyimin.com.cn/");
 		mController.openShare(getActivity(), false);
 
 		// showCustomUI(true);
@@ -152,8 +152,8 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 
 	private void initData() {
 
-		String appID = "wx967daebe835fbeac";
-		String appSecret = "5fa9e68ca3970e87a1f83e563c8dcbce";
+		String appID = "wxbb4b74ef0ff1cd15";
+		String appSecret = "4f3d41262d35447ffa6d0efb1268cbba";
 		// 添加微信平台
 		UMWXHandler wxHandler = new UMWXHandler(getActivity(), appID, appSecret);
 		wxHandler.addToSocialSDK();

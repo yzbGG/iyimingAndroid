@@ -51,7 +51,7 @@ public class FileUploadUtil {
 	    {
 	    	Map<String, File> files=new HashMap<String, File>();
 	    	files.put("avatar", new File(filaPath));
-	    	String actionUrl="https://115.29.248.18/rest";
+	    	String actionUrl="https://aiyimin.com.cn/rest";
 	    	;
 	    	Map<String,String> params =SignUtil.getSignedParam(getParamMap(key,mparams), true);
 
