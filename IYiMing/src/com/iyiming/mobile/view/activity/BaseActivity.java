@@ -26,6 +26,7 @@ import com.iyiming.mobile.net.Net;
 import com.iyiming.mobile.net.Net.NetResponseListener;
 import com.iyiming.mobile.util.AppHelper;
 import com.iyiming.mobile.util.AppInfoUtil;
+import com.iyiming.mobile.util.ImageManager;
 import com.iyiming.mobile.util.SignUtil;
 import com.iyiming.mobile.util.UrlUtil;
 import com.iyiming.mobile.util.UrlUtil.UrlBean;
@@ -126,18 +127,23 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 		JSONObject json;
 		try {
 			json = new JSONObject((String) response);
-			if( !json.getString(RET).equals(SUCCESS_TAG))// 返回成功信息
+//			json.remove(RET);
+//			json.put(RET, SESSION_TIMEOUT_TAG);
+			if(!json.getString(RET).equals(SUCCESS_TAG))// 返回成功信息
 			{
 				if(json.getString(RET).equals(SESSION_TIMEOUT_TAG))
 				{
-					PopBox popBox=new PopBox(this);
+					final PopBox popBox=new PopBox(this);
 					popBox.showTitle("提示");
 					popBox.showContent("登录已经过期，请重新登录");
+					popBox.setCanDismiss(false);
 					popBox.showBtnOk("好的");
 					popBox.setOKClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View arg0) {
 							//退出登录
+							popBox.cancel();
+							logOut();
 							Intent intent=new Intent();
 							intent.setClass(BaseActivity.this,LoginActivty.class);
 							startActivity(intent);
@@ -161,8 +167,48 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 
 	@Override
 	public void onResponseError(VolleyError arg0, String tag) {
-
-		showToast(getExceptionMessage(arg0.toString()));
+		JSONObject json;
+		byte[] bytes=arg0.networkResponse.data;
+		String strRead = new String(bytes);
+		if(arg0.networkResponse.statusCode==400)
+		{
+			try {
+				json = new JSONObject(strRead);
+				if(json.getString(RET).equals(SESSION_TIMEOUT_TAG))
+				{
+					final PopBox popBox=new PopBox(this);
+					popBox.showTitle("提示");
+					popBox.showContent("登录已经过期，请重新登录");
+					popBox.setCanDismiss(false);
+					popBox.showBtnOk("好的");
+					popBox.setOKClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							//退出登录
+							popBox.cancel();
+							logOut();
+							Intent intent=new Intent();
+							intent.setClass(BaseActivity.this,LoginActivty.class);
+							startActivity(intent);
+						}
+					});
+					popBox.showDialog();
+				}
+				else{
+					showToast(json.getString(MSG));
+				}
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+				showToast(getExceptionMessage(arg0.toString()));
+			}
+		}
+		else
+		{
+			showToast(getExceptionMessage(arg0.toString()));
+		}
+		
+		
 
 	}
 
@@ -213,4 +259,15 @@ public abstract class BaseActivity extends Activity implements NetResponseListen
 //			return null;
 //		}
 //	}
+	
+	private void logOut()
+	{
+		ImageManager.getInstance(this).mMemoryCache.remove(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl());
+		ImageManager.getInstance(this).mDiskCache.remove(AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl());
+		application.isLoged = false;
+		application.user = null;
+		IYiMingApplication.SESSION_ID =null;
+		// 清除用户数据
+		application.deleteUser();
+	}
 }

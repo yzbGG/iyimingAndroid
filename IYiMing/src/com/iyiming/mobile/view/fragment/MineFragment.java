@@ -275,6 +275,10 @@ public class MineFragment extends BaseFragment {
 //					AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + application.user.getImageUrl(),R.drawable.avatar_default, true);
 //			name.setText(application.user.getNickName() == null ? application.user.getUsername() : application.user.getNickName());
 		}
+		else
+		{
+			showLoginView();
+		}
 	}
 
 }
