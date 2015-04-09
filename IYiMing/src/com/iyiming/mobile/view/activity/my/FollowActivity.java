@@ -340,7 +340,13 @@ private TextView textDate;
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			String imgUrl = "";
+			if (datas.get(position).getImages().size() > 0) {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImages().get(0).getUrl();
+
+			} else {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl();
+			}
 			ImageManager.getInstance(FollowActivity.this).getImage(holder.itemImage,imgUrl);
 			holder.itemMoney.setText(String.valueOf(AppHelper.getAmt(datas.get(position))));
 				holder.itemTitle.setText(datas.get(position).getName());

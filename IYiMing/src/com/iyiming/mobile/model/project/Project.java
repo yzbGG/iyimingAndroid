@@ -9,6 +9,7 @@
 package com.iyiming.mobile.model.project;
 
 import java.io.Serializable;
+import java.util.List;
 
 /** 
  * @ClassName: Project 
@@ -37,7 +38,7 @@ public class Project implements Serializable{
 	private String country;
 	
 	private long releaseDate;
-	
+	@Deprecated
 	private String imageUrl;
 	
 	private String flowId;
@@ -47,6 +48,11 @@ public class Project implements Serializable{
 	private String attentionFlag;
 	
 	private int amtType;
+	
+	private int top;
+	
+	private List<ImageUrl> images;
+	
 
 	public int getId() {
 		return id;
@@ -143,6 +149,34 @@ public class Project implements Serializable{
 
 	public void setAmtType(int amtType) {
 		this.amtType = amtType;
+	}
+
+	/**
+	 * @return the top
+	 */
+	public int getTop() {
+		return top;
+	}
+
+	/**
+	 * @param top the top to set
+	 */
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	/**
+	 * @return the images
+	 */
+	public List<ImageUrl> getImages() {
+		return images;
+	}
+
+	/**
+	 * @param images the images to set
+	 */
+	public void setImages(List<ImageUrl> images) {
+		this.images = images;
 	}
 	
 	
