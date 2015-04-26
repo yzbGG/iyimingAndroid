@@ -172,15 +172,15 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 
 		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 		QQShareContent qqShareContent = new QQShareContent();
-		qqShareContent.setShareContent("爱移民，下载地址：http://115.29.248.18/download/welcome.html");
+		qqShareContent.setShareContent("爱移民，下载地址：http://www.aiyimin.com.cn/download/welcome.html");
 		qqShareContent.setTitle("爱移民");
 		qqShareContent.setShareImage(new UMImage(getActivity(),R.drawable.ic_launcher));
-		qqShareContent.setTargetUrl("http://115.29.248.18/download/welcome.html");
+		qqShareContent.setTargetUrl("http://www.aiyimin.com.cn/download/welcome.html");
 		mController.setShareMedia(qqShareContent);
 		
 		QZoneShareContent qzone = new QZoneShareContent();
-		qzone.setShareContent("爱移民，下载地址：http://115.29.248.18/download/welcome.html");
-		qzone.setTargetUrl("http://115.29.248.18/download/welcome.html");
+		qzone.setShareContent("爱移民，下载地址：http://www.aiyimin.com.cn/download/welcome.html");
+		qzone.setTargetUrl("http://www.aiyimin.com.cn/download/welcome.html");
 		qzone.setTitle("爱移民");
 		qzone.setShareImage(new UMImage(getActivity(),R.drawable.ic_launcher));
 		mController.setShareMedia(qzone);
@@ -213,7 +213,7 @@ public class MoreFragment extends BaseFragment implements OnClickListener {
 			}
 		} else if (v == tabContact) {
 			final PopBox popBox = new PopBox(getActivity());
-			popBox.showContent("详情请见官网 http://www.ayiming.com");
+			popBox.showContent("详情请见官网 http://www.aiyimin.com.cn/");
 			popBox.showBtnOk("好的");
 			popBox.showDialog();
 			popBox.setOKClickListener(new OnClickListener() {
