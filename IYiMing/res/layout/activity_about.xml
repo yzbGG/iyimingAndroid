@@ -87,6 +87,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:autoLink="web"
-        android:text="网址：http://www.ayiming.com" />
+        android:text="网址：http://www.aiyimin.com.cn/" />
 
 </RelativeLayout>

@@ -382,11 +382,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 				holder.itemInfo = (TextView) convertView.findViewById(R.id.item_info);
 
 				convertView.setTag(holder);
-			} else { 
+			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			String imgUrl = "";
+			if (datas.get(position).getImages().size() > 0) {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImages().get(0).getUrl();
 
-			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			} else {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl();
+			}
 			// 给 ImageView 设置一个 tag
 			// holder.itemImage.setTag(imgUrl);
 			ImageManager.getInstance(getActivity()).getImage(holder.itemImage, imgUrl);
@@ -469,7 +474,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnIte
 			container.addView(view);
 
 			ImageView image = (ImageView) view.findViewById(R.id.iv_home_page_viewpager_item);
-			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			String imgUrl = "";
+			if (datas.get(position).getImages().size() > 0) {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImages().get(0).getUrl();
+
+			} else {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl();
+			}
 			// 给 ImageView 设置一个 tag
 			// holder.itemImage.setTag(imgUrl);
 			ImageManager.getInstance(getActivity()).getImage(image, imgUrl);

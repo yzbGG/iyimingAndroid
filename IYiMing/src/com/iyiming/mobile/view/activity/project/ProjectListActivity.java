@@ -330,7 +330,13 @@ public class ProjectListActivity extends BaseActivity implements OnItemClickList
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			final String imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImageUrl();
+			String imgUrl = "";
+			if (datas.get(position).getImages().size() > 0) {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl() + datas.get(position).getImages().get(0).getUrl();
+
+			} else {
+				imgUrl = AppInfoUtil.sharedAppInfoUtil().getImageServerUrl();
+			}
 			// 给 ImageView 设置一个 tag
 			ImageManager.getInstance(ProjectListActivity.this).getImage(holder.itemImage, imgUrl);
 			holder.itemMoney.setText(AppHelper.getAmt(datas.get(position)));
